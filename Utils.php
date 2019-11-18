@@ -364,7 +364,8 @@ class Utils
     public static function getBaseClassName($class)
     {
         $class = is_object($class) ? get_class($class) : $class;
-
-        return end(explode('\\',$class));
+        $tokens = explode('\\',$class);
+        
+        return end($tokens);
     }
 }
