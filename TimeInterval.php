@@ -9,7 +9,7 @@
 */
 namespace Arikaim\Core\Utils;
 
-use \DateInterval;
+use DateInterval;
 
 /**
  * Time intervals
@@ -21,30 +21,87 @@ class TimeInterval
      *
      * @var object
      */
-    private $interval;
+    private static $interval = null;
 
     /**
-     * Constructor
+     * Create interval
      *
-     * @param string $time
+     * @param string $interval
+     * @return DateInterval
      */
-    public function __construct($time = "")
+    public static function create($interval = "")
     {
-        if (Self::isDurationInverval($time) == true) {
-            $this->interval = new DateInterval($time);
-        } else {
-            $this->interval = DateInterval::createFromDateString($time);
-        }
-    }
-    
+        return (Self::isDurationInverval($interval) == true) ? new DateInterval($interval) : DateInterval::createFromDateString($interval);       
+    } 
+
     /**
      * Return interval object
      *
+     * @param string $interval
      * @return object
      */
-    public function getDateInterval()
+    public static function getDateInterval($interval = "")
     {
-        return $this->interval;
+        if (empty(Self::$interval) == true) {
+            Self::$interval = Self::create($interval);
+        }
+
+        return Self::$interval;
+    }
+
+    /**
+     * Get years
+     *
+     * @param string|null $interval
+     * @return integer
+     */
+    public static function getYears($interval = null)
+    {
+        return Self::getDateInterval($interval)->y;
+    }
+
+    /**
+     * Get months
+     *
+     * @param string|null $interval
+     * @return integer
+     */
+    public static function getMonths($interval = null)
+    {
+        return Self::getDateInterval($interval)->m;
+    }
+
+    /**
+     * Get hours
+     *
+     * @param string|null $interval
+     * @return integer
+     */
+    public static function getHours($interval = null)
+    {
+        return Self::getDateInterval($interval)->h;
+    }
+
+    /**
+     * Get minutes
+     *
+     * @param string|null $interval
+     * @return integer
+     */
+    public static function getMinutes($interval = null)
+    {
+        return Self::getDateInterval($interval)->i;
+    }
+
+    /**
+     * Get days
+     *
+     * @param string|null $interval
+     * @return integer
+     */
+    public static function getDays($interval = null)
+    {
+        return Self::getDateInterval($interval)->d;
     }
 
     /**
@@ -52,13 +109,13 @@ class TimeInterval
      *
      * @return string
      */
-    public function getInterval()
+    public static function getInterval()
     {
-        $years  = ($this->interval->y > 0) ? $this->interval->y . "Y" : "";
-        $months = ($this->interval->m > 0) ? $this->interval->m . "M" : "";
-        $days   = ($this->interval->d > 0) ? $this->interval->d . "D" : "";
-        $hours  = ($this->interval->h > 0) ? $this->interval->h . "H" : "";
-        $minutes = ($this->interval->i > 0) ? $this->interval->i . "M" : "";
+        $years   = (Self::getYears() > 0) ? Self::getYears() . "Y" : "";
+        $months  = (Self::getMonths() > 0) ? Self::getMonths() . "M" : "";
+        $days    = (Self::getDays() > 0) ? Self::getDays() . "D" : "";
+        $hours   = (Self::getHours() > 0) ? Self::getHours() . "H" : "";
+        $minutes = (Self::getMinutes() > 0) ? Self::getMinutes() . "M" : "";
 
         return "P" . $years . $months . $days . "T" . $hours . $minutes;        
     }
@@ -69,9 +126,9 @@ class TimeInterval
      * @param integer $years
      * @return void
      */
-    public function setYears($years)
+    public static function setYears($years)
     {
-        $this->interval->y = $years;
+        Self::$interval = Self::getDateInterval()->y = $years;
     }
 
     /**
@@ -80,9 +137,9 @@ class TimeInterval
      * @param integer $months
      * @return void
      */
-    public function setMonths($months)
+    public static function setMonths($months)
     {
-        $this->interval->m = $months;
+        Self::$interval = Self::getDateInterval()->m = $months;
     }
 
     /**
@@ -91,9 +148,9 @@ class TimeInterval
      * @param integer $days
      * @return void
      */
-    public function setDays($days)
+    public static function setDays($days)
     {
-        $this->interval->d = $days;
+        Self::$interval = Self::getDateInterval()->d = $days;
     }
 
     /**
@@ -102,9 +159,9 @@ class TimeInterval
      * @param integer $hours
      * @return void
      */
-    public function setHours($hours)
+    public static function setHours($hours)
     {
-        $this->interval->h = $hours;
+        Self::$interval = Self::getDateInterval()->h = $hours;
     }
 
     /**
@@ -113,59 +170,9 @@ class TimeInterval
      * @param integer $minutes
      * @return void
      */
-    public function setMinutes($minutes)
+    public static function setMinutes($minutes)
     {
-        $this->interval->i = $minutes;
-    }
-
-    /**
-     * Get years
-     *
-     * @return integer
-     */
-    public function getYears()
-    {
-        return $this->interval->y;
-    }
-
-    /**
-     * Get months
-     *
-     * @return integer
-     */
-    public function getMonths()
-    {
-        return $this->interval->m;
-    }
-
-    /**
-     * Get hours
-     *
-     * @return integer
-     */
-    public function getHours()
-    {
-        return $this->interval->h;
-    }
-
-    /**
-     * Get minutes
-     *
-     * @return integer
-     */
-    public function getMinutes()
-    {
-        return $this->interval->i;
-    }
-
-    /**
-     * Get days
-     *
-     * @return integer
-     */
-    public function getDays()
-    {
-        return $this->interval->d;
+        Self::$interval = Self::getDateInterval()->i = $minutes;
     }
 
     /**
@@ -173,28 +180,15 @@ class TimeInterval
      *
      * @return array
      */
-    public function toArray()
+    public static function toArray()
     {
         return [
-            'years'     => $this->getYears(),
-            'months'    => $this->getMonths(),
-            'days'      => $this->getDays(),
-            'hours'     => $this->getHours(),
-            'minutes'   => $this->getMinutes()
+            'years'     => Self::getYears(),
+            'months'    => Self::getMonths(),
+            'days'      => Self::getDays(),
+            'hours'     => Self::getHours(),
+            'minutes'   => Self::getMinutes()
         ];
-    }
-
-    /**
-     * Create interval
-     *
-     * @param string $interval
-     * @return array
-     */
-    public static function create($interval)
-    {       
-        $result = new Self($interval);
-        
-        return $result->toArray();
     }
 
     /**
