@@ -29,8 +29,8 @@ class Number
     protected static $defaultFormat = [
         'title'               => 'Default',
         'decimals'            => 2,
-        'decimals_separator'  => ",",
-        'thousands_separator' => " "
+        'decimals_separator'  => ".",
+        'thousands_separator' => ","
     ]; 
 
     /**
@@ -42,9 +42,28 @@ class Number
      */
     public static function format($number, $formatName = null)
     {
-        $format = (is_array($formatName) == false) ? Self::getFormat($formatName) : $formatName;
-           
+        $format = Self::resolveFormat($formatName);
+
         return number_format($number,$format['decimals'],$format['decimals_separator'],$format['thousands_separator']);
+    }
+
+    /**
+     * Resolve format
+     *
+     * @param string|array|null $format
+     * @return array
+     */
+    public static function resolveFormat($format)
+    {
+        if (is_array($format) == true) {
+            return [
+                'decimals'            => (isset($format[0]) == true) ? $format[0] : 2,
+                'decimals_separator'  => (isset($format[1]) == true) ? $format[1] : ".",
+                'thousands_separator' => (isset($format[2]) == true) ? $format[2] : ","
+            ];
+        }
+
+        return Self::getFormat($format);       
     }
 
     /**
@@ -61,7 +80,6 @@ class Number
         if (empty($default) == false) {
             Self::$defaultFormat = $default;
         }
-
     }
 
     /**
@@ -72,7 +90,7 @@ class Number
      */
     public static function getFormat($name = null)
     {
-        if ($name == null) {
+        if (empty($name) == true) {
             return Self::$defaultFormat;
         } 
 
