@@ -15,6 +15,17 @@ namespace Arikaim\Core\Utils;
 class Utils 
 {   
     /**
+     * Return true if url is valid
+     *
+     * @param string $url
+     * @return boolean
+     */
+    public static function isValidUrl($url)
+    {
+        return (filter_var($url,FILTER_VALIDATE_URL) == true) ? true : false; 
+    }
+
+    /**
      * Return classes from php code
      *
      * @param string $phpCode
@@ -33,6 +44,22 @@ class Utils
         }
 
         return $classes;
+    }
+
+    /**
+     * Get parent path
+     *
+     * @param string $path
+     * @return string|false
+     */
+    public static function getParentPath($path)
+    {
+        if (empty($path) == true) {
+            return false;
+        }       
+        $parentPath = dirname($path);
+
+        return ($parentPath == "." || empty($path) == true) ? false : $parentPath;          
     }
 
     /**
@@ -367,5 +394,15 @@ class Utils
         $tokens = explode('\\',$class);
         
         return end($tokens);
+    }
+
+    /**
+     * Get script execution time
+     *
+     * @return integer|false
+     */
+    public static function getExecutionTime($startTimeConstantName = 'APP_START_TIME') 
+    {
+        return (defined($startTimeConstantName) == true) ? (microtime(true) - constant($startTimeConstantName)) : false;         
     }
 }

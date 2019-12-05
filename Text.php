@@ -165,4 +165,22 @@ class Text
         
         return $items;
     }
+
+    /**
+     * Ceate random token
+     *
+     * @param  int $length
+     * @return string
+     */
+    public static function createToken($length = 22)
+    {
+        $token = '';
+        while (($len = strlen($token)) < $length) {
+            $size = $length - $len;
+            $bytes = random_bytes($size);
+            $token .= substr(str_replace(['/', '+', '='], '', base64_encode($bytes)), 0, $size);
+        }
+        
+        return $token;
+    }
 }
