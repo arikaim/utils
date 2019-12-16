@@ -145,32 +145,7 @@ class Factory
        
         return ($job instanceof JobInterface) ? $job : null;
     }
-
-    /**
-     * Create job intence from array 
-     *
-     * @param array $data
-     * @param string|null $class
-     * @return object|null
-     */
-    public static function createJobFromArray(array $data, $class = null)
-    {
-        if (empty($class) == true) {
-            $class = $data['class'];
-        }
-
-        $instance = Self::createJob($class);
-        if ($instance == null) {
-            return null;
-        }
-
-        foreach ($data as $key => $value) {
-            $instance->{$key} = $value;
-        }
-
-        return $instance;
-    }
-
+    
     /**
      * Get event subscriber full class name
      *

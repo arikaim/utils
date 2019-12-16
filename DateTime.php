@@ -10,6 +10,7 @@
 namespace Arikaim\Core\Utils;
 
 use DateTimeZone;
+use Exception;
 
 /**
  * DateTime
@@ -199,14 +200,28 @@ class DateTime
     }
 
     /**
+     * Return true if time zone is vlaid
+     *
+     * @param string $name
+     * @return boolean
+     */
+    public static function isValidTimeZone($name) {
+        return in_array($name, timezone_identifiers_list());
+    }
+
+    /**
      * Set time zone
      *
      * @param string|null $name
+     * @throws Exception
      * @return void
      */
     public static function setTimeZone($name = null)
     {
         $name = (empty($name) == true) ? date_default_timezone_get() : $name;
+        if (Self::isValidTimeZone($name) == false) {
+            throw new Exception('Not vlaid timezone ');
+        }
         Self::$timeZone = new DateTimeZone($name);
     }
 
