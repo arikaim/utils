@@ -232,15 +232,22 @@ class File
         $dir = new \RecursiveDirectoryIterator($path,\RecursiveDirectoryIterator::SKIP_DOTS);
         $iterator = new \RecursiveIteratorIterator($dir,\RecursiveIteratorIterator::CHILD_FIRST);
 
+        $result = true;
         foreach ($iterator as $file) {
+            Self::setWritable($file->getRealPath());
+          
             if ($file->isDir() == true) {
-                rmdir($file->getRealPath());
-            } else {
-                unlink($file->getRealPath());
+                if (rmdir($file->getRealPath()) == false) {
+                    $result = false;
+                };               
+            } else {                            
+                if (unlink($file->getRealPath()) == false) {
+                    $result = false;
+                };
             }
         }
 
-        return true;
+        return $result;
     }
 
     /**
