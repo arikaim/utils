@@ -36,7 +36,6 @@ class ZipFile
             File::setWritable($path);
         }
 
-
         $zip = new ZipArchive;
         $result = $zip->open($file);
         if ($result !== true) {
