@@ -110,7 +110,7 @@ class Number
             return (empty(Self::$format) == true) ? Self::DEFAULT_FORMAT : Self::$format;
         } 
 
-        return (isset(Self::$formats[$name]) == true) ? Self::$formats[$name] : Self::$defaultFormat;          
+        return (isset(Self::$formats[$name]) == true) ? Self::$formats[$name] : Self::DEFAULT_FORMAT;          
     }
 
     /**
