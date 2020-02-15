@@ -31,11 +31,11 @@ class File
         }
         $json = Self::read($fileName);   
        
-        if (is_array($vars) == true) {
+        if (\is_array($vars) == true) {
             $json = Text::render($json,$vars);
         }     
-        $data = json_decode($json,true);
-        $data = (is_array($data) == false && json_last_error() != JSON_ERROR_NONE) ? [] : $data;
+        $data = \json_decode($json,true);
+        $data = (\is_array($data) == false && \json_last_error() != JSON_ERROR_NONE) ? [] : $data;
                   
         return $data;
     }
@@ -51,7 +51,7 @@ class File
         if (File::exists($fileName) == false) {
             return false;
         }
-        $code = file_get_contents($fileName);
+        $code = \file_get_contents($fileName);
 
         return Utils::getClasses($code);
     }
@@ -75,7 +75,7 @@ class File
      */
     public static function isWritable($fileName) 
     {
-        return is_writable($fileName);
+        return \is_writable($fileName);
     }
 
     /**
@@ -86,12 +86,11 @@ class File
      */
     public static function setWritable($fileName) 
     {
-        if (Self::exists($fileName) == false) return false;
-        if (Self::isWritable($fileName) == true) return true;
+        if (Self::exists($fileName) == false) {
+            return false;
+        }      
 
-        \chmod($fileName, 0777);
-
-        return Self::isWritable($fileName);
+        return \chmod($fileName, 0777);      
     }
 
     /**
@@ -102,7 +101,7 @@ class File
      */
     public static function getSize($fileName)
     {
-        return (File::exists($fileName) == false) ? false : filesize($fileName);          
+        return (File::exists($fileName) == false) ? false : \filesize($fileName);          
     }
 
     /**
@@ -128,7 +127,7 @@ class File
      */
     public static function makeDir($path, $mode = 0755, $recursive = true)
     {
-        return (Self::exists($path) == true) ?Self::setWritable($path,$mode) : mkdir($path,$mode,$recursive);         
+        return (Self::exists($path) == true) ? Self::setWritable($path,$mode) : \mkdir($path,$mode,$recursive);         
     }
 
     /**
@@ -143,7 +142,7 @@ class File
     public static function writeUplaodedFile(array $file, $path, $mode = null, $flags = 0)
     {
         $fileName = $path . $file['name'];
-        $data = explode(',',$file['data']);
+        $data = \explode(',',$file['data']);
         $result = Self::writeEncoded($fileName,$data[1],$flags);
         if ($result != false && $mode != null) {
             \chmod($fileName,$mode);
@@ -188,7 +187,7 @@ class File
      */
     public static function getExtension($fileName)
     {
-        return pathinfo($fileName, PATHINFO_EXTENSION);
+        return \pathinfo($fileName, PATHINFO_EXTENSION);
     }
 
     /**
@@ -200,7 +199,7 @@ class File
     public static function delete($fileName)
     {
         if (Self::exists($fileName) == true) {
-            return (is_dir($fileName) == true) ? Self::deleteDirectory($fileName) : unlink($fileName);          
+            return (is_dir($fileName) == true) ? Self::deleteDirectory($fileName) : \unlink($fileName);          
         }
 
         return false;
@@ -237,11 +236,11 @@ class File
             Self::setWritable($file->getRealPath());
           
             if ($file->isDir() == true) {
-                if (rmdir($file->getRealPath()) == false) {
+                if (\rmdir($file->getRealPath()) == false) {
                     $result = false;
                 };               
             } else {                            
-                if (unlink($file->getRealPath()) == false) {
+                if (\unlink($file->getRealPath()) == false) {
                     $result = false;
                 };
             }
@@ -258,7 +257,7 @@ class File
      */
     public static function read($fileName)
     {
-        return (Self::exists($fileName) == true) ? file_get_contents($fileName) : null;           
+        return (Self::exists($fileName) == true) ? \file_get_contents($fileName) : null;           
     }
 
     /**
@@ -283,18 +282,18 @@ class File
     public static function copy($from, $to, $overwrite = true)
     {
         if (is_link($from) == true) {
-            return symlink(readlink($from),$to);
+            return \symlink(readlink($from),$to);
         }
         if (is_file($from) == true) {
             if ($overwrite == false) {
-                if (file_exists($to) == true) {
+                if (\file_exists($to) == true) {
                     return false;
                 }
             }
             return copy($from,$to);
         }
         if (is_dir($to) == false) {
-            mkdir($to);
+            \mkdir($to);
         }
 
         $dir = dir($from);
