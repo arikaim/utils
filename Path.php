@@ -31,6 +31,17 @@ class Path
     const STORAGE_REPOSITORY_PATH = Self::STORAGE_PATH . 'repository' . DIRECTORY_SEPARATOR;
 
     /**
+     * Return relative path from full path
+     *
+     * @param string $fullPath
+     * @return string
+     */
+    public static function getRelativePath($fullPath)
+    {
+        return (defined('APP_PATH') == true) ? str_replace(APP_PATH,'',$fullPath) : $fullPath;
+    }
+
+    /**
      * Set app path
      *
      * @param string $path
