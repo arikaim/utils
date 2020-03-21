@@ -272,6 +272,17 @@ class File
     }
 
     /**
+     * Get fiel mime type
+     *
+     * @param string $fileName
+     * @return string|false
+     */
+    public static function getMimetype($fileName)
+    {
+        return \mime_content_type($fileName);
+    }
+
+    /**
      * Copy file, symlink or directory
      *
      * @param string $from

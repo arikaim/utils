@@ -37,6 +37,7 @@ class ZipFile
         }
 
         $zip = new ZipArchive;
+
         $result = $zip->open($file);
         if ($result !== true) {
             return false;
