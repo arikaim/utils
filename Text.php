@@ -19,6 +19,19 @@ class Text
     const FIRST_LETTER_UPPER = 3;
 
     /**
+     * Mask text
+     *
+     * @param string $text
+     * @param integer $len
+     * @param string $maskChar
+     * @return string
+     */
+    public static function mask($text, $len = 5, $maskChar = '*')
+    {
+        return str_repeat($maskChar, strlen($text) - $len) . substr($text, - $len);           
+    }
+
+    /**
      * Slice text
      *
      * @param string $text
