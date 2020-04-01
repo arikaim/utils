@@ -110,7 +110,6 @@ class Path
         return $extension . DIRECTORY_SEPARATOR . "view" . DIRECTORY_SEPARATOR . "macros" . DIRECTORY_SEPARATOR;
     }
 
-    
     /**
      * Return current script path
      *

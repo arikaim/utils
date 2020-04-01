@@ -180,6 +180,18 @@ class File
     }
 
     /**
+     * Get file base name from path
+     *
+     * @param string $path
+     * @param string $suffix
+     * @return string
+     */
+    public static function baseName($path, $suffix = '')
+    {
+        return \basename($path,$suffix);
+    }
+
+    /**
      * Return file extension
      *
      * @param string $fileName
