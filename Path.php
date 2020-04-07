@@ -29,6 +29,7 @@ class Path
     const STORAGE_TEMP_PATH       = Self::STORAGE_PATH . 'temp' . DIRECTORY_SEPARATOR;
     const STORAGE_BACKUP_PATH     = Self::STORAGE_PATH . 'backup' . DIRECTORY_SEPARATOR;
     const STORAGE_REPOSITORY_PATH = Self::STORAGE_PATH . 'repository' . DIRECTORY_SEPARATOR;
+    const STORAGE_PUBLIC_PATH     = Self::STORAGE_PATH . 'public' . DIRECTORY_SEPARATOR;
 
     /**
      * Return relative path from full path
