@@ -123,7 +123,7 @@ class File
      * @param string $path
      * @param integer $mode
      * @param boolean $recursive
-     * @return void
+     * @return boolean
      */
     public static function makeDir($path, $mode = 0755, $recursive = true)
     {
