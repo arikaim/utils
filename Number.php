@@ -36,7 +36,7 @@ class Number
      *
      * @var array
      */
-    private static $format;
+    private static $format = null;
 
     /**
      * Format number
@@ -47,7 +47,7 @@ class Number
      */
     public static function format($number, $formatName = null)
     {
-        $format = Self::getFormat($formatName);
+        $format = Self::resolveFormat($formatName);
 
         return number_format($number,$format['decimals'],$format['decimals_separator'],$format['thousands_separator']);
     }
@@ -101,16 +101,16 @@ class Number
     /**
      * Get format options
      *
-     * @param string $name
+     * @param string|null $name
      * @return array
      */
     public static function getFormat($name = null)
     {
-        if (empty($name) == true) {
-            return (empty(Self::$format) == true) ? Self::DEFAULT_FORMAT : Self::$format;
+        if (empty($name) == true) {            
+            return (is_null(Self::$format) == true) ? Self::DEFAULT_FORMAT : Self::$format;
         } 
 
-        return (isset(Self::$formats[$name]) == true) ? Self::$formats[$name] : Self::DEFAULT_FORMAT;          
+        return (is_array(Self::$formats[$name]) == true) ? Self::$formats[$name] : Self::DEFAULT_FORMAT;          
     }
 
     /**
