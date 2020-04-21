@@ -73,6 +73,22 @@ class Utils
     }
 
     /**
+     * Create unique token
+     *
+     * @param string $prefix
+     * @param bolean $long
+     * @return string
+     */
+    public static function createToken($prefix = '', $long = false)
+    {
+        $hash = md5(rand(1,10) . microtime());
+        $secondHash = md5(rand(1,10) . microtime());
+        $token = $prefix . $hash;
+        
+        return ($long == true) ? $token . '-' . $secondHash : $token;
+    }
+    
+    /**
      * Return true if ip is valid.
      *
      * @param string $ip
