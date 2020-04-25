@@ -395,7 +395,7 @@ class Utils
         $result['size'] = round($size / pow(1024, $power),2);
         $result['label'] = $labels[$power];
 
-        return ($asText == true) ? $result['size'] . $result['label'] : $result; 
+        return ($asText == true) ? $result['size'] . ' ' . $result['label'] : $result; 
     }
 
     /**
