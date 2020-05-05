@@ -224,6 +224,21 @@ class Factory
     }
 
     /**
+     * Create controller
+     *
+     * @param Container $container
+     * @param string $baseClass
+     * @param string $extension
+     * @return Controller|null
+     */
+    public static function createController($container, $baseClass, $extension)
+    {
+        $class = Self::getExtensionControllerClass($extension,$baseClass);
+
+        return (class_exists($class) == true) ? new $class($container) : null;
+    }
+
+    /**
      * Get extension controller namespace
      *
      * @param string $extension
