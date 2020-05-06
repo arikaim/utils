@@ -363,6 +363,16 @@ class Utils
     }
 
     /**
+     * Return true if text is utf8 encoded string
+     *
+     * @param mixed $text
+     * @return boolean
+     */
+    public static function isUtf($text) {
+        return (bool)preg_match('//u',serialize($text));
+    }
+
+    /**
      * Create slug
      *
      * @param string $text
@@ -371,6 +381,12 @@ class Utils
      */
     public static function slug($text, $separator = '-')
     {
+        if (Self::isUtf($text) == true) {
+            $text = trim(mb_strtolower($text));
+            $text = str_replace(' ',$separator,$text);
+            return $text;
+        }
+ 
         return strtolower(preg_replace(
 			['/[^\w\s]+/', '/\s+/'],
 			['', $separator],

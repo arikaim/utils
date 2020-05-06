@@ -32,6 +32,16 @@ class Text
     }
 
     /**
+     * Upper case first letter for Utf8
+     *
+     * @param string $text
+     * @return string
+     */
+    public static function ucFirstUtf($text) {      
+        return (function_exists('mb_convert_case') == true ) ? mb_convert_case($text,MB_CASE_TITLE,'UTF-8') : $text;         
+    }
+
+    /**
      * Slice text
      *
      * @param string $text
