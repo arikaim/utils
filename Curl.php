@@ -68,12 +68,12 @@ class Curl
      *
      * @param string $url
      * @param string $method
-     * @param array $data
+     * @param array|string $data
      * @param array $headers
      * @param integer $timeout
      * @return mixed
      */
-    public static function request($url, $method, array $data = null, array $headers = null, $timeout = Self::TIMEOUT)
+    public static function request($url, $method, $data = null, array $headers = null, $timeout = Self::TIMEOUT)
     {
         $curl = Self::create($url,$timeout);
         if (empty($curl) == true) {
@@ -85,7 +85,8 @@ class Curl
         }
 
         curl_setopt($curl,CURLOPT_CUSTOMREQUEST,$method);
-        if (is_array($data) == true) {
+
+        if (empty($data) == false) {
             curl_setopt($curl,CURLOPT_POSTFIELDS,$data);
         }
 
@@ -96,12 +97,12 @@ class Curl
      * Run POST request
      *
      * @param string $url
-     * @param array $data
+     * @param array|string $data
      * @param array $headers
      * @param integer $timeout
      * @return mixed
      */
-    public static function post($url, array $data = null, array $headers = null, $timeout = Self::TIMEOUT)
+    public static function post($url, $data = null, array $headers = null, $timeout = Self::TIMEOUT)
     {
         return Self::request($url,"POST",$data,$headers,$timeout);
     }
