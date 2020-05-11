@@ -178,6 +178,17 @@ class Factory
     }
 
     /**
+     * Get class namspace
+     *
+     * @param string $class
+     * @return string
+     */
+    public static function getClassNamespace($class) 
+    {           
+        return substr($class,0,strrpos($class,"\\"));       
+    } 
+
+    /**
      * Get full core class name
      *
      * @param string $class
