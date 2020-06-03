@@ -335,8 +335,8 @@ class DateTime
     {
         if (is_numeric($timestamp) == false) {
             return $timestamp;
-        }
-        $date = Self::setTimestamp($timestamp);
+        }      
+        $date = Self::setTimestamp((integer)$timestamp);
 
         return $date->format(Self::getDateFormat($format));
     }
