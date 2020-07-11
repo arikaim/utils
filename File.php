@@ -29,14 +29,15 @@ class File
         if (File::exists($fileName) == false) {
             return false;
         }
+        
         $json = Self::read($fileName);   
-       
+      
         if (\is_array($vars) == true) {
             $json = Text::render($json,$vars);
         }     
         $data = \json_decode($json,true);
-        $data = (\is_array($data) == false && \json_last_error() != JSON_ERROR_NONE) ? [] : $data;
-                  
+        $data = (\is_array($data) == false) ? [] : $data;
+              
         return $data;
     }
 
