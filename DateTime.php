@@ -445,6 +445,19 @@ class DateTime
     }
 
     /**
+     * Get last day of month
+     *
+     * @param integer|string $month
+     * @return integer
+     */
+    public static function getLastDay($month)
+    {
+        $date = Self::getYear() . '-' . $month . '-01';
+        
+        return date('t',Self::toTimestamp($date,'Y-m-d'));
+    }
+
+    /**
      * Get current month
      *
      * @return string

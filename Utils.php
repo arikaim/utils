@@ -435,6 +435,8 @@ class Utils
      */
     public static function getExecutionTime($startTimeConstantName = 'APP_START_TIME') 
     {
-        return (defined($startTimeConstantName) == true) ? (microtime(true) - constant($startTimeConstantName)) : false;         
+        $startTime = (defined($startTimeConstantName) == true) ? constant($startTimeConstantName) : $_SERVER['REQUEST_TIME'];
+        
+        return (microtime(true) - $startTime);  
     }
 }
