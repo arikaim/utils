@@ -28,7 +28,7 @@ class Text
      */
     public static function mask($text, $len = 5, $maskChar = '*')
     {
-        return str_repeat($maskChar, strlen($text) - $len) . substr($text, - $len);           
+        return \str_repeat($maskChar,\strlen($text) - $len) . \substr($text, - $len);           
     }
 
     /**
@@ -38,7 +38,7 @@ class Text
      * @return string
      */
     public static function ucFirstUtf($text) {      
-        return (function_exists('mb_convert_case') == true ) ? mb_convert_case($text,MB_CASE_TITLE,'UTF-8') : $text;         
+        return (\function_exists('mb_convert_case') == true ) ? \mb_convert_case($text,MB_CASE_TITLE,'UTF-8') : $text;         
     }
 
     /**
@@ -48,12 +48,12 @@ class Text
      * @param integer $maxLength
      * @return string
      */
-    public static function sliceText($text, $maxLength)
+    public static function sliceText($text, $maxLength = 30)
     {
-        if (strlen($text) > $maxLength) {
-            $text = substr(trim($text),0,$maxLength);    
-            $pos = strrpos($text,' ');
-            return ($pos > 0) ? substr($text,0,$pos) : $text;   
+        if (\strlen($text) > $maxLength) {
+            $text = \substr(trim($text),0,$maxLength);    
+            $pos = \strrpos($text,' ');
+            return ($pos > 0) ? \substr($text,0,$pos) : $text;   
         }
         
         return $text;
@@ -72,10 +72,10 @@ class Text
         $case = (isset($options[1]) == true) ? $options[1] : null;
         $unique = (isset($options[2]) == true) ? $options[2] : true;
 
-        $tokens = (is_string($text) == true) ? explode($delimiter,$text) : $text; 
+        $tokens = (\is_string($text) == true) ? \explode($delimiter,$text) : $text; 
     
         if ($unique == true) {
-            $tokens = array_unique($tokens);
+            $tokens = \array_unique($tokens);
         }
 
         foreach ($tokens as $key => $value) {
@@ -119,7 +119,7 @@ class Text
                 break;
         }
 
-        return trim($word);
+        return \trim($word);
     }
 
     /**
@@ -131,7 +131,7 @@ class Text
      */
     public static function removeSpecialChars($text, $removeNumbers = false) 
     {        
-        return ($removeNumbers == true) ? preg_replace('/[^a-zA-Z ]/i','',trim($text)) : preg_replace("/[^a-zA-Z0-9]/","",$text);
+        return ($removeNumbers == true) ? \preg_replace('/[^a-zA-Z ]/i','',\trim($text)) : \preg_replace("/[^a-zA-Z0-9]/","",$text);
     }
 
     /**
@@ -142,7 +142,7 @@ class Text
      */
     public static function convertToTitleCase($text)
     {      
-        $tokens = explode('_',$text);
+        $tokens = \explode('_',$text);
         $result = '';
         foreach ($tokens as $word) {
             $result .= \ucfirst($word);
@@ -160,9 +160,9 @@ class Text
      */
     public static function render($text, $vars = []) 
     {    
-        $result = preg_replace_callback("/\{\{(.*?)\}\}/", function ($matches) use ($vars) {
-            $variableName = trim(strtolower($matches[1]));
-            if ( array_key_exists($variableName,$vars) == true ) {
+        $result = \preg_replace_callback("/\{\{(.*?)\}\}/", function ($matches) use ($vars) {
+            $variableName = \trim(\strtolower($matches[1]));
+            if (\array_key_exists($variableName,$vars) == true) {
                 return $vars[$variableName];
             }
             return "";
@@ -181,7 +181,7 @@ class Text
     public static function renderMultiple(array $items, $vars = [])
     {
         foreach ($items as $key => $value) {          
-            if (is_string($value) == true) {
+            if (\is_string($value) == true) {
                 $items[$key] = Text::render($value,$vars);
             }
         }
@@ -198,10 +198,10 @@ class Text
     public static function createToken($length = 22)
     {
         $token = '';
-        while (($len = strlen($token)) < $length) {
+        while (($len = \strlen($token)) < $length) {
             $size = $length - $len;
-            $bytes = random_bytes($size);
-            $token .= substr(str_replace(['/', '+', '='], '', base64_encode($bytes)), 0, $size);
+            $bytes = \random_bytes($size);
+            $token .= \substr(\str_replace(['/', '+', '='], '',\base64_encode($bytes)), 0, $size);
         }
         
         return $token;
