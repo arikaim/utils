@@ -212,7 +212,7 @@ class File
     public static function delete($fileName)
     {
         if (Self::exists($fileName) == true) {
-            return (is_dir($fileName) == true) ? Self::deleteDirectory($fileName) : \unlink($fileName);          
+            return (\is_dir($fileName) == true) ? Self::deleteDirectory($fileName) : \unlink($fileName);          
         }
 
         return false;
@@ -226,7 +226,7 @@ class File
      */
     public static function isEmpty($path)
     {
-        return (count(glob("$path/*")) === 0) ? true : false;
+        return (\count(\glob("$path/*")) === 0) ? true : false;
     }
     
     /**
@@ -237,7 +237,7 @@ class File
      */
     public static function deleteDirectory($path)
     {
-        if (is_dir($path) === false) {
+        if (\is_dir($path) === false) {
             return false;
         }
     
@@ -281,7 +281,7 @@ class File
      */
     public static function isImageMimeType($mimeType)
     {
-        return (substr($mimeType,0,5) == 'image');
+        return (\substr($mimeType,0,5) == 'image');
     }
 
     /**
@@ -305,22 +305,22 @@ class File
      */
     public static function copy($from, $to, $overwrite = true)
     {
-        if (is_link($from) == true) {
+        if (\is_link($from) == true) {
             return \symlink(readlink($from),$to);
         }
-        if (is_file($from) == true) {
+        if (\is_file($from) == true) {
             if ($overwrite == false) {
                 if (\file_exists($to) == true) {
                     return false;
                 }
             }
-            return copy($from,$to);
+            return \copy($from,$to);
         }
-        if (is_dir($to) == false) {
+        if (\is_dir($to) == false) {
             \mkdir($to);
         }
 
-        $dir = dir($from);
+        $dir = \dir($from);
         while (false !== $item = $dir->read()) {
             if ($item == '.' || $item == '..') {
                 continue;

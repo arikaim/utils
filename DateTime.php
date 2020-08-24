@@ -30,7 +30,7 @@ class DateTime
     /**
      * DateTime object
      *
-     * @var DateTime
+     * @var \DateTime
      */
     private static $dateTime;
 
@@ -140,7 +140,7 @@ class DateTime
      *
      * @param string|null $date
      * @param string|null $format
-     * @return DateTime
+     * @return \DateTime
      */
     public static function create($date = null, $format = null)
     {
@@ -156,7 +156,7 @@ class DateTime
     /**
      * Get DateTime
      *
-     * @return DateTime
+     * @return \DateTime
      */
     public static function getDateTime()
     {
@@ -211,7 +211,7 @@ class DateTime
     */
     public static function getTimeZonesList()
     {
-        return timezone_identifiers_list();
+        return \timezone_identifiers_list();
     }
 
     /**
@@ -268,7 +268,7 @@ class DateTime
      * @return boolean
      */
     public static function isValidTimeZone($name) {
-        return in_array($name, timezone_identifiers_list());
+        return \in_array($name,\timezone_identifiers_list());
     }
 
     /**
@@ -280,7 +280,7 @@ class DateTime
      */
     public static function setTimeZone($name = null)
     {
-        $name = (empty($name) == true) ? date_default_timezone_get() : $name;
+        $name = (empty($name) == true) ? \date_default_timezone_get() : $name;
         if (Self::isValidTimeZone($name) == false) {
             throw new Exception('Not vlaid timezone ');
         }
@@ -296,7 +296,7 @@ class DateTime
      */
     public static function dateTimeFormat($timestamp, $format = null)
     {
-        if (is_numeric($timestamp) == false) {
+        if (\is_numeric($timestamp) == false) {
             return $timestamp;
         }
         if ($format == null) {           
@@ -316,7 +316,7 @@ class DateTime
      */
     public static function timeFormat($timestamp, $format = null)
     {
-        if (is_numeric($timestamp) == false) {
+        if (\is_numeric($timestamp) == false) {
             return $timestamp;
         }
         $date = Self::setTimestamp($timestamp);
@@ -333,7 +333,7 @@ class DateTime
      */
     public static function dateFormat($timestamp, $format = null)
     {
-        if (is_numeric($timestamp) == false) {
+        if (\is_numeric($timestamp) == false) {
             return $timestamp;
         }      
         $date = Self::setTimestamp((integer)$timestamp);
@@ -373,7 +373,7 @@ class DateTime
      * Set date format.
      *
      * @param string $dateFormat
-     * @return DateTime
+     * @return \DateTime
      */
     public static function setDateFormat($dateFormat) 
     {
@@ -385,12 +385,12 @@ class DateTime
     /**
      * Modify date time
      *
-     * @param string $date_text
+     * @param string $dateText
      * @return DateTime
      */
-    public static function modify($date_text) 
+    public static function modify($dateText) 
     {
-        Self::$dateTime = Self::getDateTime()->modify($date_text);
+        Self::$dateTime = Self::getDateTime()->modify($dateText);
 
         return Self::$dateTime;
     }
@@ -425,7 +425,7 @@ class DateTime
      * Set timestamp
      *
      * @param integer $unixTimestamp
-     * @return DateTime
+     * @return \DateTime
      */
     public static function setTimestamp($unixTimestamp) 
     {
@@ -441,7 +441,7 @@ class DateTime
      */
     public static function getYear()
     {
-        return date('Y',Self::toTimestamp());
+        return \date('Y',Self::toTimestamp());
     }
 
     /**
@@ -454,7 +454,7 @@ class DateTime
     {
         $date = Self::getYear() . '-' . $month . '-01';
         
-        return date('t',Self::toTimestamp($date,'Y-m-d'));
+        return \date('t',Self::toTimestamp($date,'Y-m-d'));
     }
 
     /**
@@ -464,7 +464,7 @@ class DateTime
      */
     public static function getMonth()
     {
-        return date('n',Self::getTimestamp());
+        return \date('n',Self::getTimestamp());
     }
     
     /**
@@ -474,7 +474,7 @@ class DateTime
      */
     public static function getDay()
     {
-        return date('j',Self::getTimestamp());
+        return \date('j',Self::getTimestamp());
     }
 
     /**
@@ -484,7 +484,7 @@ class DateTime
      */
     public static function getHour()
     {
-        return date('G',Self::getTimestamp());
+        return \date('G',Self::getTimestamp());
     }
 
     /**
@@ -494,7 +494,7 @@ class DateTime
      */
     public static function getMinutes()
     {
-        return intval(date('i',Self::getTimestamp()));
+        return \intval(\date('i',Self::getTimestamp()));
     }
 
     /**
@@ -507,4 +507,15 @@ class DateTime
     {
         return Self::getDateTime()->format(Self::getDateFormat($format));
     }   
+
+    /**
+     * Get current date
+     *
+     * @param string|null $format
+     * @return \DateTime
+     */
+    public static function today($format = null)
+    {
+        return Self::create('now',$format);
+    }
 }

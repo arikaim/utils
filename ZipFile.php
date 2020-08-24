@@ -63,18 +63,18 @@ class ZipFile
             return false;
         }
 
-        if (is_dir($source) == true) {
+        if (\is_dir($source) == true) {
             $iterator = new RecursiveDirectoryIterator($source);        
             $files = new RecursiveIteratorIterator($iterator,RecursiveIteratorIterator::LEAVES_ONLY);
 
             foreach ($files as $file) {                          
                 if ($file->isDir() == true) {       
                     $path = $file->getRealPath() . DIRECTORY_SEPARATOR;
-                    $relativePath = str_replace($source,'',$path);
+                    $relativePath = \str_replace($source,'',$path);
                     $relativePath = (empty($relativePath) == true) ? DIRECTORY_SEPARATOR : $relativePath;
-                    $tokens = explode(DIRECTORY_SEPARATOR,$relativePath);
+                    $tokens = \explode(DIRECTORY_SEPARATOR,$relativePath);
                     // skip dir
-                    if (in_array($tokens[0],$skipDir) == true) { 
+                    if (\in_array($tokens[0],$skipDir) == true) { 
                         continue;
                     }
                     $zip->addGlob($path . '*.*',GLOB_BRACE,[

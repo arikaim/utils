@@ -39,7 +39,7 @@ class Path
      */
     public static function getRelativePath($fullPath)
     {
-        return (defined('APP_PATH') == true) ? str_replace(APP_PATH,'',$fullPath) : $fullPath;
+        return (\defined('APP_PATH') == true) ? \str_replace(APP_PATH,'',$fullPath) : $fullPath;
     }
 
     /**
@@ -50,8 +50,8 @@ class Path
      */
     public static function setAppPath($path)
     {
-        if (defined('APP_PATH') == false) {
-            define('APP_PATH',ROOT_PATH . BASE_PATH . DIRECTORY_SEPARATOR . $path);  
+        if (\defined('APP_PATH') == false) {
+            \define('APP_PATH',ROOT_PATH . BASE_PATH . DIRECTORY_SEPARATOR . $path);  
         }
     }
 
@@ -118,6 +118,6 @@ class Path
      */
     public static function getScriptPath()
     {
-        return realpath(dirname(__FILE__));
+        return \realpath(\dirname(__FILE__));
     }
 }

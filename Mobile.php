@@ -152,7 +152,7 @@ class Mobile
         $this->initHeaders();
         $this->initUserAgent();
 
-        $this->rules = array_merge(
+        $this->rules = \array_merge(
             $this->os,
             $this->browsers,
             $this->utilities
@@ -170,7 +170,7 @@ class Mobile
         $this->headers = [];
     
         foreach ($headers as $key => $value) {
-            if (substr($key, 0, 5) === 'HTTP_') {
+            if (\substr($key, 0, 5) === 'HTTP_') {
                 $this->headers[$key] = $value;
             }
         }
@@ -191,7 +191,7 @@ class Mobile
         }
 
         if (empty($this->userAgent) == false) {
-            $this->userAgent = substr(trim($this->userAgent),0,500);
+            $this->userAgent = \substr(\trim($this->userAgent),0,500);
             return;
         }
         $this->userAgent = null;
@@ -206,9 +206,9 @@ class Mobile
     {
         foreach ($this->mobileHeaders as $header => $matchType) {
             if (isset($this->headers[$header]) == true) {
-                if (is_array($matchType['matches']) == true) {
+                if (\is_array($matchType['matches']) == true) {
                     foreach ($matchType['matches'] as $match) {
-                        if (strpos($this->headers[$header],$match) !== false) {
+                        if (\strpos($this->headers[$header],$match) !== false) {
                             return true;
                         }
                     }
@@ -274,6 +274,6 @@ class Mobile
      */
     protected function match($regex)
     {
-       return (bool)preg_match(sprintf('#%s#is', $regex),$this->userAgent,$matches);
+       return (bool)\preg_match(\sprintf('#%s#is', $regex),$this->userAgent,$matches);
     }
 }

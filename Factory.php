@@ -32,8 +32,8 @@ class Factory
      */
     public static function setCoreNamespace($namespace)
     {
-        if (defined('CORE_NAMESPACE') == false) {
-            define('CORE_NAMESPACE',$namespace);
+        if (\defined('CORE_NAMESPACE') == false) {
+            \define('CORE_NAMESPACE',$namespace);
         }
     }
 
@@ -46,13 +46,13 @@ class Factory
      */
     public static function createInstance($class, $args = null)
     {
-        if (class_exists($class) == false) {
+        if (\class_exists($class) == false) {
             return null;
         }       
 
         $instance = ($args != null) ? new $class(...$args) : new $class();           
            
-        return (is_object($instance) == true) ? $instance : null;                
+        return (\is_object($instance) == true) ? $instance : null;                
     }
 
     /**
@@ -64,7 +64,7 @@ class Factory
      */
     public static function createRule($name, $args = null)
     {              
-        $class = ucfirst($name);
+        $class = \ucfirst($name);
         return Self::createInstance(Self::getValidatorRuleClass($class),$args);            
     }
 
@@ -92,7 +92,7 @@ class Factory
      */
     public static function getConstant($class,$name)
     {
-        return constant($class . "::" . $name);
+        return \constant($class . "::" . $name);
     }
 
     /**
@@ -137,7 +137,7 @@ class Factory
      */
     public static function createJob($class, $extension = null, $name = null)
     {  
-        if (class_exists($class) == false) {
+        if (\class_exists($class) == false) {
             $class = Self::getJobClassName($extension,$class);
         }
         $params = [$extension,$name];
@@ -185,7 +185,7 @@ class Factory
      */
     public static function getClassNamespace($class) 
     {           
-        return substr($class,0,strrpos($class,"\\"));       
+        return \substr($class,0,\strrpos($class,"\\"));       
     } 
 
     /**
@@ -207,7 +207,7 @@ class Factory
      */
     public static function getModuleNamespace($module)
     {
-        return Self::MODULES_NAMESAPCE . "\\" . ucfirst($module);
+        return Self::MODULES_NAMESAPCE . "\\" . \ucfirst($module);
     }
 
     /**
@@ -246,7 +246,7 @@ class Factory
     {
         $class = Self::getExtensionControllerClass($extension,$baseClass);
 
-        return (class_exists($class) == true) ? new $class($container) : null;
+        return (\class_exists($class) == true) ? new $class($container) : null;
     }
 
     /**
@@ -280,7 +280,7 @@ class Factory
      */
     public static function getExtensionNamespace($extension) 
     {          
-        return Self::EXTENSIONS_NAMESPACE . "\\" . ucfirst($extension);
+        return Self::EXTENSIONS_NAMESPACE . "\\" . \ucfirst($extension);
     }
 
     /**
@@ -403,7 +403,7 @@ class Factory
     public static function getValidatorRuleClass($baseClass)
     {
         $class = CORE_NAMESPACE . "\\Validator\\Rule\\" . $baseClass;
-        if (class_exists($class) == false) {
+        if (\class_exists($class) == false) {
             $class = CORE_NAMESPACE . "\\Validator\\Rule\\Db\\" . $baseClass;
         }
 

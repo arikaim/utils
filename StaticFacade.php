@@ -50,7 +50,7 @@ abstract class StaticFacade
         $class = static::getInstanceClass();
         $args = static::getInstanceArgs();
 
-        if (class_exists($class) == true) {
+        if (\class_exists($class) == true) {
             return ($args != null) ? new $class(...$args) : new $class();  
         }
         
@@ -64,7 +64,7 @@ abstract class StaticFacade
      */
     public static function getInstance()
     {
-        static::$instance = (is_object(static::$instance) == false) ? static::createInstance() : static::$instance;
+        static::$instance = (\is_object(static::$instance) == false) ? static::createInstance() : static::$instance;
 
         return static::$instance;
     }
@@ -81,7 +81,7 @@ abstract class StaticFacade
     public static function __callStatic($method, $args)
     {       
         $instance = static::getInstance();
-        if (is_object($instance) == false) {        
+        if (\is_object($instance) == false) {        
             throw new \RuntimeException('Facade instance not set.');
         }
         

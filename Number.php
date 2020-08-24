@@ -49,7 +49,7 @@ class Number
     {
         $format = Self::resolveFormat($formatName);
 
-        return number_format($number,$format['decimals'],$format['decimals_separator'],$format['thousands_separator']);
+        return \number_format($number,$format['decimals'],$format['decimals_separator'],$format['thousands_separator']);
     }
 
     /**
@@ -60,7 +60,7 @@ class Number
      */
     public static function resolveFormat($format)
     {
-        if (is_array($format) == true) {
+        if (\is_array($format) == true) {
             return [
                 'decimals'            => (isset($format[0]) == true) ? $format[0] : 2,
                 'decimals_separator'  => (isset($format[1]) == true) ? $format[1] : ".",
@@ -107,10 +107,10 @@ class Number
     public static function getFormat($name = null)
     {
         if (empty($name) == true) {            
-            return (is_null(Self::$format) == true) ? Self::DEFAULT_FORMAT : Self::$format;
+            return (\is_null(Self::$format) == true) ? Self::DEFAULT_FORMAT : Self::$format;
         } 
 
-        return (is_array(Self::$formats[$name]) == true) ? Self::$formats[$name] : Self::DEFAULT_FORMAT;          
+        return (\is_array(Self::$formats[$name]) == true) ? Self::$formats[$name] : Self::DEFAULT_FORMAT;          
     }
 
     /**
@@ -121,7 +121,7 @@ class Number
      */
     public static function isNumber($variable)
     {
-        return is_numeric($variable);
+        return \is_numeric($variable);
     }
 
     /**
@@ -132,7 +132,7 @@ class Number
      */
     public static function isFloat($variable)
     {
-        return is_float($variable);
+        return \is_float($variable);
     }
 
     /**
@@ -154,7 +154,7 @@ class Number
      */
     public static function getInteger($value)
     {
-        return intval($value);
+        return \intval($value);
     }
 
     /**
@@ -165,6 +165,6 @@ class Number
      */
     public static function getFraction($value)
     {
-        return ($value - intval($value));
+        return ($value - \intval($value));
     }
 }

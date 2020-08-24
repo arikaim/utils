@@ -61,11 +61,11 @@ class Html
     public static function __callStatic($name, $arguments)
     {
         $content = (isset($arguments[0]) == true) ? $arguments[0] : '';
-        if (substr($name,0,5) == 'start') {
-            $tag = strtolower(str_replace('start','',$name));
+        if (\substr($name,0,5) == 'start') {
+            $tag = \strtolower(\str_replace('start','',$name));
             $html = Self::startTag($tag,$content,$arguments);
-        } elseif (substr($name,0,3) == 'end') {
-            $tag = strtolower(str_replace('end','',$name));
+        } elseif (\substr($name,0,3) == 'end') {
+            $tag = \strtolower(\str_replace('end','',$name));
             $html = Self::endTag($tag,$content);
         } else {
             $html = Self::htmlTag($name,$content,$arguments);
@@ -83,12 +83,12 @@ class Html
      */
     public static function getAttributes($attributes)
     {        
-        if (is_array($attributes) == false) {
+        if (\is_array($attributes) == false) {
             return "";
         }
         $result = "";   
         foreach ($attributes as $key => $value) {
-            if ($key == "content" || is_array($value) == true) continue;          
+            if ($key == "content" || \is_array($value) == true) continue;          
             $result .= " " . Self::attr($value,$key);
         }
 
@@ -154,7 +154,7 @@ class Html
      */
     public static function specialcharsDecode($value)
     {
-        return htmlspecialchars_decode($value,ENT_HTML5 | ENT_QUOTES);
+        return \htmlspecialchars_decode($value,ENT_HTML5 | ENT_QUOTES);
     }
 
     /**
@@ -166,11 +166,11 @@ class Html
      */
     public static function removeTags($text, $tags)
     {
-        if (is_string($tags) == true) {
+        if (\is_string($tags) == true) {
             $tags = [$tags];
         }
         foreach ($tags as $tag) {
-            $replace = preg_replace("#\\<" . $tag . "(.*)/" . $tag . ">#iUs","", $text);
+            $replace = \preg_replace("#\\<" . $tag . "(.*)/" . $tag . ">#iUs","", $text);
             $text = ($replace !== null) ? $replace : $text;  
         }
 

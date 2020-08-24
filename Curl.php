@@ -10,6 +10,7 @@
 namespace Arikaim\Core\Utils;
 
 use Arikaim\Core\Utils\File;
+use Exception;
 
 /**
  * Curl wrapper
@@ -25,7 +26,7 @@ class Curl
      */
     public static function isInsatlled()
     {
-        return extension_loaded('curl');
+        return \extension_loaded('curl');
     }
 
     /**
@@ -41,10 +42,10 @@ class Curl
         if (Self::isInsatlled() == false) {
             return null;
         }
-        $curl = curl_init();
-        curl_setopt($curl,CURLOPT_URL,$url);
-        curl_setopt($curl,CURLOPT_RETURNTRANSFER,$returnTransfer);
-        curl_setopt($curl,CURLOPT_CONNECTTIMEOUT,$timeout);
+        $curl = \curl_init();
+        \curl_setopt($curl,CURLOPT_URL,$url);
+        \curl_setopt($curl,CURLOPT_RETURNTRANSFER,$returnTransfer);
+        \curl_setopt($curl,CURLOPT_CONNECTTIMEOUT,$timeout);
 
         return $curl;
     }
@@ -57,10 +58,10 @@ class Curl
      */
     private static function exec($curl)
     {
-        $response = curl_exec($curl);
-        curl_close($curl);
+        $response = \curl_exec($curl);
+        \curl_close($curl);
 
-        return ($response == false) ? curl_error($curl) : $response;      
+        return ($response == false) ? \curl_error($curl) : $response;      
     }
 
     /**
@@ -80,14 +81,14 @@ class Curl
             return false;
         }
 
-        if (is_array($headers) == true) {
-            curl_setopt($curl,CURLOPT_HTTPHEADER,$headers);
+        if (\is_array($headers) == true) {
+            \curl_setopt($curl,CURLOPT_HTTPHEADER,$headers);
         }
 
-        curl_setopt($curl,CURLOPT_CUSTOMREQUEST,$method);
+        \curl_setopt($curl,CURLOPT_CUSTOMREQUEST,$method);
 
         if (empty($data) == false) {
-            curl_setopt($curl,CURLOPT_POSTFIELDS,$data);
+            \curl_setopt($curl,CURLOPT_POSTFIELDS,$data);
         }
 
         return Self::exec($curl);
@@ -160,19 +161,20 @@ class Curl
     {
         $writable = File::setWritable($destinationPath);
         if ($writable == false) {
-            throw new \Exception("Destination path: $destinationPath is not writable");
+            throw new Exception("Destination path: $destinationPath is not writable");
+
             return false;
         }
-        $file = fopen($destinationPath, 'w+');
+        $file = \fopen($destinationPath, 'w+');
 
         $curl = Self::create($url);
-        curl_setopt($curl,CURLOPT_BINARYTRANSFER,true);
-        curl_setopt($curl,CURLOPT_FILE,$file);     
+        \curl_setopt($curl,CURLOPT_BINARYTRANSFER,true);
+        \curl_setopt($curl,CURLOPT_FILE,$file);     
         $result = Self::exec($curl);
-        fclose($file);
+        \fclose($file);
 
         if ($result === false) {
-            unlink($destinationPath);            
+            \unlink($destinationPath);            
             return $result;
         }
 

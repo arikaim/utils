@@ -33,10 +33,10 @@ class FunctionArguments
      */
     public static function getArgument(array $args, $index, $type = null)
     {       
-        if (is_array($args) == false || isset($args[$index]) == false) {
+        if (\is_array($args) == false || isset($args[$index]) == false) {
             return null;
         }
-        $variableType = gettype($args[$index]);
+        $variableType = \gettype($args[$index]);
 
         return ($type != null && $variableType != $type) ? null : $args[$index];  
     }
