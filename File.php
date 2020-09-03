@@ -200,7 +200,7 @@ class File
      */
     public static function getExtension($fileName)
     {
-        return \pathinfo($fileName, PATHINFO_EXTENSION);
+        return \pathinfo($fileName,PATHINFO_EXTENSION);
     }
 
     /**
@@ -331,5 +331,19 @@ class File
         $dir->close();
 
         return true;
+    }
+
+    /**
+     * Get directory files
+     *
+     * @param string $path
+     * @param array $skip
+     * @return array
+     */
+    public static function scanDir($path, $skip = ['..','.'])
+    {      
+        $items = (\is_dir($path) == false) ? [] : \scandir($path);
+
+        return \array_diff($items,$skip);
     }
 }
