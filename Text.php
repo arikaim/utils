@@ -19,6 +19,54 @@ class Text
     const FIRST_LETTER_UPPER = 3;
 
     /**
+     * Pad a string to a certain length with another string (both side)
+     *
+     * @param string $input
+     * @param integer $length
+     * @param string $char
+     * @param boolean $htmlSafe
+     * @return string
+     */
+    public static function pad($input, $length, $char = " ", $htmlSafe = true)
+    {
+        $output = \str_pad($input,$length,$char,STR_PAD_BOTH);
+
+        return ($htmlSafe == true) ? \str_replace(" ","&nbsp;",$output) : $output;
+    }
+
+    /**
+     * Pad left a string to a certain length with another string
+     *
+     * @param string $input
+     * @param integer $length
+     * @param string $char
+     * @param boolean $htmlSafe
+     * @return string
+     */
+    public static function padLeft($input, $length, $char = " ", $htmlSafe = true)
+    {
+        $output = \str_pad($input,$length,$char,STR_PAD_LEFT);
+
+        return ($htmlSafe == true) ? \str_replace(" ","&nbsp;",$output) : $output;
+    }
+
+    /**
+     * Pad right a string to a certain length with another string
+     *
+     * @param string $input
+     * @param integer $length
+     * @param string $char
+     * @param boolean $htmlSafe
+     * @return string
+     */
+    public static function padRight($input, $length, $char = " ", $htmlSafe = true)
+    {
+        $output = \str_pad($input,$length,$char, STR_PAD_RIGHT);
+
+        return ($htmlSafe == true) ? \str_replace(" ","&nbsp;",$output) : $output;
+    }
+
+    /**
      * Mask text
      *
      * @param string $text

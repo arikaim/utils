@@ -15,6 +15,13 @@ namespace Arikaim\Core\Utils;
 class Mobile
 {
     /**
+     * Save mobile mobile device check
+     *
+     * @var boolean|null
+     */
+    private static $isMobile = null;
+
+    /**
      * User agent
      *
      * @var string|null
@@ -41,13 +48,14 @@ class Mobile
      * @var array
      */
     protected $mobileHeaders = [
-            'HTTP_ACCEPT' => ['matches' => [
-                                    'application/x-obml2d',
-                                    'application/vnd.rim.html',
-                                    'text/vnd.wap.wml',
-                                    'application/vnd.wap.xhtml+xml'
-                                ]
-                            ],
+            'HTTP_ACCEPT' => [
+                'matches' => [
+                    'application/x-obml2d',
+                    'application/vnd.rim.html',
+                    'text/vnd.wap.wml',
+                    'application/vnd.wap.xhtml+xml'
+                ]
+            ],
             'HTTP_X_WAP_PROFILE'           => null,
             'HTTP_X_WAP_CLIENTID'          => null,
             'HTTP_WAP_CONNECTION'          => null,
@@ -151,7 +159,7 @@ class Mobile
     {
         $this->initHeaders();
         $this->initUserAgent();
-
+      
         $this->rules = \array_merge(
             $this->os,
             $this->browsers,
@@ -247,9 +255,13 @@ class Mobile
      */
     public static function mobile()
     {
+        if (empty(Self::$isMobile) == false) {
+            return Self::$isMobile;
+        }
         $obj = new Mobile();
+        $obj->isMobile();
 
-        return $obj->isMobile();
+        return Self::$isMobile;
     }
 
     /**
@@ -259,11 +271,9 @@ class Mobile
      */
     public function isMobile()
     {
-        if ($this->checkHeadersForMobile() == true) {
-            return true;
-        }
-
-        return $this->matchUserAgent();
+        Self::$isMobile = ($this->checkHeadersForMobile() == true) ? true : $this->matchUserAgent();
+           
+        return Self::$isMobile;
     }
 
     /**
