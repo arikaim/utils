@@ -42,13 +42,13 @@ class Html
     {    
         $attributes = Self::getAttributes($attributes);
         if ($singleTag == true) {
-            return "<$name $attributes />";
+            return '<' . $name . ' ' . $attributes . "/>";
         }
         if ($startTagOnly == true) {
-            return "<$name $attributes>";
+            return '<' . $name . ' ' . $attributes . '>';
         }
 
-        return "<$name $attributes>$content</$name>";   
+        return '<' . $name . ' ' . $attributes . ' >' . $content . "</" . $name .'>';   
     }
 
     /**
@@ -84,12 +84,12 @@ class Html
     public static function getAttributes($attributes)
     {        
         if (\is_array($attributes) == false) {
-            return "";
+            return '';
         }
-        $result = "";   
+        $result = '';   
         foreach ($attributes as $key => $value) {
-            if ($key == "content" || \is_array($value) == true) continue;          
-            $result .= " " . Self::attr($value,$key);
+            if ($key == 'content' || \is_array($value) == true) continue;          
+            $result .= ' ' . Self::attr($value,$key);
         }
 
         return $result;   
@@ -107,7 +107,7 @@ class Html
     {   
         $value = (empty($value) == true) ? $default : $value;
 
-        return (empty($value) == false) ? "$name=\"$value\"" : "";
+        return (empty($value) == false) ? $name . "=\"" . $value . "\"" : '';
     }
 
     /**
@@ -143,7 +143,7 @@ class Html
      */
     public static function endTag($name, $content = '')
     {        
-        return "$content</$name>";
+        return $content . "</" . $name . '>';
     }
 
     /**
@@ -166,11 +166,9 @@ class Html
      */
     public static function removeTags($text, $tags)
     {
-        if (\is_string($tags) == true) {
-            $tags = [$tags];
-        }
+        $tags = (\is_string($tags) == true) ? [$tags] : $tags;           
         foreach ($tags as $tag) {
-            $replace = \preg_replace("#\\<" . $tag . "(.*)/" . $tag . ">#iUs","", $text);
+            $replace = \preg_replace("#\\<" . $tag . "(.*)/" . $tag . '>#iUs','',$text);
             $text = ($replace !== null) ? $replace : $text;  
         }
 

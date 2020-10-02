@@ -24,34 +24,34 @@ class FileType
             'start'  => 0,
             'length' => 5
         ],
-        "video" => [
+        'video' => [
             'start'  => 0,
             'length' => 5
         ],
-        "audio" => [
+        'audio' => [
             'start'  => 0,
             'length' => 5
         ],
-        "pdf" => [
+        'pdf' => [
             'start'  => -3,
             'length' => 3
         ],       
-        "text" => [
+        'text' => [
             'start'  => 0,
             'length' => 4
         ],
-        "font" => [
+        'font' => [
             'start'  => 0,
             'length' => 4
         ],       
-        "zip" => [
+        'zip' => [
             'items' => [
                 'application/zip',
                 'application/x-zip-compressed',
                 'multipart/x-zip'
             ]
         ],
-        "application" => [
+        'application' => [
             'start'  => 0,
             'length' => 11
         ],

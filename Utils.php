@@ -61,7 +61,7 @@ class Utils
         }       
         $parentPath = \dirname($path);
 
-        return ($parentPath == "." || empty($path) == true) ? false : $parentPath;          
+        return ($parentPath == '.' || empty($path) == true) ? false : $parentPath;          
     }
 
     /**
@@ -188,9 +188,9 @@ class Utils
     public static function cleanJson($text)
     {
         for ($i = 0; $i <= 31; ++$i) {
-            $text = \str_replace(\chr($i),"",$text);
+            $text = \str_replace(\chr($i),'',$text);
         }
-        $text = \str_replace(\chr(127),"",$text);
+        $text = \str_replace(\chr(127),'',$text);
         $text = Self::removeBOM($text);
         $text = \stripslashes($text);
         $text = \htmlspecialchars_decode($text);
@@ -237,7 +237,7 @@ class Utils
     public static function call($obj, $method, $args = null)
     {
         if (\is_object($obj) == true) {
-            $callable = array($obj,$method);
+            $callable = [$obj,$method];
             $class = \get_class($obj);
         } else {
             $callable = $method; 
@@ -283,7 +283,7 @@ class Utils
      */
     public static function removeBOM($text)
     {        
-        return (\strpos(\bin2hex($text), 'efbbbf') === 0) ? \substr($text, 3) : $text;
+        return (\strpos(\bin2hex($text),'efbbbf') === 0) ? \substr($text,3) : $text;
     }
 
     /**
@@ -307,10 +307,10 @@ class Utils
     {
         $items = \explode('.',\trim($text));
         $release = (isset($items[0]) == true) ? $items[0] : $text;
-        $major = (isset($items[1]) == true) ? $items[1] : "0";       
-        $minor = (isset($items[2]) == true) ? $items[2] : "0";
+        $major = (isset($items[1]) == true) ? $items[1] : '0';       
+        $minor = (isset($items[2]) == true) ? $items[2] : '0';
            
-        return "$release.$major.$minor";
+        return $release . '.' . $major . '.' . $minor;
     }
 
     /**
@@ -321,7 +321,7 @@ class Utils
      * @param string $separator
      * @return string
      */
-    public static function createKey($text, $pathItem = null, $separator = ".")
+    public static function createKey($text, $pathItem = null, $separator = '.')
     {
         return (empty($pathItem) == true) ? $text : $text . $separator . $pathItem;     
     }
@@ -346,11 +346,11 @@ class Utils
      */
     public static function getValueAsText($value)
     {
-        if (\gettype($value) == "boolean") {           
-            return ($value == true) ? "true" : "false"; 
+        if (\gettype($value) == 'boolean') {           
+            return ($value == true) ? 'true' : 'false'; 
         }       
 
-        return "\"$value\"";
+        return '\'' . $value . '\'';
     }
 
     /**
@@ -371,7 +371,7 @@ class Utils
      * @return boolean
      */
     public static function isUtf($text) {
-        return (bool)\preg_match('//u',\serialize($text));
+        return (bool)\preg_match("//u",\serialize($text));
     }
 
     /**
@@ -390,7 +390,7 @@ class Utils
         }
  
         return \strtolower(\preg_replace(
-			['/[^\w\s]+/', '/\s+/'],
+			["/[^\w\s]+/", "/\s+/"],
 			['', $separator],
 			$text
 		));

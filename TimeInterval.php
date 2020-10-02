@@ -29,7 +29,7 @@ class TimeInterval
      * @param string $interval
      * @return DateInterval
      */
-    public static function create($interval = "")
+    public static function create($interval = '')
     {
         return (Self::isDurationInverval($interval) == true) ? new DateInterval($interval) : DateInterval::createFromDateString($interval);       
     } 
@@ -40,7 +40,7 @@ class TimeInterval
      * @param string $interval
      * @return object
      */
-    public static function getDateInterval($interval = "")
+    public static function getDateInterval($interval = '')
     {
         if (empty(Self::$interval) == true) {
             Self::$interval = Self::create($interval);
@@ -111,13 +111,13 @@ class TimeInterval
      */
     public static function getInterval()
     {
-        $years   = (Self::getYears() > 0) ? Self::getYears() . "Y" : "";
-        $months  = (Self::getMonths() > 0) ? Self::getMonths() . "M" : "";
-        $days    = (Self::getDays() > 0) ? Self::getDays() . "D" : "";
-        $hours   = (Self::getHours() > 0) ? Self::getHours() . "H" : "";
-        $minutes = (Self::getMinutes() > 0) ? Self::getMinutes() . "M" : "";
+        $years   = (Self::getYears() > 0) ? Self::getYears() . 'Y' : '';
+        $months  = (Self::getMonths() > 0) ? Self::getMonths() . 'M' : '';
+        $days    = (Self::getDays() > 0) ? Self::getDays() . 'D' : '';
+        $hours   = (Self::getHours() > 0) ? Self::getHours() . 'H' : '';
+        $minutes = (Self::getMinutes() > 0) ? Self::getMinutes() . 'M' : '';
 
-        return "P" . $years . $months . $days . "T" . $hours . $minutes;        
+        return 'P' . $years . $months . $days . 'T' . $hours . $minutes;        
     }
 
     /**

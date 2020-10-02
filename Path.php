@@ -21,7 +21,7 @@ class Path
     const CONFIG_PATH             = APP_PATH . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR;
     const CACHE_PATH              = APP_PATH . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR;
     const LOGS_PATH               = APP_PATH . DIRECTORY_SEPARATOR . 'logs' . DIRECTORY_SEPARATOR;
-    const STORAGE_PATH            = APP_PATH . DIRECTORY_SEPARATOR . "storage" . DIRECTORY_SEPARATOR;
+    const STORAGE_PATH            = APP_PATH . DIRECTORY_SEPARATOR . 'storage' . DIRECTORY_SEPARATOR;
     const LIBRARY_PATH            = Self::VIEW_PATH . 'library' . DIRECTORY_SEPARATOR;
     const TEMPLATES_PATH          = Self::VIEW_PATH . 'templates' . DIRECTORY_SEPARATOR;
     const COMPONENTS_PATH         = Self::VIEW_PATH . 'components' . DIRECTORY_SEPARATOR;
@@ -30,6 +30,18 @@ class Path
     const STORAGE_BACKUP_PATH     = Self::STORAGE_PATH . 'backup' . DIRECTORY_SEPARATOR;
     const STORAGE_REPOSITORY_PATH = Self::STORAGE_PATH . 'repository' . DIRECTORY_SEPARATOR;
     const STORAGE_PUBLIC_PATH     = Self::STORAGE_PATH . 'public' . DIRECTORY_SEPARATOR;
+
+     /**
+     * Get macro path
+     *
+     * @param string $macroName
+     * @param string $template
+     * @return string
+     */
+    public static function getMacroPath($macroName, $template)
+    {
+        return DIRECTORY_SEPARATOR . $template . DIRECTORY_SEPARATOR . 'macros' . DIRECTORY_SEPARATOR . $macroName;
+    }
 
     /**
      * Return relative path from full path
@@ -74,7 +86,7 @@ class Path
      */
     public static function getLibraryThemesPath($library)
     {
-        return Self::getLibraryPath($library) . "themes";
+        return Self::getLibraryPath($library) . 'themes';
     }
 
     /**
@@ -108,7 +120,7 @@ class Path
      */
     public static function getExtensionMacrosRelativePath($extension)
     {
-        return $extension . DIRECTORY_SEPARATOR . "view" . DIRECTORY_SEPARATOR . "macros" . DIRECTORY_SEPARATOR;
+        return $extension . DIRECTORY_SEPARATOR . 'view' . DIRECTORY_SEPARATOR . 'macros' . DIRECTORY_SEPARATOR;
     }
 
     /**

@@ -78,7 +78,7 @@ class ZipFile
                         continue;
                     }
                     $zip->addGlob($path . '*.*',GLOB_BRACE,[
-                        'add_path' => $relativePath,
+                        'add_path'        => $relativePath,
                         'remove_all_path' => true
                     ]);                  
                 }

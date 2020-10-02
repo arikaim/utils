@@ -18,11 +18,11 @@ use Arikaim\Core\Interfaces\ExtensionInterface;
  */
 class Factory 
 {
-    const EXTENSIONS_NAMESPACE      = "Arikaim\\Extensions";
-    const MODULES_NAMESAPCE         = "Arikaim\\Modules";
-    const CONTROLLERS_NAMESPACE     = CORE_NAMESPACE . "\\Controllers";
-    const API_CONTROLLERS_NAMESPACE = CORE_NAMESPACE . "\\Api";
-    const INTERFACES_NAMESPACE      = CORE_NAMESPACE . "\\Interfaces";
+    const EXTENSIONS_NAMESPACE      = 'Arikaim\\Extensions';
+    const MODULES_NAMESAPCE         = 'Arikaim\\Modules';
+    const CONTROLLERS_NAMESPACE     = CORE_NAMESPACE . '\\Controllers';
+    const API_CONTROLLERS_NAMESPACE = CORE_NAMESPACE . '\\Api';
+    const INTERFACES_NAMESPACE      = CORE_NAMESPACE . '\\Interfaces';
 
     /**
      * Set core namspace
@@ -65,6 +65,7 @@ class Factory
     public static function createRule($name, $args = null)
     {              
         $class = \ucfirst($name);
+
         return Self::createInstance(Self::getValidatorRuleClass($class),$args);            
     }
 
@@ -77,7 +78,7 @@ class Factory
      */
     public static function createSchema($schemaClass, $extension = null)
     {
-        $schemaClass = Self::getSchemaClass($schemaClass,$extension);
+        $schemaClass = Self::getSchemaClass($schemaClass,$extension);    
         $instance = Self::createInstance($schemaClass);
         
         return $instance;
@@ -92,7 +93,7 @@ class Factory
      */
     public static function getConstant($class,$name)
     {
-        return \constant($class . "::" . $name);
+        return \constant($class . '::' . $name);
     }
 
     /**
@@ -156,7 +157,7 @@ class Factory
     public static function getEventSubscriberClass($baseClass, $extension = null)
     {
         if (empty($extension) == true) {
-            return Self::getSystemEventsNamespace() . "\\" . $baseClass;
+            return Self::getSystemEventsNamespace() . '\\' . $baseClass;
         } 
         
         return Self::getExtensionEventSubscriberClass($baseClass,$extension);        
@@ -185,7 +186,7 @@ class Factory
      */
     public static function getClassNamespace($class) 
     {           
-        return \substr($class,0,\strrpos($class,"\\"));       
+        return \substr($class,0,\strrpos($class,'\\'));       
     } 
 
     /**
@@ -196,7 +197,7 @@ class Factory
      */
     public static function getFullClassName($class)
     {
-        return CORE_NAMESPACE . "\\$class";
+        return CORE_NAMESPACE . '\\' . $class;
     }
 
     /**
@@ -207,7 +208,7 @@ class Factory
      */
     public static function getModuleNamespace($module)
     {
-        return Self::MODULES_NAMESAPCE . "\\" . \ucfirst($module);
+        return Self::MODULES_NAMESAPCE . '\\' . \ucfirst($module);
     }
 
     /**
@@ -219,7 +220,7 @@ class Factory
      */
     public static function getModuleClass($module, $baseClass)
     {
-        return Self::getModuleNamespace($module) . "\\$baseClass";
+        return Self::getModuleNamespace($module) . '\\' . $baseClass;
     }
 
     /**
@@ -231,7 +232,7 @@ class Factory
      */
     public static function getExtensionControllerClass($extension, $baseClass)
     {        
-        return Self::getExtensionControllersNamespace(ucfirst($extension)) . "\\" . $baseClass;
+        return Self::getExtensionControllersNamespace(ucfirst($extension)) . '\\' . $baseClass;
     }
 
     /**
@@ -257,7 +258,7 @@ class Factory
      */
     public static function getExtensionControllersNamespace($extension)
     {
-        return Self::getExtensionNamespace($extension) . "\\Controllers";
+        return Self::getExtensionNamespace($extension) . '\\Controllers';
     }
 
     /**
@@ -269,7 +270,7 @@ class Factory
      */
     public static function getExtensionEventSubscriberClass($baseClass, $extension)
     {
-        return Self::getExtensionSubscribersNamespace($extension) . "\\" . $baseClass;
+        return Self::getExtensionSubscribersNamespace($extension) . '\\' . $baseClass;
     }
 
     /**
@@ -280,7 +281,7 @@ class Factory
      */
     public static function getExtensionNamespace($extension) 
     {          
-        return Self::EXTENSIONS_NAMESPACE . "\\" . \ucfirst($extension);
+        return Self::EXTENSIONS_NAMESPACE . '\\' . \ucfirst($extension);
     }
 
     /**
@@ -292,7 +293,7 @@ class Factory
      */
     public static function getExtensionClassName($extension, $baseClass)
     {
-        return Self::getExtensionNamespace($extension) . "\\" . $baseClass;
+        return Self::getExtensionNamespace($extension) . '\\' . $baseClass;
     }
 
     /**
@@ -304,7 +305,7 @@ class Factory
      */
     public static function getModuleConsoleClassName($module, $baseClass)
     {
-        return Self::getModuleNamespace($module) . "\\Console\\$baseClass";
+        return Self::getModuleNamespace($module) . '\\Console\\' . $baseClass;
     }
 
     /**
@@ -316,7 +317,7 @@ class Factory
      */
     public static function getExtensionConsoleClassName($extension, $baseClass)
     {
-        return Self::getExtensionNamespace($extension) . "\\Console\\$baseClass";
+        return Self::getExtensionNamespace($extension) . '\\Console\\' . $baseClass;
     }
 
     /**
@@ -327,7 +328,7 @@ class Factory
      */
     public static function getFullInterfaceName($baseName)
     {
-        return Self::INTERFACES_NAMESPACE ."\\" . $baseName;
+        return Self::INTERFACES_NAMESPACE . '\\' . $baseName;
     }
 
     /**
@@ -339,7 +340,7 @@ class Factory
      */
     public static function getJobClassName($extension, $class)
     {
-        return Self::getJobsNamespace($extension) . "\\$class";
+        return Self::getJobsNamespace($extension) . '\\' . $class;
     }
 
     /**
@@ -351,10 +352,10 @@ class Factory
     public static function getJobsNamespace($extension = null)
     {
         if (empty($extension) == false) {
-            return Self::getExtensionNamespace($extension) . "\\Jobs";
+            return Self::getExtensionNamespace($extension) . '\\Jobs';
         }
 
-        return CORE_NAMESPACE . "\\Jobs";
+        return CORE_NAMESPACE . '\\Jobs';
     }
 
     /**
@@ -366,10 +367,10 @@ class Factory
     public static function getModelClass($class, $extension = null) 
     {
         if (empty($extension) == true) {
-            return CORE_NAMESPACE . "\\Models\\" . $class;
+            return CORE_NAMESPACE . '\\Models\\' . $class;
         }
     
-        return Self::getExtensionModelNamespace($extension) . "\\" . $class;
+        return Self::getExtensionModelNamespace($extension) . '\\' . $class;
     }
     
     /**
@@ -380,7 +381,7 @@ class Factory
      */
     public static function getExtensionModelNamespace($extension)
     {   
-        return Self::getExtensionNamespace($extension) . "\\Models";
+        return Self::getExtensionNamespace($extension) . '\\Models';
     }
 
     /**
@@ -391,7 +392,7 @@ class Factory
      */
     public static function getControllerClass($class)
     {
-        return Self::CONTROLLERS_NAMESPACE . "\\" . $class;
+        return Self::CONTROLLERS_NAMESPACE . '\\' . $class;
     }
 
     /**
@@ -402,9 +403,9 @@ class Factory
      */
     public static function getValidatorRuleClass($baseClass)
     {
-        $class = CORE_NAMESPACE . "\\Validator\\Rule\\" . $baseClass;
+        $class = CORE_NAMESPACE . '\\Validator\\Rule\\' . $baseClass;
         if (\class_exists($class) == false) {
-            $class = CORE_NAMESPACE . "\\Validator\\Rule\\Db\\" . $baseClass;
+            $class = CORE_NAMESPACE . '\\Validator\\Rule\\Db\\' . $baseClass;
         }
 
         return $class;
@@ -418,7 +419,7 @@ class Factory
      */
     public static function getValidatorFiltersClass($baseClass)
     {
-        return CORE_NAMESPACE . "\\Validator\\Filter\\" . $baseClass; 
+        return CORE_NAMESPACE . '\\Validator\\Filter\\' . $baseClass; 
     }
 
     /**
@@ -428,7 +429,7 @@ class Factory
      */
     public static function getSystemEventsNamespace()
     {
-        return CORE_NAMESPACE . "\\Events";
+        return CORE_NAMESPACE . '\\Events';
     }
 
     /**
@@ -439,7 +440,7 @@ class Factory
      */
     public static function getExtensionSubscribersNamespace($extension)
     {
-        return Self::getExtensionNamespace($extension) . "\\Subscribers";
+        return Self::getExtensionNamespace($extension) . '\\Subscribers';
     }
 
     /**
@@ -450,12 +451,11 @@ class Factory
      */
     public static function getSchemaNamespace($extension = null)
     {
-        if ($extension != null) {
-            $extension = ucfirst($extension);
-            return Self::EXTENSIONS_NAMESPACE . "\\$extension\\Models\\Schema\\";
+        if ($extension != null) {           
+            return Self::EXTENSIONS_NAMESPACE . '\\' . \ucfirst($extension) . '\\Models\\Schema\\';
         }
         
-        return CORE_NAMESPACE . "\\Models\\Schema\\";
+        return CORE_NAMESPACE . '\\Models\\Schema\\';
     }
 
     /**

@@ -274,15 +274,14 @@ class DateTime
     /**
      * Set time zone
      *
-     * @param string|null $name
-     * @throws Exception
+     * @param string|null $name    
      * @return void
      */
     public static function setTimeZone($name = null)
     {
         $name = (empty($name) == true) ? \date_default_timezone_get() : $name;
         if (Self::isValidTimeZone($name) == false) {
-            throw new Exception('Not vlaid timezone ');
+            $name = \date_default_timezone_get();
         }
         Self::$timeZone = new DateTimeZone($name);
     }
@@ -300,7 +299,7 @@ class DateTime
             return $timestamp;
         }
         if ($format == null) {           
-            $format = Self::getDateFormat() . " " . Self::getTimeFormat();
+            $format = Self::getDateFormat() . ' ' . Self::getTimeFormat();
         }
         $date = Self::setTimestamp($timestamp);
 

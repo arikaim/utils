@@ -91,7 +91,7 @@ class File
             return false;
         }      
 
-        return \chmod($fileName, 0777);      
+        return \chmod($fileName,0777);      
     }
 
     /**
@@ -177,7 +177,9 @@ class File
      */
     public static function write($fileName, $data, $flags = 0)
     {
-        return \file_put_contents($fileName,$data,$flags);
+        $result = \file_put_contents($fileName,$data,$flags);
+        
+        return ($result !== false);
     }
 
     /**
@@ -226,7 +228,7 @@ class File
      */
     public static function isEmpty($path)
     {
-        return (\count(\glob("$path/*")) === 0) ? true : false;
+        return (\count(\glob($path . "/*")) === 0) ? true : false;
     }
     
     /**

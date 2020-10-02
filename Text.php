@@ -27,11 +27,11 @@ class Text
      * @param boolean $htmlSafe
      * @return string
      */
-    public static function pad($input, $length, $char = " ", $htmlSafe = true)
+    public static function pad($input, $length, $char = ' ', $htmlSafe = true)
     {
         $output = \str_pad($input,$length,$char,STR_PAD_BOTH);
 
-        return ($htmlSafe == true) ? \str_replace(" ","&nbsp;",$output) : $output;
+        return ($htmlSafe == true) ? \str_replace(' ','&nbsp;',$output) : $output;
     }
 
     /**
@@ -43,11 +43,11 @@ class Text
      * @param boolean $htmlSafe
      * @return string
      */
-    public static function padLeft($input, $length, $char = " ", $htmlSafe = true)
+    public static function padLeft($input, $length, $char = ' ', $htmlSafe = true)
     {
         $output = \str_pad($input,$length,$char,STR_PAD_LEFT);
 
-        return ($htmlSafe == true) ? \str_replace(" ","&nbsp;",$output) : $output;
+        return ($htmlSafe == true) ? \str_replace(' ','&nbsp;',$output) : $output;
     }
 
     /**
@@ -59,11 +59,11 @@ class Text
      * @param boolean $htmlSafe
      * @return string
      */
-    public static function padRight($input, $length, $char = " ", $htmlSafe = true)
+    public static function padRight($input, $length, $char = ' ', $htmlSafe = true)
     {
         $output = \str_pad($input,$length,$char, STR_PAD_RIGHT);
 
-        return ($htmlSafe == true) ? \str_replace(" ","&nbsp;",$output) : $output;
+        return ($htmlSafe == true) ? \str_replace(' ','&nbsp;',$output) : $output;
     }
 
     /**
@@ -179,7 +179,7 @@ class Text
      */
     public static function removeSpecialChars($text, $removeNumbers = false) 
     {        
-        return ($removeNumbers == true) ? \preg_replace('/[^a-zA-Z ]/i','',\trim($text)) : \preg_replace("/[^a-zA-Z0-9]/","",$text);
+        return ($removeNumbers == true) ? \preg_replace('/[^a-zA-Z ]/i','',\trim($text)) : \preg_replace('/[^a-zA-Z0-9]/','',$text);
     }
 
     /**
@@ -208,12 +208,9 @@ class Text
      */
     public static function render($text, $vars = []) 
     {    
-        $result = \preg_replace_callback("/\{\{(.*?)\}\}/", function ($matches) use ($vars) {
+        $result = \preg_replace_callback('/\{\{(.*?)\}\}/',function ($matches) use ($vars) {
             $variableName = \trim(\strtolower($matches[1]));
-            if (\array_key_exists($variableName,$vars) == true) {
-                return $vars[$variableName];
-            }
-            return "";
+            return (\array_key_exists($variableName,$vars) == true) ? $vars[$variableName] : '';               
         },$text);
 
         return ($result == null) ? $text : $result;        
@@ -249,9 +246,25 @@ class Text
         while (($len = \strlen($token)) < $length) {
             $size = $length - $len;
             $bytes = \random_bytes($size);
-            $token .= \substr(\str_replace(['/', '+', '='], '',\base64_encode($bytes)), 0, $size);
+            $token .= \substr(\str_replace(['/','+','='],'',\base64_encode($bytes)),0,$size);
         }
         
         return $token;
+    }
+
+    /**
+     * Create random text 
+     *
+     * @param integer $length
+     * @param string|null $keyspace
+     * @return string
+     */
+    public static function random($length = 10, $keyspace = null) 
+    {
+        if (empty($keyspace) == true) {
+            $keyspace = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        }
+    
+        return \substr(\str_shuffle($keyspace),0,$length);
     }
 }

@@ -105,7 +105,7 @@ class Curl
      */
     public static function post($url, $data = null, array $headers = null, $timeout = Self::TIMEOUT)
     {
-        return Self::request($url,"POST",$data,$headers,$timeout);
+        return Self::request($url,'POST',$data,$headers,$timeout);
     }
 
     /**
@@ -119,7 +119,7 @@ class Curl
      */
     public static function get($url, array $data = null, array $headers = null, $timeout = Self::TIMEOUT)
     {
-        return Self::request($url,"GET",$data,$headers,$timeout);
+        return Self::request($url,'GET',$data,$headers,$timeout);
     }
 
     /**
@@ -133,7 +133,7 @@ class Curl
      */
     public static function delete($url, array $data = null, array $headers = null, $timeout = Self::TIMEOUT)
     {
-        return Self::request($url,"DELETE",$data,$headers,$timeout);
+        return Self::request($url,'DELETE',$data,$headers,$timeout);
     }
 
     /**
@@ -147,7 +147,7 @@ class Curl
      */
     public static function put($url, array $data = null, array $headers = null, $timeout = Self::TIMEOUT)
     {
-        return Self::request($url,"PUT",$data,$headers,$timeout);
+        return Self::request($url,'PUT',$data,$headers,$timeout);
     }
 
     /**
@@ -161,11 +161,10 @@ class Curl
     {
         $writable = File::setWritable($destinationPath);
         if ($writable == false) {
-            throw new Exception("Destination path: $destinationPath is not writable");
-
+            throw new Exception('Destination path: ' . $destinationPath . ' is not writable');
             return false;
         }
-        $file = \fopen($destinationPath, 'w+');
+        $file = \fopen($destinationPath,'w+');
 
         $curl = Self::create($url);
         \curl_setopt($curl,CURLOPT_BINARYTRANSFER,true);

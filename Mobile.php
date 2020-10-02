@@ -194,7 +194,7 @@ class Mobile
         $this->userAgent = null;
         foreach ($this->userAgentHeaders as $altHeader) {
             if (empty($this->headers[$altHeader]) == false) {
-                $this->userAgent .= $this->headers[$altHeader] . " ";
+                $this->userAgent .= $this->headers[$altHeader] . ' ';
             }
         }
 
@@ -284,6 +284,6 @@ class Mobile
      */
     protected function match($regex)
     {
-       return (bool)\preg_match(\sprintf('#%s#is', $regex),$this->userAgent,$matches);
+       return (bool)\preg_match(\sprintf("#%s#is", $regex),$this->userAgent,$matches);
     }
 }

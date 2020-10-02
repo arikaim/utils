@@ -14,14 +14,14 @@ namespace Arikaim\Core\Utils;
  */
 class FunctionArguments 
 {   
-    const BOOLEAN_TYPE = "boolean";
-    const INTEGER_TYPE = "integer";
-    const DOUBLE_TYPE = "double";
-    const STRING_TYPE = "string";
-    const ARRAY_TYPE = "array";
-    const OBJECT_TYPE = "object";
-    const NULL_TYPE = "NULL";
-    const UNKNOWN_TYPE = "unknown type";
+    const BOOLEAN_TYPE = 'boolean';
+    const INTEGER_TYPE = 'integer';
+    const DOUBLE_TYPE  = 'double';
+    const STRING_TYPE  = 'string';
+    const ARRAY_TYPE   = 'array';
+    const OBJECT_TYPE  = 'object';
+    const NULL_TYPE    = 'NULL';
+    const UNKNOWN_TYPE = 'unknown type';
     
     /**
      * Get funciton argument

@@ -19,7 +19,7 @@ class ClientIp
     /**
      * Lookup in headers
      *
-     * @var bool
+     * @var array
      */
     protected static $lookInHeaders = [
         'Forwarded',
@@ -64,12 +64,12 @@ class ClientIp
     public static function getFromHeader($request, $header)
     {
         $items = \explode(',', $request->getHeaderLine($header));
-        $value = \trim(reset($items));
+        $value = \trim(\reset($items));
         if (\ucfirst($header) == 'Forwarded') {
             foreach (\explode(';', $value) as $part) {
                 if (\strtolower(\substr($part, 0, 4)) == 'for=') {
                     $for = \explode(']', $part);
-                    $value = \trim(\substr(reset($for), 4), " \t\n\r\0\x0B" . "\"[]");
+                    $value = \trim(\substr(\reset($for),4)," \t\n\r\0\x0B" . "\'[]");
                     break;
                 }
             }
