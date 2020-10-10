@@ -32,6 +32,11 @@ class Number
     ]; 
 
     /**
+     *  Text values which may convert to boolean
+    */
+    const BOOLEAN_TEXT_VALUES = ['true','false','0','1','on','off','yes','no'];
+
+    /**
      * Number format
      *
      * @var array
@@ -166,5 +171,31 @@ class Number
     public static function getFraction($value)
     {
         return ($value - \intval($value));
+    }
+
+    /**
+     * Return true if text is boolean value
+     *
+     * @param string $text
+     * @return boolean
+     */
+    public static function isBoolean($text)
+    {
+        $result = \filter_var($text,FILTER_VALIDATE_BOOLEAN,FILTER_NULL_ON_FAILURE);
+
+        return !\is_null($result);
+    }
+
+    /**
+     * Convert text to bool value
+     *
+     * @param string $value
+     * @return bool
+     */
+    public static function toBoolean($text)
+    {
+        $result = \filter_var($text,FILTER_VALIDATE_BOOLEAN,FILTER_NULL_ON_FAILURE);
+
+        return (\is_null($result) == true) ? false : (bool)$result;
     }
 }
