@@ -24,7 +24,7 @@ class Utils
      */
     public static function isValidUrl($url)
     {
-        return (\filter_var($url,FILTER_VALIDATE_URL) == true) ? true : false; 
+        return (\filter_var($url,FILTER_VALIDATE_URL) == true);
     }
 
     /**
@@ -40,7 +40,12 @@ class Utils
         $count = \count($tokens);
 
         for ($i = 2; $i < $count; $i++) {
-            if ($tokens[$i - 2][0] == T_CLASS && $tokens[$i - 1][0] == T_WHITESPACE && $tokens[$i][0] == T_STRING && !($tokens[$i - 3] && $i - 4 >= 0 && $tokens[$i - 4][0] == T_ABSTRACT)) {               
+            if ($tokens[$i - 2][0] == T_CLASS 
+                && $tokens[$i - 1][0] == T_WHITESPACE 
+                && $tokens[$i][0] == T_STRING 
+                && !($tokens[$i - 3] 
+                && $i - 4 >= 0 
+                && $tokens[$i - 4][0] == T_ABSTRACT)) {               
                 \array_push($classes,$tokens[$i][1]);
             }
         }

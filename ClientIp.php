@@ -33,7 +33,7 @@ class ClientIp
      * Return client Ip address.
      *
      * @param object $request
-     * @return string
+     * @return string|null
      */
     public static function getClientIpAddress($request)
     {       
