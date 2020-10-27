@@ -198,4 +198,26 @@ class Number
 
         return (\is_null($result) == true) ? false : (bool)$result;
     }
+
+    /**
+     * Type cast to int, foat, bool
+     *
+     * @param mixed $number
+     * @return mixed
+     */
+    public static function toNumber($number)
+    {
+        if (\is_integer($number) == true) {
+            return (int)$number;
+        }
+        if (\is_float($number) == true) {
+            return (float)$number;
+        }
+
+        if (Self::isBoolean($number) == true) {
+            return Self::toBoolean($number);
+        }
+
+        return $number;
+    }
 }
