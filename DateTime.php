@@ -144,7 +144,7 @@ class DateTime
      */
     public static function create($date = null, $format = null)
     {
-        $date = (empty($date) == true) ? 'now' : $date;
+        $date = $date ?? 'now';
         $format = Self::getDateFormat($format);
 
         $dateTime = new \DateTime($date,Self::getTimeZone());
@@ -201,7 +201,7 @@ class DateTime
             return (empty(Self::$defaultDateFormat) == false) ? Self::$defaultDateFormat : Self::DEFAULT_DATE_FORMAT;
         }
 
-        return (isset(Self::$dateFormats[$name]) == true) ? Self::$dateFormats[$name] : $name;
+        return Self::$dateFormats[$name] ?? $name;
     }
 
     /*
@@ -232,9 +232,7 @@ class DateTime
     */
     public static function getTimeZoneOffset($dateTime = null) 
     {
-        $dateTime = (empty($dateTime) == true) ? Self::$dateTime : $dateTime;
-
-        return Self::getTimeZone()->getOffset($dateTime);
+        return Self::getTimeZone()->getOffset($dateTime ?? Self::$dateTime);
     }
 
     /**
@@ -349,10 +347,10 @@ class DateTime
     public static function getTimeFormat($name = null) 
     {       
         if ($name == null) {
-            return (empty(Self::$defaultTimeFormat) == false) ? Self::$defaultTimeFormat : Self::DEFAULT_TIME_FORMAT;    
+            return Self::$defaultTimeFormat ?? Self::DEFAULT_TIME_FORMAT;    
         }
 
-        return (isset(Self::$timeFormats[$name]) == true) ? Self::$timeFormats[$name] : $name; 
+        return Self::$timeFormats[$name] ?? $name; 
     }
 
     /**

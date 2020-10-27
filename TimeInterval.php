@@ -199,6 +199,6 @@ class TimeInterval
      */
     public static function isDurationInverval($text)
     {
-        return (\substr($text,0,1) == 'P') ? true : false;           
+        return (\substr($text,0,1) == 'P');   
     }
 }

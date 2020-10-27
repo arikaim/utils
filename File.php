@@ -21,10 +21,10 @@ class File
      * Load json file and return decoded array
      *
      * @param string $fileName
-     * @param array $vars     
+     * @param array|null $vars     
      * @return array|false
      */
-    public static function readJsonFile($fileName, $vars = null) 
+    public static function readJsonFile($fileName, array $vars = null) 
     {    
         if (File::exists($fileName) == false) {
             return false;
@@ -32,7 +32,7 @@ class File
         
         $json = Self::read($fileName);   
       
-        if (\is_array($vars) == true) {
+        if (empty($vars) == false) {
             $json = Text::render($json,$vars);
         }     
         $data = \json_decode($json,true);
@@ -228,7 +228,7 @@ class File
      */
     public static function isEmpty($path)
     {
-        return (\count(\glob($path . "/*")) === 0) ? true : false;
+        return (\count(\glob($path . "/*")) === 0);
     }
     
     /**

@@ -180,7 +180,7 @@ class Number
      * @return boolean
      */
     public static function isBoolean($text)
-    {
+    {       
         $result = \filter_var($text,FILTER_VALIDATE_BOOLEAN,FILTER_NULL_ON_FAILURE);
 
         return !\is_null($result);

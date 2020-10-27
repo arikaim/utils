@@ -98,23 +98,44 @@ class ZipFile
      * @return boolean
      */
     public static function isValid($file)
-    {
-        $error = null;
+    {      
         $zip = new ZipArchive();
+        $result = $zip->open($file,ZipArchive::CHECKCONS);
 
-        $result = $zip->open($file, ZipArchive::CHECKCONS);
         switch($result) {
-            case \ZipArchive::ER_NOZIP :
-                $error = 'Not a zip archive';
-                break;
-            case \ZipArchive::ER_INCONS :
-                $error = 'Consistency check failed';
-                break;
-            case \ZipArchive::ER_CRC :
-                $error= 'Checksum failed';
-                break;
+            case ZipArchive::ER_NOZIP :
+                return false;
+            case ZipArchive::ER_INCONS :
+                return false;
+            case ZipArchive::ER_CRC :
+                return false;
         }      
 
-        return ($error == null) ? true : false;
+        return true;
     }    
+
+    /**
+     * Get zip error
+     *
+     * @param mixed $resource
+     * @return string|null
+     */
+    public static function getZipError($resource)
+    {
+        switch($resource) {
+            case ZipArchive::ER_NOZIP :
+                $error = 'Not a zip archive';
+                break;
+            case ZipArchive::ER_INCONS :
+                $error = 'Consistency check failed';
+                break;
+            case ZipArchive::ER_CRC :
+                $error= 'Checksum failed';
+                break;
+            default:
+                $error = null;
+        }   
+
+        return $error;
+    }
 }

@@ -24,7 +24,7 @@ class Utils
      */
     public static function isValidUrl($url)
     {
-        return (\filter_var($url,FILTER_VALIDATE_URL) == true);
+        return (\filter_var($url,FILTER_VALIDATE_URL) !== false);
     }
 
     /**
@@ -66,7 +66,7 @@ class Utils
         }       
         $parentPath = \dirname($path);
 
-        return ($parentPath == '.' || empty($path) == true) ? false : $parentPath;          
+        return ($parentPath == '.') ? false : $parentPath;          
     }
 
     /**
@@ -76,7 +76,7 @@ class Utils
      */
     public static function createRandomKey()
     {
-        return \md5(\uniqid(\rand(), true));
+        return \md5(\uniqid(\rand(),true));
     }
 
     /**
@@ -103,7 +103,7 @@ class Utils
      */
     public static function isValidIp($ip)
     {      
-        return (\filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 | FILTER_FLAG_IPV6) === false) ? false : true;
+        return (\filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 | FILTER_FLAG_IPV6) !== false);
     }
 
     /**
@@ -165,7 +165,9 @@ class Utils
     public static function isJson($jsonText)
     {        
         try {
-            return \is_array(\json_decode($jsonText,true)) ? true : false;
+            if (\is_string($jsonText) == true) {
+                return \is_array(\json_decode($jsonText,true));
+            }         
         } catch(Exception $e) {
             return false;
         }
@@ -266,7 +268,7 @@ class Utils
      */
     public static function isEmail($email)
     {
-        return (\filter_var($email,FILTER_VALIDATE_EMAIL) == false) ? false : true;
+        return (\filter_var($email,FILTER_VALIDATE_EMAIL) !== false);
     }
     
     /**
@@ -277,7 +279,7 @@ class Utils
      */
     public static function hasHtml($text)
     {
-        return ($text != \strip_tags($text)) ? true : false;
+        return ($text != \strip_tags($text));
     }
 
     /**
@@ -299,7 +301,7 @@ class Utils
      */
     public static function isEmpty($var)
     {       
-        return (\is_object($var) == true) ? empty((array) $var) : empty($var);
+        return (\is_object($var) == true) ? empty((array)$var) : empty($var);
     }
 
     /**
