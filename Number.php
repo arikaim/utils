@@ -213,11 +213,14 @@ class Number
         if (\is_float($number) == true) {
             return (float)$number;
         }
+        if (\is_numeric($number) == true) {
+            return (float)$number;
+        }
 
         if (Self::isBoolean($number) == true) {
             return Self::toBoolean($number);
         }
 
-        return $number;
+        return (string)$number;
     }
 }
