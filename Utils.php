@@ -9,6 +9,7 @@
 */
 namespace Arikaim\Core\Utils;
 
+use Arikaim\Core\Utils\Text;
 use Exception;
 
 /**
@@ -390,17 +391,18 @@ class Utils
      */
     public static function slug($text, $separator = '-')
     {
-        if (Self::isUtf($text) == true) {
+        if (Self::isUtf($text) == true) {            
             $text = \trim(\mb_strtolower($text));
+            // Replace umlauts chars
+            $text = Text::replaceChars($text);
             $text = \str_replace(' ',$separator,$text);
             return $text;
         }
- 
-        return \strtolower(\preg_replace(
-			["/[^\w\s]+/", "/\s+/"],
-			['', $separator],
-			$text
-		));
+        $text = \trim(\strtolower($text));
+        // Replace umlauts chars
+        $text = Text::replaceChars($text);
+
+        return \preg_replace(["/[^\w\s]+/", "/\s+/"],['',$separator],$text);
     } 
 
     /**

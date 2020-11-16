@@ -19,6 +19,40 @@ class Text
     const FIRST_LETTER_UPPER = 3;
 
     /**
+     * Replace umlauts chars
+     *
+     * @param string $text
+     * @return string
+     */
+    public static function replaceChars($text)
+    {
+        $chars = [
+            "ä" => "ae",
+            "ö" => "oe",
+            "ß" => "ss",
+            "ü" => "ue",
+            "æ" => "ae",
+            "ø" => "oe",
+            "å" => "aa",
+            "é" => "e",
+            "è" => "e"
+        ];
+
+        return \str_replace(\array_keys($chars),\array_values($chars),$text);
+    }
+
+    /**
+     * Clean Text
+     *
+     * @param string $text
+     * @return string
+     */
+    public static function cleanText($text)
+    {
+        return \preg_replace('/[[:^print:]]/','',$text);
+    }
+
+    /**
      * Pad a string to a certain length with another string (both side)
      *
      * @param string $input
