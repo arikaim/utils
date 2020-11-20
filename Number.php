@@ -67,9 +67,9 @@ class Number
     {
         if (\is_array($format) == true) {
             return [
-                'decimals'            => (isset($format[0]) == true) ? $format[0] : 2,
-                'decimals_separator'  => (isset($format[1]) == true) ? $format[1] : '.',
-                'thousands_separator' => (isset($format[2]) == true) ? $format[2] : ','
+                'decimals'            => $format[0] ?? 2,
+                'decimals_separator'  => $format[1] ?? '.',
+                'thousands_separator' => $format[2] ?? ','
             ];
         }
 

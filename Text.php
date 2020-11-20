@@ -35,7 +35,8 @@ class Text
             "ø" => "oe",
             "å" => "aa",
             "é" => "e",
-            "è" => "e"
+            "è" => "e",
+            "ó" => 'o'
         ];
 
         return \str_replace(\array_keys($chars),\array_values($chars),$text);
