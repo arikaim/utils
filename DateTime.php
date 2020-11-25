@@ -10,7 +10,6 @@
 namespace Arikaim\Core\Utils;
 
 use DateTimeZone;
-use Exception;
 
 /**
  * DateTime
@@ -19,6 +18,9 @@ class DateTime
 {   
     const DEFAULT_DATE_FORMAT = 'Y-m-d';
     const DEFAULT_TIME_FORMAT = 'H:i';
+    const ISO8601_FORMAT      = DATE_ATOM;
+    const RFC3339_FORMAT      = DATE_RFC3339;
+    const ISO8601ZULU_FORMAT  = 'Y-m-d\TH:i:s\Z';
 
     /**
      * Time zone
@@ -176,6 +178,16 @@ class DateTime
     {
         return Self::getDateTime()->getTimestamp();
     }
+
+    /**
+     * Get current timestamp
+     *
+     * @return int
+     */
+    public static function getCurrentTimestamp()
+    {
+        return Self::create()->getTimestamp();
+    } 
 
     /**
      * Comvert date time to timestamp
@@ -442,6 +454,16 @@ class DateTime
     }
 
     /**
+     * Get current year
+     *
+     * @return string
+     */
+    public static function getCurrentYear()
+    {
+        return \date('Y');
+    }
+   
+    /**
      * Get last day of month
      *
      * @param integer|string $month
@@ -477,7 +499,7 @@ class DateTime
     /**
      * Return current hour
      *
-     * @return string
+     * @return int
      */
     public static function getHour()
     {

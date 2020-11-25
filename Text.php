@@ -36,7 +36,15 @@ class Text
             "å" => "aa",
             "é" => "e",
             "è" => "e",
-            "ó" => 'o'
+            "ó" => "o",
+            "ż" => "z",
+            "ę" => "e",
+            "ą" => "a",
+            "ś" => "s",
+            "Ł" => "l",
+            "ź" => "z",
+            "ć" => "c",
+            "ń" => "n"
         ];
 
         return \str_replace(\array_keys($chars),\array_values($chars),$text);
