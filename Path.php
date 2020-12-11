@@ -132,4 +132,20 @@ class Path
     {
         return \realpath(\dirname(__FILE__));
     }
+
+    /**
+     * Add path
+     *
+     * @param string $path
+     * @param string $add
+     * @return string
+     */
+    public static function addPath($path, $add)
+    {      
+        if (\substr($path,-1) == DIRECTORY_SEPARATOR) {
+            return ($add == DIRECTORY_SEPARATOR) ? $path : $path . $add;          
+        } 
+
+        return ($add == DIRECTORY_SEPARATOR) ? $path . $add : $path . DIRECTORY_SEPARATOR . $add;      
+    } 
 }

@@ -50,7 +50,7 @@ class Factory
             return null;
         }       
 
-        $instance = ($args != null) ? new $class(...$args) : new $class();           
+        $instance = (empty($args) == false) ? new $class(...$args) : new $class();           
            
         return (\is_object($instance) == true) ? $instance : null;                
     }
