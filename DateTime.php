@@ -10,6 +10,7 @@
 namespace Arikaim\Core\Utils;
 
 use DateTimeZone;
+use DateInterval;
 
 /**
  * DateTime
@@ -412,7 +413,7 @@ class DateTime
      */
     public static function addInterval($dateInterval)
     {
-        $interval = new \DateInterval($dateInterval); 
+        $interval = DateInterval::createFromDateString($dateInterval); 
 
         return Self::getDateTime()->add($interval); 
     }
@@ -425,7 +426,7 @@ class DateTime
      */
     public static function subInterval($dateInterval)
     {
-        $interval = new \DateInterval($dateInterval); 
+        $interval = DateInterval::createFromDateString($dateInterval); 
 
         return Self::getDateTime()->sub($interval);         
     }
