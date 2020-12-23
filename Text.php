@@ -142,7 +142,7 @@ class Text
     public static function sliceText($text, $maxLength = 30)
     {
         if (\strlen($text) > $maxLength) {
-            $text = \substr(trim($text),0,$maxLength);    
+            $text = \substr(\trim($text),0,$maxLength);    
             $pos = \strrpos($text,' ');
             return ($pos > 0) ? \substr($text,0,$pos) : $text;   
         }
@@ -159,9 +159,9 @@ class Text
      */
     public static function tokenize($text, ...$options)
     {
-        $delimiter = (isset($options[0]) == true) ? $options[0] : ' ';
-        $case = (isset($options[1]) == true) ? $options[1] : null;
-        $unique = (isset($options[2]) == true) ? $options[2] : true;
+        $delimiter = $options[0] ?? ' ';
+        $case = $options[1] ?? null;
+        $unique = $options[2] ?? true;
 
         $tokens = (\is_string($text) == true) ? \explode($delimiter,$text) : $text; 
     

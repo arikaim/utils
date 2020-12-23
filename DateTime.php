@@ -396,7 +396,7 @@ class DateTime
      * Modify date time
      *
      * @param string $dateText
-     * @return DateTime
+     * @return \DateTime
      */
     public static function modify($dateText) 
     {
@@ -409,7 +409,7 @@ class DateTime
      * Add interval
      *
      * @param string $dateInterval
-     * @return DateTime
+     * @return \DateTime
      */
     public static function addInterval($dateInterval)
     {
@@ -537,5 +537,22 @@ class DateTime
     public static function today($format = null)
     {
         return Self::create('now',$format);
+    }
+
+    /**
+     * Convert date string to other format
+     *
+     * @param string $date
+     * @param string|null $format
+     * @return string|false
+     */
+    public static function convert($date, $format = null)
+    {
+        if (\strtotime($date) === false) {
+            return false;
+        }
+        $dateTime = Self::create($date);
+
+        return $dateTime->format(Self::getDateFormat($format));
     }
 }
