@@ -54,16 +54,16 @@ class DateTime
     /**
      * Default date format value
      *
-     * @var string
+     * @var string|null
     */
-    private static $defaultDateFormat;
+    private static $defaultDateFormat = null;
 
     /**
      * Default time format value
      *
-     * @var string
+     * @var string|null
      */
-    private static $defaultTimeFormat;
+    private static $defaultTimeFormat = null;
 
     /**
      * Set date adn time formats
@@ -72,7 +72,7 @@ class DateTime
      * @param array $timeFormats
      * @return void
      */
-    public static function setFormats(array $dateFormats,array $timeFormats)
+    public static function setFormats(array $dateFormats,array $timeFormats): void
     {
         Self::$dateFormats = $dateFormats;
         Self::$timeFormats = $timeFormats;
@@ -85,7 +85,7 @@ class DateTime
      * @param string|null $defultFormat
      * @return void
      */
-    public static function setDateFormats(array $dateFormats, $defultFormat = null)
+    public static function setDateFormats(array $dateFormats, ?string $defultFormat = null): void
     {
         Self::$dateFormats = $dateFormats;
         Self::setDefaultDateFormat($defultFormat);
@@ -98,7 +98,7 @@ class DateTime
      * @param string|null $defultFormat
      * @return void
      */
-    public static function setTimeFormats(array $timeFormats, $defultFormat = null)
+    public static function setTimeFormats(array $timeFormats, ?string $defultFormat = null): void
     {
         Self::$timeFormats = $timeFormats;
         Self::setDefaultTimeFormat($defultFormat);
@@ -107,10 +107,10 @@ class DateTime
     /**
      * Set default date format
      *
-     * @param string $format
+     * @param string|null $format
      * @return void
      */
-    public static function setDefaultDateFormat($format)
+    public static function setDefaultDateFormat(?string $format): void
     {
         Self::$defaultDateFormat = $format;
     }
@@ -118,10 +118,10 @@ class DateTime
     /**
      * Set default time format
      *
-     * @param string $format
+     * @param string|null $format
      * @return void
      */
-    public static function setDefaultTimeFormat($format)
+    public static function setDefaultTimeFormat(?string $format): void
     {
         Self::$defaultTimeFormat = $format;
     }
@@ -133,7 +133,7 @@ class DateTime
      * @param string|null $format
      * @return void
      */
-    public static function setDateTime($date = null, $format = null)
+    public static function setDateTime(?string $date = null, ?string $format = null): void
     {        
         Self::$dateTime = Self::create($date,$format);
     }
@@ -145,7 +145,7 @@ class DateTime
      * @param string|null $format
      * @return \DateTime
      */
-    public static function create($date = null, $format = null)
+    public static function create(?string $date = null, ?string $format = null)
     {
         $date = $date ?? 'now';
         $format = Self::getDateFormat($format);
@@ -173,9 +173,9 @@ class DateTime
     /**
      * Get timestamp
      *
-     * @return integer
+     * @return int
      */
-    public static function getTimestamp()
+    public static function getTimestamp(): int
     {
         return Self::getDateTime()->getTimestamp();
     }
@@ -185,7 +185,7 @@ class DateTime
      *
      * @return int
      */
-    public static function getCurrentTimestamp()
+    public static function getCurrentTimestamp(): int
     {
         return Self::create()->getTimestamp();
     } 
@@ -197,7 +197,7 @@ class DateTime
      * @param string|null $format
      * @return integer
      */
-    public static function toTimestamp($date = null, $format = null)
+    public static function toTimestamp(?string $date = null, ?string $format = null): int
     {
         return Self::create($date,$format)->getTimestamp();    
     }
@@ -206,9 +206,9 @@ class DateTime
      * Get date format
      *
      * @param string|null $name
-     * @return string
+     * @return string|null
      */
-    public static function getDateFormat($name = null) 
+    public static function getDateFormat(?string $name = null): ?string 
     {      
         if (empty($name) == true) {
             return (empty(Self::$defaultDateFormat) == false) ? Self::$defaultDateFormat : Self::DEFAULT_DATE_FORMAT;
@@ -230,7 +230,7 @@ class DateTime
     /**
     * Get location
     *
-    * @return string
+    * @return mixed
     */
     public static function getLocation() 
     {
@@ -243,7 +243,7 @@ class DateTime
     * @param  DateTime|null $dateTime
     * @return string
     */
-    public static function getTimeZoneOffset($dateTime = null) 
+    public static function getTimeZoneOffset($dateTime = null): string 
     {
         return Self::getTimeZone()->getOffset($dateTime ?? Self::$dateTime);
     }
@@ -253,7 +253,7 @@ class DateTime
     *
     * @return string
     */
-    public static function getTimeZoneName() 
+    public static function getTimeZoneName(): string 
     {
         return Self::getTimeZone()->getName();
     }
@@ -278,7 +278,8 @@ class DateTime
      * @param string $name
      * @return boolean
      */
-    public static function isValidTimeZone($name) {
+    public static function isValidTimeZone(string $name): bool 
+    {
         return \in_array($name,\timezone_identifiers_list());
     }
 
@@ -288,7 +289,7 @@ class DateTime
      * @param string|null $name    
      * @return void
      */
-    public static function setTimeZone($name = null)
+    public static function setTimeZone(?string $name = null): void
     {
         $name = (empty($name) == true) ? \date_default_timezone_get() : $name;
         if (Self::isValidTimeZone($name) == false) {
@@ -302,9 +303,9 @@ class DateTime
      *
      * @param integer $timestamp
      * @param string|null $format
-     * @return string
+     * @return string|null
      */
-    public static function dateTimeFormat($timestamp, $format = null)
+    public static function dateTimeFormat(int $timestamp, ?string $format = null): ?string
     {
         if (\is_numeric($timestamp) == false) {
             return $timestamp;
@@ -320,11 +321,11 @@ class DateTime
     /**
      * Return formated time
      *
-     * @param integer $timestamp
+     * @param integer|null $timestamp
      * @param string $format
-     * @return string
+     * @return string|null
      */
-    public static function timeFormat($timestamp, $format = null)
+    public static function timeFormat(?int $timestamp, ?string $format = null): ?string
     {
         if (\is_numeric($timestamp) == false) {
             return $timestamp;
@@ -337,11 +338,11 @@ class DateTime
     /**
      * Return formated date
      *
-     * @param integer $timestamp
-     * @param string $format
-     * @return string
+     * @param integer|null $timestamp
+     * @param string|null $format
+     * @return string|null
      */
-    public static function dateFormat($timestamp, $format = null)
+    public static function dateFormat(?int $timestamp, ?string $format = null): ?string
     {
         if (\is_numeric($timestamp) == false) {
             return $timestamp;
@@ -354,10 +355,10 @@ class DateTime
     /**
      * Get time format
      *
-     * @param string $name
-     * @return string
+     * @param string|null $name
+     * @return string|null
      */
-    public static function getTimeFormat($name = null) 
+    public static function getTimeFormat(?string $name = null): ?string 
     {       
         if ($name == null) {
             return Self::$defaultTimeFormat ?? Self::DEFAULT_TIME_FORMAT;    
@@ -372,7 +373,7 @@ class DateTime
      * @param string $intervalText
      * @return array
      */
-    public static function getInterval($intervalText)
+    public static function getInterval(string $intervalText): array
     {
         $interval = new TimeInterval($intervalText);
 
@@ -382,10 +383,10 @@ class DateTime
     /**
      * Set date format.
      *
-     * @param string $dateFormat
+     * @param string|null $dateFormat
      * @return \DateTime
      */
-    public static function setDateFormat($dateFormat) 
+    public static function setDateFormat(?string $dateFormat) 
     {
         Self::$dateTime = Self::getDateTime()->format($dateFormat);
 
@@ -395,10 +396,10 @@ class DateTime
     /**
      * Modify date time
      *
-     * @param string $dateText
+     * @param string|null $dateText
      * @return \DateTime
      */
-    public static function modify($dateText) 
+    public static function modify(?string $dateText) 
     {
         Self::$dateTime = Self::getDateTime()->modify($dateText);
 
@@ -411,7 +412,7 @@ class DateTime
      * @param string $dateInterval
      * @return \DateTime
      */
-    public static function addInterval($dateInterval)
+    public static function addInterval(string $dateInterval)
     {
         $interval = DateInterval::createFromDateString($dateInterval); 
 
@@ -422,9 +423,9 @@ class DateTime
      * Sub interval
      *
      * @param string $dateInterval
-     * @return DateTime
+     * @return \DateTime
      */
-    public static function subInterval($dateInterval)
+    public static function subInterval(string $dateInterval)
     {
         $interval = DateInterval::createFromDateString($dateInterval); 
 
@@ -437,7 +438,7 @@ class DateTime
      * @param integer $unixTimestamp
      * @return \DateTime
      */
-    public static function setTimestamp($unixTimestamp) 
+    public static function setTimestamp(int $unixTimestamp) 
     {
         Self::$dateTime = Self::getDateTime()->setTimestamp($unixTimestamp);
 
@@ -449,7 +450,7 @@ class DateTime
      *
      * @return string
      */
-    public static function getYear()
+    public static function getYear(): string
     {
         return \date('Y',Self::toTimestamp());
     }
@@ -459,7 +460,7 @@ class DateTime
      *
      * @return string
      */
-    public static function getCurrentYear()
+    public static function getCurrentYear(): string
     {
         return \date('Y');
     }
@@ -470,7 +471,7 @@ class DateTime
      * @param integer|string $month
      * @return integer
      */
-    public static function getLastDay($month)
+    public static function getLastDay($month): string
     {
         $date = Self::getYear() . '-' . $month . '-01';
         
@@ -482,7 +483,7 @@ class DateTime
      *
      * @return string
      */
-    public static function getMonth()
+    public static function getMonth(): string
     {
         return \date('n',Self::getTimestamp());
     }
@@ -492,7 +493,7 @@ class DateTime
      *
      * @return string
      */
-    public static function getDay()
+    public static function getDay(): string
     {
         return \date('j',Self::getTimestamp());
     }
@@ -500,9 +501,9 @@ class DateTime
     /**
      * Return current hour
      *
-     * @return int
+     * @return string
      */
-    public static function getHour()
+    public static function getHour(): string
     {
         return \date('G',Self::getTimestamp());
     }
@@ -510,9 +511,9 @@ class DateTime
     /**
      * Get current minutes
      *
-     * @return integer
+     * @return string
      */
-    public static function getMinutes()
+    public static function getMinutes(): string
     {
         return \intval(\date('i',Self::getTimestamp()));
     }
@@ -520,10 +521,10 @@ class DateTime
     /**
      * Convert current date time to string.
      *
-     * @param string $format
+     * @param string|null $format
      * @return string
      */
-    public static function toString($format = null) 
+    public static function toString(?string $format = null): string 
     {
         return Self::getDateTime()->format(Self::getDateFormat($format));
     }   
@@ -534,7 +535,7 @@ class DateTime
      * @param string|null $format
      * @return \DateTime
      */
-    public static function today($format = null)
+    public static function today(?string $format = null)
     {
         return Self::create('now',$format);
     }
@@ -546,7 +547,7 @@ class DateTime
      * @param string|null $format
      * @return string|false
      */
-    public static function convert($date, $format = null)
+    public static function convert($date, ?string $format = null)
     {
         if (\strtotime($date) === false) {
             return false;

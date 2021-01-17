@@ -9,9 +9,6 @@
 */
 namespace Arikaim\Core\Utils;
 
-use Arikaim\Core\Utils\File;
-use Exception;
-
 /**
  * Curl wrapper
  */
@@ -24,7 +21,7 @@ class Curl
      *
      * @return boolean
      */
-    public static function isInsatlled()
+    public static function isInsatlled(): bool
     {
         return \extension_loaded('curl');
     }
@@ -35,9 +32,9 @@ class Curl
      * @param string $url
      * @param integer $timeout
      * @param boolean $returnTransfer
-     * @return object
+     * @return object|null
      */
-    private static function create($url, $timeout = 30, $returnTransfer = true)
+    private static function create(string $url, $timeout = 30, bool $returnTransfer = true)
     {
         if (Self::isInsatlled() == false) {
             return null;
@@ -59,9 +56,10 @@ class Curl
     private static function exec($curl)
     {
         $response = \curl_exec($curl);
+        $error = ($response === false) ? \curl_error($curl) : null;
         \curl_close($curl);
 
-        return ($response == false) ? \curl_error($curl) : $response;      
+        return (empty($error) == true) ? $response : $error;      
     }
 
     /**
@@ -69,14 +67,15 @@ class Curl
      *
      * @param string $url
      * @param string $method
-     * @param array|string $data
+     * @param array|string|null $data
      * @param array $headers
      * @param integer $timeout
      * @return mixed
      */
-    public static function request($url, $method, $data = null, array $headers = null, $timeout = Self::TIMEOUT)
+    public static function request(string $url, string $method, $data = null, ?array $headers = null, int $timeout = Self::TIMEOUT)
     {
         $curl = Self::create($url,$timeout);
+    
         if (empty($curl) == true) {
             return false;
         }
@@ -90,7 +89,7 @@ class Curl
         if (empty($data) == false) {
             \curl_setopt($curl,CURLOPT_POSTFIELDS,$data);
         }
-
+    
         return Self::exec($curl);
     }
 
@@ -98,12 +97,12 @@ class Curl
      * Run POST request
      *
      * @param string $url
-     * @param array|string $data
-     * @param array $headers
+     * @param array|string|null $data
+     * @param array|null $headers
      * @param integer $timeout
      * @return mixed
      */
-    public static function post($url, $data = null, array $headers = null, $timeout = Self::TIMEOUT)
+    public static function post(string $url, $data = null, ?array $headers = null, int $timeout = Self::TIMEOUT)
     {
         return Self::request($url,'POST',$data,$headers,$timeout);
     }
@@ -112,12 +111,12 @@ class Curl
      * Run GET request
      *
      * @param string $url
-     * @param array $data
-     * @param array $headers
+     * @param array|null $data
+     * @param array|null $headers
      * @param integer $timeout
      * @return mixed
      */
-    public static function get($url, array $data = null, array $headers = null, $timeout = Self::TIMEOUT)
+    public static function get(string $url, ?array $data = null, ?array $headers = null, int $timeout = Self::TIMEOUT)
     {
         return Self::request($url,'GET',$data,$headers,$timeout);
     }
@@ -126,12 +125,12 @@ class Curl
      * Run DELETE request.
      *
      * @param string $url
-     * @param array $data
-     * @param array $headers
+     * @param array|null $data
+     * @param array|null $headers
      * @param integer $timeout
      * @return mixed
      */
-    public static function delete($url, array $data = null, array $headers = null, $timeout = Self::TIMEOUT)
+    public static function delete(string $url, ?array $data = null, ?array $headers = null, $timeout = Self::TIMEOUT)
     {
         return Self::request($url,'DELETE',$data,$headers,$timeout);
     }
@@ -140,12 +139,12 @@ class Curl
      * Run PUT request
      *
      * @param string $url
-     * @param array $data
-     * @param array $headers
+     * @param array|null $data
+     * @param array|null $headers
      * @param integer $timeout
      * @return mixed
      */
-    public static function put($url, array $data = null, array $headers = null, $timeout = Self::TIMEOUT)
+    public static function put(string $url, ?array $data = null, ?array $headers = null, int $timeout = Self::TIMEOUT)
     {
         return Self::request($url,'PUT',$data,$headers,$timeout);
     }
@@ -154,29 +153,66 @@ class Curl
      * Download file
      *
      * @param string $url
-     * @param string $destinationPath
+     * @param string $fileName   
+     * @param string|null $method
+     * @param array|null $headers
      * @return boolean
      */
-    public static function downloadFile($url, $destinationPath)
-    {
-        $writable = File::setWritable($destinationPath);
-        if ($writable == false) {
-            throw new Exception('Destination path: ' . $destinationPath . ' is not writable');
-            return false;
-        }
-        $file = \fopen($destinationPath,'w+');
-
+    public static function downloadFile(string $url, string $fileName, ?string $method = null, ?array $headers = null): bool
+    {             
+        $file = \fopen($fileName,'w+');
         $curl = Self::create($url);
-        \curl_setopt($curl,CURLOPT_BINARYTRANSFER,true);
-        \curl_setopt($curl,CURLOPT_FILE,$file);     
-        $result = Self::exec($curl);
+          
+        $curl = Self::downloadFileInit($curl,$method,$headers);
+        \curl_setopt($curl,CURLOPT_FILE,$file);   
+
+        $result = Self::exec($curl,60);
         \fclose($file);
 
-        if ($result === false) {
-            \unlink($destinationPath);            
-            return $result;
+        return ($result !== false);                
+    }
+
+    /**
+     * Get file content
+     *
+     * @param string $url
+     * @param string|null $method
+     * @param array|null $headers
+     * @return mixed
+     */
+    public static function getFileContent(string $url, ?string $method = null, ?array $headers = null)
+    {        
+        $curl = Self::create($url);     
+        $curl = Self::downloadFileInit($curl,$method,$headers);
+
+        return Self::exec($curl,60);       
+    } 
+
+    /**
+     * Init curl for file download
+     *
+     * @param object $curl
+     * @param string|null $method
+     * @param array|null $headers
+     * @return object
+     */
+    public static function downloadFileInit($curl, ?string $method = null, ?array $headers = null)
+    {
+        $method = $method ?? 'GET';
+
+        \curl_setopt($curl,CURLOPT_VERBOSE,1);
+        \curl_setopt($curl,CURLOPT_BINARYTRANSFER,true);
+        \curl_setopt($curl,CURLOPT_FOLLOWLOCATION,true);
+        \curl_setopt($curl,CURLOPT_AUTOREFERER,false);
+        \curl_setopt($curl,CURLOPT_HTTP_VERSION,CURL_HTTP_VERSION_1_1);     
+        \curl_setopt($curl,CURLOPT_CUSTOMREQUEST,$method);
+        \curl_setopt($curl,CURLOPT_HEADER,0);
+        \curl_setopt($curl,CURLOPT_SSL_VERIFYPEER,false);
+
+        if (\is_array($headers) == true) {
+            \curl_setopt($curl,CURLOPT_HTTPHEADER,$headers);
         }
 
-        return File::exists($destinationPath);
+        return $curl;
     }
 }

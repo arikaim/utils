@@ -24,7 +24,7 @@ class File
      * @param array|null $vars     
      * @return array|false
      */
-    public static function readJsonFile($fileName, array $vars = null) 
+    public static function readJsonFile(string $fileName, ?array $vars = null) 
     {    
         if (File::exists($fileName) == false) {
             return false;
@@ -47,7 +47,7 @@ class File
      * @param string $fileName
      * @return array
      */
-    public static function getClassesInFile($fileName) 
+    public static function getClassesInFile(string $fileName) 
     {
         if (File::exists($fileName) == false) {
             return false;
@@ -63,7 +63,7 @@ class File
      * @param string $fileName
      * @return bool
      */
-    public static function exists($fileName) 
+    public static function exists(string $fileName): bool 
     {
         return \file_exists($fileName);           
     }
@@ -74,9 +74,9 @@ class File
      * @param string $fileName
      * @return boolean
      */
-    public static function isWritable($fileName) 
+    public static function isWritable(string $fileName): bool 
     {
-        return \is_writable($fileName);
+        return (bool)\is_writable($fileName);
     }
 
     /**
@@ -85,7 +85,7 @@ class File
      * @param string $fileName
      * @return boolean
      */
-    public static function setWritable($fileName) 
+    public static function setWritable(string $fileName) 
     {
         if (Self::exists($fileName) == false) {
             return false;
@@ -100,7 +100,7 @@ class File
      * @param string $fileName
      * @return integer
      */
-    public static function getSize($fileName)
+    public static function getSize(string $fileName)
     {
         return (File::exists($fileName) == false) ? false : \filesize($fileName);          
     }
@@ -126,7 +126,7 @@ class File
      * @param boolean $recursive
      * @return boolean
      */
-    public static function makeDir($path, $mode = 0755, $recursive = true)
+    public static function makeDir(string $path, $mode = 0755, bool $recursive = true)
     {
         return (Self::exists($path) == true) ? Self::setWritable($path,$mode) : \mkdir($path,$mode,$recursive);                 
     }
@@ -140,7 +140,7 @@ class File
      * @param integer $flags
      * @return boolean
      */
-    public static function writeUplaodedFile(array $file, $path, $mode = null, $flags = 0)
+    public static function writeUplaodedFile(array $file, string $path, $mode = null, $flags = 0)
     {
         $fileName = $path . $file['name'];
         $data = \explode(',',$file['data']);
@@ -160,11 +160,11 @@ class File
      * @param integer $flags
      * @return boolean
      */
-    public static function writeEncoded($fileName, $encodedData, $flags = 0)
+    public static function writeEncoded(string $fileName, $encodedData, $flags = 0): bool
     {
         $data = \base64_decode($encodedData);
 
-        return Self::write($fileName,$data,$flags);
+        return (bool)Self::write($fileName,$data,$flags);
     }
 
     /**
@@ -175,7 +175,7 @@ class File
      * @param integer $flags
      * @return boolean
      */
-    public static function write($fileName, $data, $flags = 0)
+    public static function write(string $fileName, $data, $flags = 0): bool
     {
         $result = \file_put_contents($fileName,$data,$flags);
         
@@ -189,7 +189,7 @@ class File
      * @param string $suffix
      * @return string
      */
-    public static function baseName($path, $suffix = '')
+    public static function baseName(string $path, string $suffix = ''): string
     {
         return \basename($path,$suffix);
     }
@@ -200,7 +200,7 @@ class File
      * @param string $fileName
      * @return string
      */
-    public static function getExtension($fileName)
+    public static function getExtension(string $fileName): string
     {
         return \pathinfo($fileName,PATHINFO_EXTENSION);
     }
@@ -211,7 +211,7 @@ class File
      * @param string $fileName
      * @return bool
      */
-    public static function delete($fileName)
+    public static function delete(string $fileName)
     {
         if (Self::exists($fileName) == true) {
             return (\is_dir($fileName) == true) ? Self::deleteDirectory($fileName) : \unlink($fileName);          
@@ -226,7 +226,7 @@ class File
      * @param string $path
      * @return boolean
      */
-    public static function isEmpty($path)
+    public static function isEmpty(string $path): bool
     {
         return (\count(\glob($path . "/*")) === 0);
     }
@@ -237,7 +237,7 @@ class File
      * @param string $path
      * @return bool
      */
-    public static function deleteDirectory($path)
+    public static function deleteDirectory(string $path)
     {
         if (\is_dir($path) === false) {
             return false;
@@ -270,7 +270,7 @@ class File
      * @param string $fileName
      * @return mixed|null
      */
-    public static function read($fileName)
+    public static function read(string $fileName)
     {
         return (Self::exists($fileName) == true) ? \file_get_contents($fileName) : null;           
     }
@@ -281,7 +281,7 @@ class File
      * @param string $mimeType
      * @return boolean
      */
-    public static function isImageMimeType($mimeType)
+    public static function isImageMimeType(string $mimeType)
     {
         return (\substr($mimeType,0,5) == 'image');
     }
@@ -292,7 +292,7 @@ class File
      * @param string $fileName
      * @return string|false
      */
-    public static function getMimetype($fileName)
+    public static function getMimetype(string $fileName)
     {
         return \mime_content_type($fileName);
     }
@@ -305,10 +305,10 @@ class File
      * @param boolean $overwrite
      * @return boolean
      */
-    public static function copy($from, $to, $overwrite = true)
+    public static function copy(string $from, string $to, bool $overwrite = true): bool
     {
         if (\is_link($from) == true) {
-            return \symlink(readlink($from),$to);
+            return (bool)\symlink(\readlink($from),$to);
         }
         if (\is_file($from) == true) {
             if ($overwrite == false) {
@@ -328,7 +328,10 @@ class File
                 continue;
             }
             // copy sub directories
-            Self::copy($from . DIRECTORY_SEPARATOR . $item,$to . DIRECTORY_SEPARATOR . $item);
+            $result = Self::copy($from . DIRECTORY_SEPARATOR . $item,$to . DIRECTORY_SEPARATOR . $item);
+            if ($result === false) {
+                return false;
+            }
         }       
         $dir->close();
 
@@ -342,7 +345,7 @@ class File
      * @param array $skip
      * @return array
      */
-    public static function scanDir($path, $skip = ['..','.'])
+    public static function scanDir(string $path, array $skip = ['..','.'])
     {      
         $items = (\is_dir($path) == false) ? [] : \scandir($path);
 

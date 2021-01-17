@@ -35,7 +35,7 @@ class ClientIp
      * @param object $request
      * @return string|null
      */
-    public static function getClientIpAddress($request)
+    public static function getClientIpAddress($request): ?string
     {       
         $serverParams = $request->getServerParams();
         if (isset($serverParams['REMOTE_ADDR']) && Utils::isValidIp($serverParams['REMOTE_ADDR'])) {

@@ -18,12 +18,26 @@ use Exception;
 class Utils 
 {   
     /**
+     * Return true if required version = current or < 
+     *
+     * @param string $currentVersion
+     * @param string $requiredVersion
+     * @return boolean
+     */
+    public static function checkVersion(string $currentVersion, string $requiredVersion): bool
+    {
+        $result = \version_compare(Self::formatVersion($currentVersion),Self::formatVersion($requiredVersion));
+
+        return ($result == 0 || $result == 1);
+    }
+
+    /**
      * Return true if url is valid
      *
      * @param string $url
      * @return boolean
      */
-    public static function isValidUrl($url)
+    public static function isValidUrl(string $url): bool
     {
         return (\filter_var($url,FILTER_VALIDATE_URL) !== false);
     }
@@ -306,17 +320,18 @@ class Utils
     }
 
     /**
-     * Format version text to full version format 0.0.0
+     * Format version to full version format 0.0.0
      *
-     * @param string $text
+     * @param string|null $version
      * @return string
      */
-    public static function formatVersion($text)
+    public static function formatVersion(?string $version): string
     {
-        $items = \explode('.',\trim($text));
-        $release = (isset($items[0]) == true) ? $items[0] : $text;
-        $major = (isset($items[1]) == true) ? $items[1] : '0';       
-        $minor = (isset($items[2]) == true) ? $items[2] : '0';
+        $version = $version ?? '1.0.0';
+        $items = \explode('.',\trim($version));
+        $release = $items[0] ?? $version;
+        $major = $items[1] ?? '0';       
+        $minor = $items[2] ?? '0';
            
         return $release . '.' . $major . '.' . $minor;
     }

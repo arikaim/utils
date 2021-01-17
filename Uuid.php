@@ -19,7 +19,7 @@ class Uuid
      *
      * @return string
      */
-    public static function create() 
+    public static function create(): string 
     {
         return \sprintf('%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
             \mt_rand(0, 0xffff),\mt_rand(0, 0xffff),
@@ -36,8 +36,8 @@ class Uuid
      * @param string $uuid
      * @return boolean
      */
-    public static function isValid($uuid) 
+    public static function isValid($uuid): bool 
     {
-        return \preg_match('/^\{?[0-9a-f]{8}\-?[0-9a-f]{4}\-?[0-9a-f]{4}\-?[0-9a-f]{4}\-?[0-9a-f]{12}\}?$/i',$uuid) === 1;
+        return (\preg_match('/^\{?[0-9a-f]{8}\-?[0-9a-f]{4}\-?[0-9a-f]{4}\-?[0-9a-f]{4}\-?[0-9a-f]{12}\}?$/i',$uuid) === 1);
     }
 }

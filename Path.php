@@ -38,7 +38,7 @@ class Path
      * @param string $template
      * @return string
      */
-    public static function getMacroPath($macroName, $template)
+    public static function getMacroPath(string $macroName, string $template): string
     {
         return DIRECTORY_SEPARATOR . $template . DIRECTORY_SEPARATOR . 'macros' . DIRECTORY_SEPARATOR . $macroName;
     }
@@ -46,12 +46,12 @@ class Path
     /**
      * Return relative path from full path
      *
-     * @param string $fullPath
+     * @param string $path
      * @return string
      */
-    public static function getRelativePath($fullPath)
+    public static function getRelativePath(string $path): string
     {
-        return (\defined('APP_PATH') == true) ? \str_replace(APP_PATH,'',$fullPath) : $fullPath;
+        return (\defined('APP_PATH') == true) ? \str_replace(APP_PATH,'',$path) : $path;
     }
 
     /**
@@ -60,7 +60,7 @@ class Path
      * @param string $path
      * @return void
      */
-    public static function setAppPath($path)
+    public static function setAppPath(string $path): void
     {
         if (\defined('APP_PATH') == false) {
             \define('APP_PATH',ROOT_PATH . BASE_PATH . DIRECTORY_SEPARATOR . $path);  
@@ -73,7 +73,7 @@ class Path
      * @param string $name
      * @return string
      */
-    public static function getModulePath($name)
+    public static function getModulePath(string $name): string
     {
         return Self::MODULES_PATH . $name . DIRECTORY_SEPARATOR;
     }
@@ -84,7 +84,7 @@ class Path
      * @param string $library   
      * @return string
      */
-    public static function getLibraryThemesPath($library)
+    public static function getLibraryThemesPath(string $library): string
     {
         return Self::getLibraryPath($library) . 'themes';
     }
@@ -96,7 +96,7 @@ class Path
      * @param string $fileName
      * @return string
      */
-    public static function getLibraryFilePath($library, $fileName) 
+    public static function getLibraryFilePath(string $library, string $fileName): string 
     {
         return Self::getLibraryPath($library) . $fileName;
     }
@@ -107,7 +107,7 @@ class Path
      * @param string $library
      * @return string
      */
-    public static function getLibraryPath($library)
+    public static function getLibraryPath(string $library): string
     {
         return Self::LIBRARY_PATH . $library . DIRECTORY_SEPARATOR;
     }
@@ -118,7 +118,7 @@ class Path
      * @param string $extension
      * @return string
      */
-    public static function getExtensionMacrosRelativePath($extension)
+    public static function getExtensionMacrosRelativePath(string $extension): string
     {
         return $extension . DIRECTORY_SEPARATOR . 'view' . DIRECTORY_SEPARATOR . 'macros' . DIRECTORY_SEPARATOR;
     }
@@ -128,7 +128,7 @@ class Path
      *
      * @return string
      */
-    public static function getScriptPath()
+    public static function getScriptPath(): string
     {
         return \realpath(\dirname(__FILE__));
     }
@@ -140,7 +140,7 @@ class Path
      * @param string $add
      * @return string
      */
-    public static function addPath($path, $add)
+    public static function addPath(string $path, string $add): string
     {      
         if (\substr($path,-1) == DIRECTORY_SEPARATOR) {
             return ($add == DIRECTORY_SEPARATOR) ? $path : $path . $add;          

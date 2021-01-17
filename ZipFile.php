@@ -23,17 +23,18 @@ class ZipFile
      * Extract zip arhive
      *
      * @param string $file
-     * @param string $path
-     * @return integer
+     * @param string $destination
+     * @param array|string|int|null $files
+     * @return bool
      */
-    public static function extract($file, $path)
+    public static function extract(string $file, string $destination, $files = null)
     {
         if (File::exists($file) == false) {
             return false;
         }
 
-        if (File::isWritable($path) == false) {
-            File::setWritable($path);
+        if (File::isWritable($destination) == false) {
+            File::setWritable($destination);
         }
 
         $zip = new ZipArchive;
@@ -42,10 +43,33 @@ class ZipFile
         if ($result !== true) {
             return false;
         }
-        $result = $zip->extractTo($path);
+        if (\is_integer($files) == true) {
+            $item = $zip->getNameIndex($files);
+            $files = [$item];
+           
+        }
+        $result = $zip->extractTo($destination,$files);
         $zip->close(); 
 
         return $result;
+    }
+
+    /**
+     * Get zip file item name
+     *
+     * @param string $zipFile
+     * @param int $index
+     * @return string|null
+     */
+    public static function getItemPath(string $zipFile, int $index): ?string
+    {
+        $zip = new ZipArchive;
+        $result = $zip->open($zipFile);
+        if ($result !== true) {
+            return null;
+        }
+
+        return $zip->getNameIndex($index);    
     }
 
     /**
@@ -56,7 +80,7 @@ class ZipFile
      * @param array  $skipDir
      * @return boolean
      */
-    public static function create($source, $destination, $skipDir = [])
+    public static function create(string $source, string $destination, array $skipDir = []): bool
     { 
         $zip = new ZipArchive();
         if ($zip->open($destination,ZipArchive::CREATE | ZipArchive::OVERWRITE) !== true) {          
@@ -97,7 +121,7 @@ class ZipFile
      * @param string $file
      * @return boolean
      */
-    public static function isValid($file)
+    public static function isValid(string $file): bool
     {      
         $zip = new ZipArchive();
         $result = $zip->open($file,ZipArchive::CHECKCONS);
@@ -120,22 +144,17 @@ class ZipFile
      * @param mixed $resource
      * @return string|null
      */
-    public static function getZipError($resource)
+    public static function getZipError($resource): ?string
     {
         switch($resource) {
             case ZipArchive::ER_NOZIP :
-                $error = 'Not a zip archive';
-                break;
+                return 'Not a zip archive';              
             case ZipArchive::ER_INCONS :
-                $error = 'Consistency check failed';
-                break;
+                return 'Consistency check failed';               
             case ZipArchive::ER_CRC :
-                $error= 'Checksum failed';
-                break;
-            default:
-                $error = null;
+                return 'Checksum failed';                          
         }   
 
-        return $error;
+        return null;
     }
 }

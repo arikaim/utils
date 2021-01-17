@@ -56,7 +56,7 @@ class Text
      * @param string $text
      * @return string
      */
-    public static function cleanText($text)
+    public static function cleanText(?string $text): string
     {
         return \preg_replace('/[[:^print:]]/','',$text);
     }
@@ -162,18 +162,20 @@ class Text
         $delimiter = $options[0] ?? ' ';
         $case = $options[1] ?? null;
         $unique = $options[2] ?? true;
+        $removeChars = $options[3] ?? false;
 
         $tokens = (\is_string($text) == true) ? \explode($delimiter,$text) : $text; 
     
         if ($unique == true) {
             $tokens = \array_unique($tokens);
         }
-
+     
         foreach ($tokens as $key => $value) {
             if (empty($value) == true) {
                 continue;
             }
-            $word = Self::transformWord($value,$case);
+            $word = Self::transformWord($value,$case,$removeChars,$removeChars);
+
             if (empty($word) == true) {
                 unset($tokens[$key]);
             } else {
@@ -193,17 +195,20 @@ class Text
      */
     public static function transformWord($word, ...$options)
     {       
-        $case = (isset($options[0]) == true) ? $options[0] : Text::LOWER_CASE;
-        $removeNumbers = (isset($options[1]) == true) ? $options[1] : false;
+        $case = $options[0] ?? Text::LOWER_CASE;
+        $removeNumbers = $options[1] ?? false;
+        $removeChars = $options[2] ?? false;
 
-        $word = Self::removeSpecialChars($word,$removeNumbers);
-
+        if ($removeChars == true) {
+            $word = Self::removeSpecialChars($word,$removeNumbers);
+        }
+       
         switch($case) {
             case Text::LOWER_CASE: 
-                $word = \strtolower($word);
+                $word = \mb_strtolower($word);
                 break;
             case Text::UPPER_CASE: 
-                $word = \strtoupper($word);
+                $word = \mb_strtoupper($word);
                 break;
             case Text::FIRST_LETTER_UPPER:
                 $word = \ucfirst($word);
