@@ -22,13 +22,19 @@ class Utils
      *
      * @param string $currentVersion
      * @param string $requiredVersion
+     * @param string|null $operator
      * @return boolean
      */
-    public static function checkVersion(string $currentVersion, string $requiredVersion): bool
+    public static function checkVersion(string $currentVersion, string $requiredVersion, ?string $operator = null): bool
     {
-        $result = \version_compare(Self::formatVersion($currentVersion),Self::formatVersion($requiredVersion));
-
-        return ($result == 0 || $result == 1);
+        $currentVersion = Self::formatVersion($currentVersion);
+        $requiredVersion = Self::formatVersion($requiredVersion);
+        if (empty($operator) == true) {
+            $result = \version_compare($currentVersion,$requiredVersion);
+            return ($result == 0 || $result == 1);
+        }
+        
+        return \version_compare($currentVersion,$requiredVersion,$operator);
     }
 
     /**
