@@ -44,6 +44,17 @@ class Path
     }
 
     /**
+     * Get storage relative path
+     *
+     * @param string $path
+     * @return string
+     */
+    public static function getStorageRelativePath(string $path): string
+    {
+        return \str_replace(Self::STORAGE_PATH,'',$path);
+    }
+
+    /**
      * Return relative path from full path
      *
      * @param string $path
