@@ -42,10 +42,14 @@ class Factory
      *
      * @param string $class
      * @param array|null $args
+     * @param string|null $extension
      * @return object|null
      */
-    public static function createInstance(string $class,?array $args = null)
+    public static function createInstance(string $class, ?array $args = null, ?string $extension = null)
     {
+        if (empty($extension) == false) {
+            $class = Self::getExtensionClassName($extension,$class);  
+        }
         if (\class_exists($class) == false) {
             return null;
         }       
@@ -75,7 +79,7 @@ class Factory
      * @param string $extension
      * @return object|null
      */
-    public static function createSchema(string $schemaClass,?string $extension = null)
+    public static function createSchema(string $schemaClass, ?string $extension = null)
     {
         $schemaClass = Self::getSchemaClass($schemaClass,$extension);    
         $instance = Self::createInstance($schemaClass);
