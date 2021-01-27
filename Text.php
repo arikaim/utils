@@ -254,14 +254,14 @@ class Text
      * @param array $vars
      * @return string
      */
-    public static function render($text, $vars = []) 
+    public static function render($text, array $vars = []) 
     {    
         $result = \preg_replace_callback('/\{\{(.*?)\}\}/',function ($matches) use ($vars) {
             $variableName = \trim(\strtolower($matches[1]));
             return (\array_key_exists($variableName,$vars) == true) ? $vars[$variableName] : '';               
         },$text);
-
-        return ($result == null) ? $text : $result;        
+       
+        return (\is_null($result) == true) ? $text : $result;        
     }
 
     /**
@@ -271,10 +271,10 @@ class Text
      * @param array $vars
      * @return array
      */
-    public static function renderMultiple(array $items, $vars = [])
+    public static function renderMultiple(array $items, array $vars = []): array
     {
-        foreach ($items as $key => $value) {          
-            if (\is_string($value) == true) {
+        foreach ($items as $key => $value) {           
+            if ((\is_string($value) == true) || (empty($value) == true)) {
                 $items[$key] = Text::render($value,$vars);
             }
         }
