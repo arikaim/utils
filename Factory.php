@@ -65,7 +65,7 @@ class Factory
      * @param array|null $args
      * @return Arikaim\Core\Validator\Interfaces\RuleInterface
      */
-    public static function createRule(string $name,?array $args = null)
+    public static function createRule(string $name, ?array $args = null)
     {              
         $class = \ucfirst($name);
 
@@ -94,7 +94,7 @@ class Factory
      * @param string $name
      * @return mixed
      */
-    public static function getConstant(string $class,string $name)
+    public static function getConstant(string $class, string $name)
     {
         return \constant($class . '::' . $name);
     }
@@ -107,7 +107,7 @@ class Factory
      * @param array|null $args
      * @return object|null
      */
-    public static function createModule(string $module,string $class,?array $args = null)
+    public static function createModule(string $module, string $class, ?array $args = null)
     {
         $moduleClass = Self::getModuleClass($module,$class);
       
@@ -122,7 +122,7 @@ class Factory
      * @param array $args
      * @return object|null
      */
-    public static function createExtension(string $extension,string $class,?array $args = null)
+    public static function createExtension(string $extension, string $class, ?array $args = null)
     {
         $class = Self::getExtensionClassName($extension,$class);  
         $instance = Self::createInstance($class,$args);       
@@ -138,7 +138,7 @@ class Factory
      * @param string|null $name
      * @return JobInterface|null
      */
-    public static function createJob(string $class,?string $extension = null,?string $name = null): ?JobInterface
+    public static function createJob(string $class, ?string $extension = null, ?string $name = null): ?JobInterface
     {  
         if (\class_exists($class) == false) {
             $class = Self::getJobClassName($class,$extension);
@@ -157,7 +157,7 @@ class Factory
      * @param string|null $extension
      * @return string
      */
-    public static function getEventSubscriberClass(string $baseClass,?string $extension = null): string
+    public static function getEventSubscriberClass(string $baseClass, ?string $extension = null): string
     {
         if (empty($extension) == true) {
             return Self::getSystemEventsNamespace() . '\\' . $baseClass;
@@ -173,7 +173,7 @@ class Factory
      * @param string|null $extension
      * @return object|null
      */
-    public static function createEventSubscriber(string $baseClass,?string $extension = null)
+    public static function createEventSubscriber(string $baseClass, ?string $extension = null)
     {        
         $class = Self::getEventSubscriberClass($baseClass,$extension);         
         $instance = Self::createInstance($class);
@@ -221,7 +221,7 @@ class Factory
      * @param string $baseClass
      * @return string
      */
-    public static function getModuleClass(string $module,string $baseClass): string
+    public static function getModuleClass(string $module, string $baseClass): string
     {
         return Self::getModuleNamespace($module) . '\\' . $baseClass;
     }
@@ -233,7 +233,7 @@ class Factory
      * @param string $baseClass
      * @return string
      */
-    public static function getExtensionControllerClass(?string $extension,string $baseClass): string
+    public static function getExtensionControllerClass(?string $extension, string $baseClass): string
     {        
         return Self::getExtensionControllersNamespace(\ucfirst($extension)) . '\\' . $baseClass;
     }
@@ -246,7 +246,7 @@ class Factory
      * @param string|null $extension
      * @return Controller|null
      */
-    public static function createController($container,string $baseClass,?string $extension)
+    public static function createController($container, string $baseClass, ?string $extension)
     {
         $class = Self::getExtensionControllerClass($extension,$baseClass);
 
@@ -271,7 +271,7 @@ class Factory
      * @param string|null $extension
      * @return string
      */
-    public static function getExtensionEventSubscriberClass(string $baseClass,?string $extension): string
+    public static function getExtensionEventSubscriberClass(string $baseClass, ?string $extension): string
     {
         return Self::getExtensionSubscribersNamespace($extension) . '\\' . $baseClass;
     }
@@ -294,7 +294,7 @@ class Factory
      * @param string $baseClass
      * @return string
      */
-    public static function getExtensionClassName(?string $extension,string $baseClass): string
+    public static function getExtensionClassName(?string $extension, string $baseClass): string
     {
         return Self::getExtensionNamespace($extension) . '\\' . $baseClass;
     }
@@ -306,7 +306,7 @@ class Factory
      * @param string $baseClass
      * @return string
      */
-    public static function getModuleConsoleClassName(string $module,string $baseClass): string
+    public static function getModuleConsoleClassName(string $module, string $baseClass): string
     {
         return Self::getModuleNamespace($module) . '\\Console\\' . $baseClass;
     }
@@ -318,7 +318,7 @@ class Factory
      * @param string $baseClass
      * @return string
      */
-    public static function getExtensionConsoleClassName(?string $extension,string $baseClass): string
+    public static function getExtensionConsoleClassName(?string $extension, string $baseClass): string
     {
         return Self::getExtensionNamespace($extension) . '\\Console\\' . $baseClass;
     }
@@ -341,7 +341,7 @@ class Factory
      * @param string|null $extension
      * @return string
      */
-    public static function getJobClassName(string $class,?string $extension): string
+    public static function getJobClassName(string $class, ?string $extension): string
     {
         return Self::getJobsNamespace($extension) . '\\' . $class;
     }
@@ -469,7 +469,7 @@ class Factory
      * @param string|null $extension
      * @return string
      */
-    public static function getSchemaClass(string $baseClass,?string $extension): string
+    public static function getSchemaClass(string $baseClass, ?string $extension): string
     {
         return Self::getSchemaNamespace($extension) . $baseClass;
     }

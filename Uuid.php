@@ -33,10 +33,10 @@ class Uuid
     /**
      * Check uuid is valid
      *
-     * @param string $uuid
+     * @param string|null $uuid
      * @return boolean
      */
-    public static function isValid($uuid): bool 
+    public static function isValid(?string $uuid): bool 
     {
         return (\preg_match('/^\{?[0-9a-f]{8}\-?[0-9a-f]{4}\-?[0-9a-f]{4}\-?[0-9a-f]{4}\-?[0-9a-f]{12}\}?$/i',$uuid) === 1);
     }

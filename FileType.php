@@ -63,7 +63,7 @@ class FileType
      * @param string $type
      * @return array|false
      */
-    public static function getFileTypeItem($type)
+    public static function getFileTypeItem(string $type)
     {
         return (isset(Self::$filesType[$type]) == false) ? false : Self::$filesType[$type];         
     }
@@ -75,7 +75,7 @@ class FileType
      * @param string $mimeType
      * @return boolean
      */
-    public static function isFileType($type, $mimeType)
+    public static function isFileType(string $type, string $mimeType): bool
     {
         if (isset(Self::$filesType[$type]) == false) {
             return false;
@@ -94,7 +94,7 @@ class FileType
      * @param string $mimeType
      * @return string|false
      */
-    public static function getFileType($mimeType)
+    public static function getFileType(string $mimeType)
     {
         foreach (Self::$filesType as $key => $item) {
             $type = Self::isFileType($key,$mimeType);
@@ -112,7 +112,7 @@ class FileType
      * @param string $mimeType
      * @return boolean
      */
-    public static function isZip($mimeType)
+    public static function isZip(string $mimeType): bool
     {
         return Self::isFileType('zip',$mimeType);
     }
@@ -123,7 +123,7 @@ class FileType
      * @param string $mimeType
      * @return boolean
     */
-    public static function isImage($mimeType)
+    public static function isImage(string $mimeType): bool
     {
         return Self::isFileType('image',$mimeType);
     }
@@ -134,7 +134,7 @@ class FileType
      * @param string $mimeType
      * @return boolean
      */
-    public static function isDirectory($mimeType)
+    public static function isDirectory(string $mimeType): bool
     {
         return ($mimeType == 'directory');
     }
@@ -145,7 +145,7 @@ class FileType
      * @param string $mimeType
      * @return boolean
     */
-    public static function isVideo($mimeType)
+    public static function isVideo(string $mimeType): bool
     {
         return Self::isFileType('video',$mimeType);       
     }
@@ -156,7 +156,7 @@ class FileType
      * @param string $mimeType
      * @return boolean
     */
-    public static function isAudio($mimeType)
+    public static function isAudio(string $mimeType): bool
     {
         return Self::isFileType('audio',$mimeType);  
     }
@@ -167,7 +167,7 @@ class FileType
      * @param string $mimeType
      * @return boolean
     */
-    public static function isApplication($mimeType)
+    public static function isApplication(string $mimeType): bool
     {
         return Self::isFileType('application',$mimeType);
     }
@@ -178,7 +178,7 @@ class FileType
      * @param string $mimeType
      * @return boolean
     */
-    public static function isText($mimeType)
+    public static function isText(string $mimeType): bool
     {
         return Self::isFileType('text',$mimeType);
     }
@@ -189,7 +189,7 @@ class FileType
      * @param string $mimeType
      * @return boolean
     */
-    public static function isFont($mimeType)
+    public static function isFont(string $mimeType): bool
     {
         return Self::isFileType('font',$mimeType);
     }
@@ -200,7 +200,7 @@ class FileType
      * @param string $mimeType
      * @return boolean
     */
-    public static function isPdf($mimeType)
+    public static function isPdf(string $mimeType): bool
     {
         return Self::isFileType('pdf',$mimeType);
     }

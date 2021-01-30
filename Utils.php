@@ -10,6 +10,7 @@
 namespace Arikaim\Core\Utils;
 
 use Arikaim\Core\Utils\Text;
+use Doctrine\DBAL\Types\StringType;
 use Exception;
 
 /**
@@ -54,7 +55,7 @@ class Utils
      * @param string $phpCode
      * @return array
      */
-    public static function getClasses($phpCode) 
+    public static function getClasses(string $phpCode): array 
     {
         $classes = [];
         $tokens = \token_get_all($phpCode);
@@ -80,7 +81,7 @@ class Utils
      * @param string $path
      * @return string|false
      */
-    public static function getParentPath($path)
+    public static function getParentPath(string $path)
     {
         if (empty($path) == true) {
             return false;
@@ -95,7 +96,7 @@ class Utils
      *
      * @return string
      */
-    public static function createRandomKey()
+    public static function createRandomKey(): string
     {
         return \md5(\uniqid(\rand(),true));
     }
@@ -104,10 +105,10 @@ class Utils
      * Create unique token
      *
      * @param string $prefix
-     * @param bolean $long
+     * @param bool $long
      * @return string
      */
-    public static function createToken($prefix = '', $long = false)
+    public static function createToken(string $prefix = '', bool $long = false): string
     {
         $hash = \md5(\rand(1,10) . \microtime());
         $secondHash = \md5(\rand(1,10) . \microtime());
@@ -122,7 +123,7 @@ class Utils
      * @param string $ip
      * @return boolean
      */
-    public static function isValidIp($ip)
+    public static function isValidIp(string $ip): bool
     {      
         return (\filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 | FILTER_FLAG_IPV6) !== false);
     }
@@ -134,7 +135,7 @@ class Utils
      * @param string $interfaceName
      * @return boolean
      */
-    public static function isImplemented($obj, $interfaceName)
+    public static function isImplemented($obj, string $interfaceName): bool
     {       
         $result = $obj instanceof $interfaceName;
         if ($result == true) {
@@ -161,7 +162,7 @@ class Utils
      * @param mixed $default
      * @return mixed
      */
-    public static function constant($name, $default = null)
+    public static function constant(string $name, $default = null)
     {
         return (\defined($name) == true) ? \constant($name) : $default; 
     }
@@ -170,9 +171,9 @@ class Utils
      * Convert path to url
      *
      * @param string $path
-     * @return void
+     * @return string
      */
-    public static function convertPathToUrl($path) 
+    public static function convertPathToUrl(string $path): string 
     {
         return \str_replace('\\','/',$path);
     }
@@ -180,15 +181,16 @@ class Utils
     /**
      * Return true if text is valid JSON 
      *
-     * @param string $text
+     * @param string|null $text
      * @return boolean
      */
-    public static function isJson($jsonText)
+    public static function isJson(?string $jsonText): bool
     {        
-        try {
-            if (\is_string($jsonText) == true) {
-                return \is_array(\json_decode($jsonText,true));
-            }         
+        if (empty($jsonText) == true) {
+            return false;
+        }
+        try {           
+            return \is_array(\json_decode($jsonText,true));         
         } catch(Exception $e) {
             return false;
         }
@@ -213,7 +215,7 @@ class Utils
      * @param string $text
      * @return string
      */
-    public static function cleanJson($text)
+    public static function cleanJson(string $text): string
     {
         for ($i = 0; $i <= 31; ++$i) {
             $text = \str_replace(\chr($i),'',$text);
@@ -229,16 +231,19 @@ class Utils
     /**
      * Decode JSON text
      *
-     * @param string $text
+     * @param string|null $text
      * @param boolean $clean
-     * @param boolean $toArray
+     * @param boolean|null $associative
      * @return array
      */
-    public static function jsonDecode($text, $clean = true, $toArray = true)
+    public static function jsonDecode(?string $text, bool $clean = true, ?bool $associative = true)
     {        
+        if (empty($text) == true) {
+            return [];
+        }
         $text = ($clean == true) ? Self::cleanJson($text) : $text;
 
-        return \json_decode($text,$toArray);
+        return \json_decode($text,$associative);
     }
 
     /**
@@ -249,7 +254,7 @@ class Utils
      * @param array|null $args
      * @return mixed
      */
-    public static function callStatic($class, $method, $args = null)
+    public static function callStatic(string $class, string $method, ?array $args = null)
     {     
         return (\is_callable([$class,$method]) == false) ? null : \forward_static_call([$class,$method],$args);
     }
@@ -262,7 +267,7 @@ class Utils
      * @param array|null $args
      * @return mixed
      */
-    public static function call($obj, $method, $args = null)
+    public static function call($obj, ?string $method, ?array $args = null)
     {
         if (\is_object($obj) == true) {
             $callable = [$obj,$method];
@@ -287,7 +292,7 @@ class Utils
      * @param string $email
      * @return boolean
      */
-    public static function isEmail($email)
+    public static function isEmail(string $email): bool
     {
         return (\filter_var($email,FILTER_VALIDATE_EMAIL) !== false);
     }
@@ -298,7 +303,7 @@ class Utils
      * @param string $text
      * @return boolean
      */
-    public static function hasHtml($text)
+    public static function hasHtml(string $text): bool
     {
         return ($text != \strip_tags($text));
     }
@@ -307,9 +312,9 @@ class Utils
      * Remove BOM from text
      *
      * @param string $text
-     * @return void
+     * @return string
      */
-    public static function removeBOM($text)
+    public static function removeBOM(string $text): ?string
     {        
         return (\strpos(\bin2hex($text),'efbbbf') === 0) ? \substr($text,3) : $text;
     }
@@ -320,7 +325,7 @@ class Utils
      * @param mixed $var
      * @return boolean
      */
-    public static function isEmpty($var)
+    public static function isEmpty($var): bool
     {       
         return (\is_object($var) == true) ? empty((array)$var) : empty($var);
     }
@@ -350,7 +355,7 @@ class Utils
      * @param string $separator
      * @return string
      */
-    public static function createKey($text, $pathItem = null, $separator = '.')
+    public static function createKey(string $text, ?string $pathItem = null, string $separator = '.'): string
     {
         return (empty($pathItem) == true) ? $text : $text . $separator . $pathItem;     
     }
@@ -373,13 +378,13 @@ class Utils
      * @param mixed $value
      * @return string
      */
-    public static function getValueAsText($value)
+    public static function getValueAsText($value): string
     {
         if (\gettype($value) == 'boolean') {           
             return ($value == true) ? 'true' : 'false'; 
         }       
 
-        return '\'' . $value . '\'';
+        return '\'' . (string)$value . '\'';
     }
 
     /**
@@ -388,7 +393,7 @@ class Utils
      * @param mixed $variable
      * @return boolean
      */
-    public static function isClosure($variable) 
+    public static function isClosure($variable): bool 
     {
         return (\is_object($variable) && ($variable instanceof \Closure));
     }
@@ -399,7 +404,8 @@ class Utils
      * @param mixed $text
      * @return boolean
      */
-    public static function isUtf($text) {
+    public static function isUtf($text): bool 
+    {
         return (bool)\preg_match("//u",\serialize($text));
     }
 
@@ -410,7 +416,7 @@ class Utils
      * @param string $separator
      * @return string
      */
-    public static function slug($text, $separator = '-')
+    public static function slug(string $text, string $separator = '-'): string
     {
         if (Self::isUtf($text) == true) {            
             $text = \trim(\mb_strtolower($text));
@@ -434,7 +440,7 @@ class Utils
      * @param boolean $asText
      * @return string|array
      */
-    public static function getMemorySizeText($size, $labels = null, $asText = true)
+    public static function getMemorySizeText($size, ?string $labels = null, bool $asText = true)
     {        
         $labels = (\is_array($labels) == false) ? ['Bytes','KB','MB','GB','TB','PB','EB','ZB','YB'] : $labels;            
         $power = $size > 0 ? \floor(\log($size, 1024)) : 0;

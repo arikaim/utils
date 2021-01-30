@@ -31,9 +31,9 @@ class FunctionArguments
      * @param mixed $type
      * @return mixed|null
      */
-    public static function getArgument(array $args, $index, $type = null)
+    public static function getArgument(array $args, int $index, $type = null)
     {       
-        if (\is_array($args) == false || isset($args[$index]) == false) {
+        if (isset($args[$index]) == false) {
             return null;
         }
         $variableType = \gettype($args[$index]);

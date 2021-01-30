@@ -22,7 +22,7 @@ class TimePeriod
      * @param int $timestamp
      * @return bool
     */
-    public static function isToday($timestamp)
+    public static function isToday(int $timestamp): bool
     {
         $period = Self::getDayPeriod();
 
@@ -36,7 +36,7 @@ class TimePeriod
      * @param int|null $year
      * @return bool
     */
-    public static function isYear($timestamp, $year = null)
+    public static function isYear(int $timestamp, ?int $year = null): bool
     {
         $period = Self::getYearPeriod($year);
 
@@ -52,7 +52,7 @@ class TimePeriod
      * @param int|null $year
      * @return bool
     */
-    public static function isMonth($timestamp, $month = null, $year = null)
+    public static function isMonth(int $timestamp, ?int $month = null, ?int $year = null): bool
     {
         $period = Self::getMonthPeriod($month,$year);
 
@@ -65,7 +65,7 @@ class TimePeriod
      * @param int|null $year
      * @return array
     */
-    public static function getYearPeriod($year = null)
+    public static function getYearPeriod(?int $year = null)
     {
         $year = $year ?? \date('Y');
 
@@ -79,7 +79,7 @@ class TimePeriod
      * @param int|null $year
      * @return array
      */
-    public static function getMonthPeriod($month = null, $year = null)
+    public static function getMonthPeriod(?int $month = null, ?int $year = null)
     {
         $year = (empty($year) == true) ? \date('Y') : $year;
         $month = (empty($month) == true) ? \date('m') : $month;
@@ -98,7 +98,7 @@ class TimePeriod
      * @param int|null $year
      * @return array
      */
-    public static function getDayPeriod($day = null, $month = null, $year = null)
+    public static function getDayPeriod(?int $day = null, ?int $month = null, ?int $year = null)
     {
         $day = (empty($day) == true) ? \date('j') : $day;
         $year = (empty($year) == true) ? \date('Y') : $year;
@@ -116,7 +116,7 @@ class TimePeriod
      * @param string $toDate
      * @return array
      */
-    public static function getPeriod($fromDate, $toDate)
+    public static function getPeriod(string $fromDate, string $toDate): array
     {
         return [
             'start' => DateTime::toTimestamp($fromDate),

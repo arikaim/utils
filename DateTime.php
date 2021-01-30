@@ -217,10 +217,10 @@ class DateTime
         return Self::$dateFormats[$name] ?? $name;
     }
 
-    /*
+    /**
     * Get time zone list
     *
-    * @return array
+    * @return array|false
     */
     public static function getTimeZonesList()
     {

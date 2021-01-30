@@ -148,7 +148,7 @@ class TimeInterval
      * @param integer $days
      * @return void
      */
-    public static function setDays($days)
+    public static function setDays($days): void
     {
         Self::$interval = Self::getDateInterval()->d = $days;
     }
@@ -159,7 +159,7 @@ class TimeInterval
      * @param integer $hours
      * @return void
      */
-    public static function setHours($hours)
+    public static function setHours($hours): void
     {
         Self::$interval = Self::getDateInterval()->h = $hours;
     }
@@ -170,7 +170,7 @@ class TimeInterval
      * @param integer $minutes
      * @return void
      */
-    public static function setMinutes($minutes)
+    public static function setMinutes($minutes): void
     {
         Self::$interval = Self::getDateInterval()->i = $minutes;
     }
@@ -180,7 +180,7 @@ class TimeInterval
      *
      * @return array
      */
-    public static function toArray()
+    public static function toArray(): array
     {
         return [
             'years'     => Self::getYears(),
@@ -197,7 +197,7 @@ class TimeInterval
      * @param string $text
      * @return boolean
      */
-    public static function isDurationInverval($text)
+    public static function isDurationInverval(string $text): bool
     {
         return (\substr($text,0,1) == 'P');   
     }

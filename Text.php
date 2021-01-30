@@ -24,7 +24,7 @@ class Text
      * @param string $text
      * @return string
      */
-    public static function replaceChars($text)
+    public static function replaceChars(string $text): string
     {
         $chars = [
             "ä" => "ae",
@@ -70,7 +70,7 @@ class Text
      * @param boolean $htmlSafe
      * @return string
      */
-    public static function pad($input, $length, $char = ' ', $htmlSafe = true)
+    public static function pad(string $input, int $length, string $char = ' ', bool $htmlSafe = true): string
     {
         $output = \str_pad($input,$length,$char,STR_PAD_BOTH);
 
@@ -86,7 +86,7 @@ class Text
      * @param boolean $htmlSafe
      * @return string
      */
-    public static function padLeft($input, $length, $char = ' ', $htmlSafe = true)
+    public static function padLeft(string $input, int $length, string $char = ' ', bool $htmlSafe = true): string
     {
         $output = \str_pad($input,$length,$char,STR_PAD_LEFT);
 
@@ -102,7 +102,7 @@ class Text
      * @param boolean $htmlSafe
      * @return string
      */
-    public static function padRight($input, $length, $char = ' ', $htmlSafe = true)
+    public static function padRight(string $input, int $length, string $char = ' ', bool $htmlSafe = true): string
     {
         $output = \str_pad($input,$length,$char, STR_PAD_RIGHT);
 
@@ -117,7 +117,7 @@ class Text
      * @param string $maskChar
      * @return string
      */
-    public static function mask($text, $len = 5, $maskChar = '*')
+    public static function mask(string $text, int $len = 5, string $maskChar = '*'): string
     {
         return \str_repeat($maskChar,\strlen($text) - $len) . \substr($text, - $len);           
     }
@@ -128,7 +128,8 @@ class Text
      * @param string $text
      * @return string
      */
-    public static function ucFirstUtf($text) {      
+    public static function ucFirstUtf(string $text): string
+    {      
         return (\function_exists('mb_convert_case') == true ) ? \mb_convert_case($text,MB_CASE_TITLE,'UTF-8') : $text;         
     }
 
@@ -139,7 +140,7 @@ class Text
      * @param integer $maxLength
      * @return string
      */
-    public static function sliceText($text, $maxLength = 30)
+    public static function sliceText(string $text, int $maxLength = 30): string
     {
         if (\strlen($text) > $maxLength) {
             $text = \substr(\trim($text),0,$maxLength);    
@@ -187,13 +188,13 @@ class Text
     }
 
     /**
-     * Transfor word ( removes all not a-z chars )
+     * Transform word ( removes all not a-z chars )
      *
      * @param string $word
      * @param mixed  ...$options   1 - case
-     * @return void
+     * @return string
      */
-    public static function transformWord($word, ...$options)
+    public static function transformWord(string $word, ...$options): string
     {       
         $case = $options[0] ?? Text::LOWER_CASE;
         $removeNumbers = $options[1] ?? false;
@@ -225,7 +226,7 @@ class Text
      * @param boolean $removeNumbers
      * @return string
      */
-    public static function removeSpecialChars($text, $removeNumbers = false) 
+    public static function removeSpecialChars(string $text, bool $removeNumbers = false): string 
     {        
         return ($removeNumbers == true) ? \preg_replace('/[^a-zA-Z ]/i','',\trim($text)) : \preg_replace('/[^a-zA-Z0-9]/','',$text);
     }
@@ -236,7 +237,7 @@ class Text
      * @param string $text
      * @return string
      */
-    public static function convertToTitleCase($text)
+    public static function convertToTitleCase(string $text): string
     {      
         $tokens = \explode('_',$text);
         $result = '';
@@ -254,7 +255,7 @@ class Text
      * @param array $vars
      * @return string
      */
-    public static function render($text, array $vars = []) 
+    public static function render(string $text, array $vars = []): string 
     {    
         $result = \preg_replace_callback('/\{\{(.*?)\}\}/',function ($matches) use ($vars) {
             $variableName = \trim(\strtolower($matches[1]));
@@ -285,10 +286,10 @@ class Text
     /**
      * Ceate random token
      *
-     * @param  int $length
+     * @param int $length
      * @return string
      */
-    public static function createToken($length = 22)
+    public static function createToken(int $length = 22): string
     {
         $token = '';
         while (($len = \strlen($token)) < $length) {
@@ -307,7 +308,7 @@ class Text
      * @param string|null $keyspace
      * @return string
      */
-    public static function random($length = 10, $keyspace = null) 
+    public static function random(int $length = 10, ?string $keyspace = null): string 
     {
         if (empty($keyspace) == true) {
             $keyspace = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';

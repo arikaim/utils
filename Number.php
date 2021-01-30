@@ -39,7 +39,7 @@ class Number
     /**
      * Number format
      *
-     * @var array
+     * @var array|null
      */
     private static $format = null;
 
@@ -63,7 +63,7 @@ class Number
      * @param string|array|null $format
      * @return array
      */
-    public static function resolveFormat($format)
+    public static function resolveFormat($format): array
     {
         if (\is_array($format) == true) {
             return [
@@ -83,7 +83,7 @@ class Number
      * @param array|null $default
      * @return void
      */
-    public static function setFormats(array $items, $default = null)
+    public static function setFormats(array $items, $default = null): void
     {
         Self::$formats = $items;
 
@@ -98,7 +98,7 @@ class Number
      * @param mixed $format
      * @return void
      */
-    public static function setFormat($format)
+    public static function setFormat($format): void
     {      
         Self::$format = Self::resolveFormat($format);
     }
@@ -109,7 +109,7 @@ class Number
      * @param string|null $name
      * @return array
      */
-    public static function getFormat($name = null)
+    public static function getFormat(?string $name = null): array
     {
         if (empty($name) == true) {            
             return (\is_null(Self::$format) == true) ? Self::DEFAULT_FORMAT : Self::$format;
@@ -124,7 +124,7 @@ class Number
      * @param mixed $variable
      * @return boolean
      */
-    public static function isNumber($variable)
+    public static function isNumber($variable): bool
     {
         return \is_numeric($variable);
     }
@@ -135,7 +135,7 @@ class Number
      * @param mixed $variable
      * @return boolean
      */
-    public static function isFloat($variable)
+    public static function isFloat($variable): bool
     {
         return \is_float($variable);
     }
@@ -157,7 +157,7 @@ class Number
      * @param mixed $value
      * @return integer
      */
-    public static function getInteger($value)
+    public static function getInteger($value): int
     {
         return \intval($value);
     }
@@ -179,7 +179,7 @@ class Number
      * @param string $text
      * @return boolean
      */
-    public static function isBoolean($text)
+    public static function isBoolean($text): bool
     {       
         $result = \filter_var($text,FILTER_VALIDATE_BOOLEAN,FILTER_NULL_ON_FAILURE);
 
@@ -192,7 +192,7 @@ class Number
      * @param string $value
      * @return bool
      */
-    public static function toBoolean($text)
+    public static function toBoolean($text): bool
     {
         $result = \filter_var($text,FILTER_VALIDATE_BOOLEAN,FILTER_NULL_ON_FAILURE);
 

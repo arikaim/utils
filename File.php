@@ -45,7 +45,7 @@ class File
      * Get php classes defined in file
      *
      * @param string $fileName
-     * @return array
+     * @return array|false
      */
     public static function getClassesInFile(string $fileName) 
     {
@@ -85,7 +85,7 @@ class File
      * @param string $fileName
      * @return boolean
      */
-    public static function setWritable(string $fileName) 
+    public static function setWritable(string $fileName): bool 
     {
         if (Self::exists($fileName) == false) {
             return false;
@@ -98,7 +98,7 @@ class File
      * Return file size
      *
      * @param string $fileName
-     * @return integer
+     * @return integer|false
      */
     public static function getSize(string $fileName)
     {

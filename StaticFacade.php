@@ -19,7 +19,7 @@ abstract class StaticFacade
     /**
      * Class instance
      *
-     * @var object
+     * @var object|null
      */
     static protected $instance;
 
@@ -60,7 +60,7 @@ abstract class StaticFacade
     /**
      * Get instance
      *
-     * @return void
+     * @return object|null
      */
     public static function getInstance()
     {

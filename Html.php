@@ -19,7 +19,7 @@ class Html
      *
      * @var string
      */
-    private static $document;
+    private static $document = '';
 
     /**
      * Append or replace content
@@ -30,15 +30,21 @@ class Html
 
     /**
      * Get html tag code
-     *
-     * @param string|null $content
+     *    
      * @param string $name
-     * @param array $attributes
+     * @param string|null $content
+     * @param array|null $attributes
      * @param boolean $singleTag
      * @param boolean $startTagOnly
      * @return string
      */
-    public static function htmlTag($name, $content, $attributes = null, $singleTag = false, $startTagOnly = false)
+    public static function htmlTag(
+        string $name, 
+        ?string $content, 
+        ?array $attributes = null, 
+        bool $singleTag = false, 
+        bool $startTagOnly = false
+    ): string
     {    
         $attributes = Self::getAttributes($attributes);
         if ($singleTag == true) {
@@ -78,10 +84,10 @@ class Html
     /**
      * Convert attributes array to string
      *
-     * @param array $attributes
+     * @param array|null $attributes
      * @return string
      */
-    public static function getAttributes($attributes)
+    public static function getAttributes(?array $attributes): string
     {        
         if (\is_array($attributes) == false) {
             return '';
@@ -98,12 +104,12 @@ class Html
     /**
      * Get html attribute
      *
-     * @param string $value
-     * @param string $name
-     * @param string $default
+     * @param string|null $value
+     * @param string|null $name
+     * @param string|null $default
      * @return string
      */
-    public static function attr($value, $name = null, $default = null)
+    public static function attr(?string $value, ?string $name = null, ?string $default = null): string
     {   
         $value = (empty($value) == true) ? $default : $value;
 
@@ -114,10 +120,10 @@ class Html
      * Get html single tag
      *
      * @param string $name
-     * @param string $attributes
+     * @param array|null $attributes
      * @return string
      */
-    public static function singleTag($name, $attributes = null)
+    public static function singleTag(string $name, ?array $attributes = null): string
     {        
         return Self::htmlTag($name,null,$attributes,true);
     }
@@ -126,10 +132,10 @@ class Html
      * Get html start tag
      *
      * @param string $name
-     * @param string $attributes
+     * @param array|null $attributes
      * @return string
      */
-    public static function startTag($name, $attributes = null)
+    public static function startTag(string $name, ?array $attributes = null)
     {        
         return Self::htmlTag($name,null,$attributes,false,true);
     }
@@ -138,10 +144,10 @@ class Html
      * Get html end tag
      *
      * @param string $name
-     * @param string $content
+     * @param string|null $content
      * @return string
      */
-    public static function endTag($name, $content = '')
+    public static function endTag(string $name, ?string $content = ''): string
     {        
         return $content . "</" . $name . '>';
     }
@@ -162,9 +168,9 @@ class Html
      *
      * @param string $text
      * @param string|array $tags
-     * @return string
+     * @return string|null
      */
-    public static function removeTags($text, $tags)
+    public static function removeTags(string $text, $tags): ?string
     {
         $tags = (\is_string($tags) == true) ? [$tags] : $tags;           
         foreach ($tags as $tag) {
@@ -180,7 +186,7 @@ class Html
      *
      * @return void
      */
-    public static function startDocument()
+    public static function startDocument(): void
     {
         Self::$document = '';
         Self::$append = true;
@@ -191,7 +197,7 @@ class Html
      *
      * @return string
      */
-    public static function renderDocument()
+    public static function renderDocument(): void
     {
         echo Self::$document; 
     }
@@ -201,7 +207,7 @@ class Html
      *
      * @return string
      */
-    public static function getDocument()
+    public static function getDocument(): string
     {
         return Self::$document; 
     }
@@ -212,7 +218,7 @@ class Html
      * @param string $html
      * @return void
      */
-    public static function appendHtml($html)
+    public static function appendHtml(string $html): void
     {
         if (Self::$append == true) {
             Self::$document .= $html;

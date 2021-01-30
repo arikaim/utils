@@ -172,7 +172,7 @@ class Mobile
      *
      * @return void
      */
-    public function initHeaders()
+    public function initHeaders(): void
     {
         $headers = $_SERVER;
         $this->headers = [];
@@ -189,7 +189,7 @@ class Mobile
      *
      * @return void
      */
-    public function initUserAgent()
+    public function initUserAgent(): void
     {
         $this->userAgent = null;
         foreach ($this->userAgentHeaders as $altHeader) {
@@ -210,7 +210,7 @@ class Mobile
      *
      * @return bool
      */
-    public function checkHeadersForMobile()
+    public function checkHeadersForMobile(): bool
     {
         foreach ($this->mobileHeaders as $header => $matchType) {
             if (isset($this->headers[$header]) == true) {
@@ -234,7 +234,7 @@ class Mobile
      *
      * @return bool
      */
-    protected function matchUserAgent()
+    protected function matchUserAgent(): bool
     {
         foreach ($this->rules as $regex) {
             if (empty($regex) == true) {
@@ -255,13 +255,12 @@ class Mobile
      */
     public static function mobile()
     {
-        if (empty(Self::$isMobile) == false) {
+        if (\is_null(Self::$isMobile) == false) {
             return Self::$isMobile;
         }
         $obj = new Mobile();
-        $obj->isMobile();
-
-        return Self::$isMobile;
+     
+        return $obj->isMobile();
     }
 
     /**
@@ -269,9 +268,9 @@ class Mobile
      *
      * @return boolean
      */
-    public function isMobile()
+    public function isMobile(): bool
     {
-        Self::$isMobile = ($this->checkHeadersForMobile() == true) ? true : $this->matchUserAgent();
+        Self::$isMobile = (bool)($this->checkHeadersForMobile() == true) ? true : $this->matchUserAgent();
            
         return Self::$isMobile;
     }
@@ -282,8 +281,8 @@ class Mobile
      * @param string $regex
      * @return bool
      */
-    protected function match($regex)
+    protected function match(?string $regex): bool
     {
-       return (bool)\preg_match(\sprintf("#%s#is", $regex),$this->userAgent,$matches);
+       return (bool)\preg_match(\sprintf("#%s#is",$regex),$this->userAgent,$matches);
     }
 }

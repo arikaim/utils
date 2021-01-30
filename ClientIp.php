@@ -58,10 +58,10 @@ class ClientIp
      * Return header value
      *
      * @param object $request
-     * @param string $header
-     * @return mixed
+     * @param string|null $header
+     * @return string|null
      */
-    public static function getFromHeader($request, $header)
+    public static function getFromHeader($request, ?string $header): ?string
     {
         $items = \explode(',', $request->getHeaderLine($header));
         $value = \trim(\reset($items));
