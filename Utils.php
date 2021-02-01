@@ -10,7 +10,6 @@
 namespace Arikaim\Core\Utils;
 
 use Arikaim\Core\Utils\Text;
-use Doctrine\DBAL\Types\StringType;
 use Exception;
 
 /**

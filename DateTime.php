@@ -301,14 +301,14 @@ class DateTime
     /**
      * Return formated timestsamp with current date and time format
      *
-     * @param integer $timestamp
+     * @param integer|null $timestamp
      * @param string|null $format
      * @return string|null
      */
-    public static function dateTimeFormat(int $timestamp, ?string $format = null): ?string
+    public static function dateTimeFormat(?int $timestamp, ?string $format = null): ?string
     {
-        if (\is_numeric($timestamp) == false) {
-            return $timestamp;
+        if (\is_null($timestamp) == true) {
+            return null;
         }
         if ($format == null) {           
             $format = Self::getDateFormat() . ' ' . Self::getTimeFormat();

@@ -91,7 +91,7 @@ class File
             return false;
         }      
 
-        return \chmod($fileName,0777);      
+        return (bool)\chmod($fileName,0777);      
     }
 
     /**
