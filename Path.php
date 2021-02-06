@@ -30,7 +30,8 @@ class Path
     const STORAGE_BACKUP_PATH     = Self::STORAGE_PATH . 'backup' . DIRECTORY_SEPARATOR;
     const STORAGE_REPOSITORY_PATH = Self::STORAGE_PATH . 'repository' . DIRECTORY_SEPARATOR;
     const STORAGE_PUBLIC_PATH     = Self::STORAGE_PATH . 'public' . DIRECTORY_SEPARATOR;
-
+    const COMPOSER_VENDOR_PATH    = ROOT_PATH . BASE_PATH . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR;
+    
      /**
      * Get macro path
      *
