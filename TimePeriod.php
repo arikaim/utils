@@ -69,7 +69,7 @@ class TimePeriod
     {
         $year = $year ?? \date('Y');
 
-        return Self::getPeriod($year . '-01-01T00:00:00.0',$year . '-12-31T12:59:59.0'); 
+        return Self::getPeriod($year . '-01-01T00:00:00Z',$year . '-12-31T12:59:59Z'); 
     } 
 
     /**
@@ -84,9 +84,9 @@ class TimePeriod
         $year = (empty($year) == true) ? \date('Y') : $year;
         $month = (empty($month) == true) ? \date('m') : $month;
         $lastDay = DateTime::getLastDay($month);
-        $startDate = $year . '-' . $month . '-01T00:00:00.0';
-        $endDate = $year . '-' . $month . '-' . $lastDay . 'T12:59:59.0';
-
+        $startDate = $year . '-' . $month . '-01T00:00:00Z';
+        $endDate = $year . '-' . $month . '-' . $lastDay . 'T12:59:59Z';
+        
         return Self::getPeriod($startDate,$endDate);       
     }
 
@@ -103,8 +103,8 @@ class TimePeriod
         $day = (empty($day) == true) ? \date('j') : $day;
         $year = (empty($year) == true) ? \date('Y') : $year;
         $month = (empty($month) == true) ? \date('m') : $month;
-        $startDate = $year . '-' . $month . '-' . $day . 'T00:00:00.0';
-        $endDate = $year . '-' . $month . '-' . $day . 'T12:59:59.0';
+        $startDate = $year . '-' . $month . '-' . $day . 'T00:00:00Z';
+        $endDate = $year . '-' . $month . '-' . $day . 'T12:59:59Z';
 
         return Self::getPeriod($startDate,$endDate);      
     }
@@ -119,8 +119,8 @@ class TimePeriod
     public static function getPeriod(string $fromDate, string $toDate): array
     {
         return [
-            'start' => DateTime::toTimestamp($fromDate),
-            'end'   => DateTime::toTimestamp($toDate)
+            'start' => DateTime::toTimestamp($fromDate,DateTime::ISO8601ZULU_FORMAT),
+            'end'   => DateTime::toTimestamp($toDate,DateTime::ISO8601ZULU_FORMAT)
         ];
     }
 }
