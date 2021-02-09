@@ -381,7 +381,10 @@ class Utils
     {
         if (\gettype($value) == 'boolean') {           
             return ($value == true) ? 'true' : 'false'; 
-        }       
+        }   
+        if (\is_null($value) == true) {
+            return 'null';
+        }
 
         return '\'' . (string)$value . '\'';
     }
