@@ -38,92 +38,39 @@ class DateTime
     private static $dateTime;
 
     /**
-     * Date formats list
+     * Date format
      *
-     * @var array
+     * @var string|null
     */
-    private static $dateFormats = [];
+    private static $dateFormat = null;
 
     /**
      * Time formats list
      *
-     * @var array
-    */
-    private static $timeFormats = [];
-
-    /**
-     * Default date format value
-     *
      * @var string|null
     */
-    private static $defaultDateFormat = null;
+    private static $timeFormat = null;
 
     /**
-     * Default time format value
-     *
-     * @var string|null
-     */
-    private static $defaultTimeFormat = null;
-
-    /**
-     * Set date adn time formats
-     *
-     * @param array $dateFormats
-     * @param array $timeFormats
+     * Set date format
+     * 
+     * @param string|null $format
      * @return void
      */
-    public static function setFormats(array $dateFormats,array $timeFormats): void
+    public static function setDateFormat(?string $format = null): void
     {
-        Self::$dateFormats = $dateFormats;
-        Self::$timeFormats = $timeFormats;
-    }
-
-    /**
-     * Set date formats
-     *
-     * @param array $dateFormats
-     * @param string|null $defultFormat
-     * @return void
-     */
-    public static function setDateFormats(array $dateFormats, ?string $defultFormat = null): void
-    {
-        Self::$dateFormats = $dateFormats;
-        Self::setDefaultDateFormat($defultFormat);
+        Self::$dateFormat = $format;
     }
 
     /**
      * Set time formats
-     *
-     * @param array $dateFormats
-     * @param string|null $defultFormat
-     * @return void
-     */
-    public static function setTimeFormats(array $timeFormats, ?string $defultFormat = null): void
-    {
-        Self::$timeFormats = $timeFormats;
-        Self::setDefaultTimeFormat($defultFormat);
-    }
-
-    /**
-     * Set default date format
-     *
+     *    
      * @param string|null $format
      * @return void
      */
-    public static function setDefaultDateFormat(?string $format): void
+    public static function setTimeFormat(?string $format = null): void
     {
-        Self::$defaultDateFormat = $format;
-    }
-
-    /**
-     * Set default time format
-     *
-     * @param string|null $format
-     * @return void
-     */
-    public static function setDefaultTimeFormat(?string $format): void
-    {
-        Self::$defaultTimeFormat = $format;
+        Self::$timeFormat = $format;      
     }
 
     /**
@@ -148,7 +95,7 @@ class DateTime
     public static function create(?string $date = null, ?string $format = null)
     {
         $date = $date ?? 'now';
-        $format = Self::getDateFormat($format);
+        $format = $format ?? Self::getDateFormat();
 
         $dateTime = new \DateTime($date,Self::getTimeZone());
         $dateTime->format($format);
@@ -205,16 +152,11 @@ class DateTime
     /**
      * Get date format
      *
-     * @param string|null $name
-     * @return string|null
+     * @return string
      */
-    public static function getDateFormat(?string $name = null): ?string 
-    {      
-        if (empty($name) == true) {
-            return (empty(Self::$defaultDateFormat) == false) ? Self::$defaultDateFormat : Self::DEFAULT_DATE_FORMAT;
-        }
-
-        return Self::$dateFormats[$name] ?? $name;
+    public static function getDateFormat(): string 
+    {            
+        return Self::$dateFormat ?? Self::DEFAULT_DATE_FORMAT;
     }
 
     /**
@@ -309,10 +251,8 @@ class DateTime
     {
         if (\is_null($timestamp) == true) {
             return null;
-        }
-        if ($format == null) {           
-            $format = Self::getDateFormat() . ' ' . Self::getTimeFormat();
-        }
+        }       
+        $format = $format ?? Self::getDateFormat() . ' ' . Self::getTimeFormat();
         $date = Self::setTimestamp($timestamp);
 
         return $date->format($format);     
@@ -331,8 +271,9 @@ class DateTime
             return $timestamp;
         }
         $date = Self::setTimestamp($timestamp);
+        $format = $format ?? Self::getTimeFormat();
 
-        return $date->format(Self::getTimeFormat($format)); 
+        return $date->format($format); 
     }
 
     /**
@@ -348,23 +289,19 @@ class DateTime
             return $timestamp;
         }      
         $date = Self::setTimestamp((integer)$timestamp);
-
-        return $date->format(Self::getDateFormat($format));
+        $format = $format ?? Self::getDateFormat();
+      
+        return $date->format($format);
     }
 
     /**
      * Get time format
-     *
-     * @param string|null $name
-     * @return string|null
+     *     
+     * @return string
      */
-    public static function getTimeFormat(?string $name = null): ?string 
+    public static function getTimeFormat(): string 
     {       
-        if ($name == null) {
-            return Self::$defaultTimeFormat ?? Self::DEFAULT_TIME_FORMAT;    
-        }
-
-        return Self::$timeFormats[$name] ?? $name; 
+        return Self::$timeFormat ?? Self::DEFAULT_TIME_FORMAT;    
     }
 
     /**
@@ -380,19 +317,6 @@ class DateTime
         return $interval->toArray();
     }
  
-    /**
-     * Set date format.
-     *
-     * @param string|null $dateFormat
-     * @return \DateTime
-     */
-    public static function setDateFormat(?string $dateFormat) 
-    {
-        Self::$dateTime = Self::getDateTime()->format($dateFormat);
-
-        return Self::$dateTime;
-    }
-
     /**
      * Modify date time
      *
@@ -526,7 +450,7 @@ class DateTime
      */
     public static function toString(?string $format = null): string 
     {
-        return Self::getDateTime()->format(Self::getDateFormat($format));
+        return Self::getDateTime()->format($format ?? Self::getDateFormat());
     }   
 
     /**
@@ -553,7 +477,8 @@ class DateTime
             return false;
         }
         $dateTime = Self::create($date);
+        $format = $format ?? Self::getDateFormat();
 
-        return $dateTime->format(Self::getDateFormat($format));
+        return $dateTime->format($format);
     }
 }

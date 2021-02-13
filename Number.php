@@ -14,6 +14,9 @@ namespace Arikaim\Core\Utils;
  */
 class Number 
 {   
+    const DEFAULT_FORMAT_NAME = 'default';
+    const ACCOUNTING_FORMAT_NAME = 'accounting';
+
     /**
      * Number formats
      *
@@ -47,12 +50,12 @@ class Number
      * Format number
      *
      * @param integer|float $number
-     * @param string|null|array $formatName
+     * @param string|null|array $format
      * @return integer|float
      */
-    public static function format($number, $formatName = null)
+    public static function format($number, $format = null)
     {
-        $format = Self::resolveFormat($formatName);
+        $format = Self::resolveFormat($format);
 
         return \number_format($number,$format['decimals'],$format['decimals_separator'],$format['thousands_separator']);
     }
@@ -66,30 +69,38 @@ class Number
     public static function resolveFormat($format): array
     {
         if (\is_array($format) == true) {
-            return [
-                'decimals'            => $format[0] ?? 2,
-                'decimals_separator'  => $format[1] ?? '.',
-                'thousands_separator' => $format[2] ?? ','
-            ];
+            return Self::resolveFormatArray($format);
         }
 
-        return Self::getFormat($format);       
+        if (\is_null($format) == true) {
+            return Self::DEFAULT_FORMAT;
+        }
+
+        $tokens = \explode(',',$format);     
+    
+        switch (\trim($tokens[0])) {
+            case Self::DEFAULT_FORMAT_NAME:
+                return Self::DEFAULT_FORMAT;   
+            case Self::ACCOUNTING_FORMAT_NAME:
+                return Self::resolveFormatArray([3,'.',',']);       
+        }
+       
+        return Self::resolveFormatArray($tokens);       
     }
 
     /**
-     * Set formats list
+     * Resolbe format array
      *
-     * @param array $items
-     * @param array|null $default
-     * @return void
+     * @param array $format
+     * @return array
      */
-    public static function setFormats(array $items, $default = null): void
+    private static function resolveFormatArray(array $format): array
     {
-        Self::$formats = $items;
-
-        if (empty($default) == false) {
-            Self::setFormat($default);
-        }
+        return [
+            'decimals'            => empty($format['decimals']) ? $format[0] ?? 2 : $format['decimals'],
+            'decimals_separator'  => empty($format['decimals_separator']) ? $format[1] ?? '.' : $format['decimals_separator'],
+            'thousands_separator' => empty($format['thousands_separator']) ? $format[2] ?? ',' : $format['thousands_separator']
+        ];
     }
 
     /**
@@ -106,16 +117,11 @@ class Number
     /**
      * Get format options
      *
-     * @param string|null $name
      * @return array
      */
-    public static function getFormat(?string $name = null): array
-    {
-        if (empty($name) == true) {            
-            return (\is_null(Self::$format) == true) ? Self::DEFAULT_FORMAT : Self::$format;
-        } 
-
-        return (\is_array(Self::$formats[$name]) == true) ? Self::$formats[$name] : Self::DEFAULT_FORMAT;          
+    public static function getFormat(): array
+    {              
+        return (\is_null(Self::$format) == true) ? Self::DEFAULT_FORMAT : Self::$format;                
     }
 
     /**
