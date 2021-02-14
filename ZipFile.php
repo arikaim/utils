@@ -110,8 +110,12 @@ class ZipFile
         } else {
             $zip->addFile($source);
         }
-        $zip->close();
 
+        // close if not empty
+        if ($zip->numFiles > 0) {
+            $zip->close();
+        }
+      
         return ($zip->status == ZIPARCHIVE::ER_OK);      
     }
 
