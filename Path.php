@@ -45,6 +45,28 @@ class Path
     }
 
     /**
+     * Get extension config path
+     *
+     * @param string $name
+     * @return string
+     */
+    public static function getExtensionConfigPath(string $name): string
+    {
+        return Path::EXTENSIONS_PATH . $name . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR;
+    }
+    
+    /**
+     * Get module config path
+     *
+     * @param string $name
+     * @return string
+     */
+    public static function getModuleConfigPath(string $name): string
+    {
+        return Path::MODULES_PATH . $name . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR;
+    }
+
+    /**
      * Get storage relative path
      *
      * @param string $path
