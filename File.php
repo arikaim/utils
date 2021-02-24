@@ -239,7 +239,7 @@ class File
      */
     public static function deleteDirectory(string $path)
     {
-        if (\is_dir($path) === false) {
+        if (File::exists($path) === false) {
             return false;
         }
     
@@ -251,9 +251,13 @@ class File
             Self::setWritable($file->getRealPath());
           
             if ($file->isDir() == true) {
-                if (\rmdir($file->getRealPath()) == false) {
-                    $result = false;
-                };               
+                if (Self::isEmpty($file->getRealPath()) == false) {
+                    $result = Self::deleteDirectory($file->getRealPath());
+                } else {
+                    if (\rmdir($file->getRealPath()) == false) {
+                        $result = false;
+                    }; 
+                }         
             } else {                            
                 if (\unlink($file->getRealPath()) == false) {
                     $result = false;
