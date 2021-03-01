@@ -185,12 +185,16 @@ class File
     /**
      * Get file base name from path
      *
-     * @param string $path
+     * @param string|null $path
      * @param string $suffix
      * @return string
      */
-    public static function baseName(string $path, string $suffix = ''): string
+    public static function baseName(?string $path, string $suffix = ''): string
     {
+        if (empty($path) == true) {
+            return $path;
+        }
+
         return \basename($path,$suffix);
     }
 
