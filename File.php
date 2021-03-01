@@ -126,9 +126,9 @@ class File
      * @param boolean $recursive
      * @return boolean
      */
-    public static function makeDir(string $path, $mode = 0755, bool $recursive = true)
+    public static function makeDir(string $path, $mode = 0755, bool $recursive = true): bool
     {
-        return (Self::exists($path) == true) ? Self::setWritable($path,$mode) : \mkdir($path,$mode,$recursive);                 
+        return (Self::exists($path) == true) ? Self::setWritable($path,$mode) : (bool)\mkdir($path,$mode,$recursive);                 
     }
 
     /**
