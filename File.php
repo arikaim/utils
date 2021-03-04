@@ -295,7 +295,7 @@ class File
     }
 
     /**
-     * Get fiel mime type
+     * Get file mime type
      *
      * @param string $fileName
      * @return string|false
