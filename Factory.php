@@ -136,14 +136,21 @@ class Factory
      * @param string $class
      * @param string|null $extension
      * @param string|null $name
+     * @param array $params
      * @return JobInterface|null
      */
-    public static function createJob(string $class, ?string $extension = null, ?string $name = null): ?JobInterface
+    public static function createJob(
+        string $class, 
+        ?string $extension = null, 
+        ?string $name = null,
+        array $params = []
+    ): ?JobInterface
     {  
+        $class = (\class_exists($class) == false) ? Self::getJobClassName($class,$extension) : $class;          
         if (\class_exists($class) == false) {
-            $class = Self::getJobClassName($class,$extension);
+            return null;
         }
-        
+
         $params = [$extension,$name];
         $job = Self::createInstance($class,$params);
        
