@@ -29,6 +29,23 @@ class Html
     private static $append;
 
     /**
+     * Create valid html element id
+     *
+     * @param string $text
+     * @param string $separator
+     * @return string
+     */
+    public static function createId(string $text, string $separator = '-'): string
+    {
+        $text = \trim($text);
+        $text = \preg_replace('/\s+/',$separator,$text);
+        $text = \str_replace(DIRECTORY_SEPARATOR,$separator,$text);
+        $text = \str_replace('/',$separator,$text);
+
+        return \strtolower($text);
+    }
+
+    /**
      * Get html tag code
      *    
      * @param string $name
