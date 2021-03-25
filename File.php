@@ -187,9 +187,9 @@ class File
      *
      * @param string|null $path
      * @param string $suffix
-     * @return string
+     * @return string|null
      */
-    public static function baseName(?string $path, string $suffix = ''): string
+    public static function baseName(?string $path, string $suffix = '')
     {
         if (empty($path) == true) {
             return $path;
