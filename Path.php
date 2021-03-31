@@ -81,11 +81,17 @@ class Path
      * Return relative path from full path
      *
      * @param string $path
+     * @param bool $appPath
      * @return string
      */
-    public static function getRelativePath(string $path): string
+    public static function getRelativePath(string $path, bool $appPath = true): string
     {
-        return (\defined('APP_PATH') == true) ? \str_replace(APP_PATH,'',$path) : $path;
+        if (\defined('APP_PATH') == false) {
+            return $path;
+        }
+        $rootPath = ($appPath == true) ? APP_PATH : ROOT_PATH . BASE_PATH;
+
+        return \str_replace($rootPath,'',$path);
     }
 
     /**
