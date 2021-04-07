@@ -23,7 +23,7 @@ class Path
     const LOGS_PATH               = APP_PATH . DIRECTORY_SEPARATOR . 'logs' . DIRECTORY_SEPARATOR;
     const STORAGE_PATH            = APP_PATH . DIRECTORY_SEPARATOR . 'storage' . DIRECTORY_SEPARATOR;
     const LIBRARY_PATH            = Self::VIEW_PATH . 'library' . DIRECTORY_SEPARATOR;
-    const TEMPLATES_PATH          = Self::VIEW_PATH . 'templates' . DIRECTORY_SEPARATOR;
+    const TEMPLATES_PATH          = Self::VIEW_PATH . 'templates' . DIRECTORY_SEPARATOR;  
     const COMPONENTS_PATH         = Self::VIEW_PATH . 'components' . DIRECTORY_SEPARATOR;
     const VIEW_CACHE_PATH         = Self::CACHE_PATH . 'views' . DIRECTORY_SEPARATOR;
     const STORAGE_TEMP_PATH       = Self::STORAGE_PATH . 'temp' . DIRECTORY_SEPARATOR;
@@ -32,7 +32,18 @@ class Path
     const STORAGE_PUBLIC_PATH     = Self::STORAGE_PATH . 'public' . DIRECTORY_SEPARATOR;
     const COMPOSER_VENDOR_PATH    = ROOT_PATH . BASE_PATH . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR;
     
-     /**
+    /**
+     * Get template theme path 
+     *
+     * @param string $templateName
+     * @return string
+     */
+    public static function getTemplateThemePath(string $templateName): string
+    {
+        return Path::TEMPLATES_PATH . $templateName . DIRECTORY_SEPARATOR . 'themes' . DIRECTORY_SEPARATOR;
+    }
+
+    /**
      * Get macro path
      *
      * @param string $macroName
@@ -116,17 +127,6 @@ class Path
     public static function getModulePath(string $name): string
     {
         return Self::MODULES_PATH . $name . DIRECTORY_SEPARATOR;
-    }
-
-    /**
-     * Get library themes path
-     *
-     * @param string $library   
-     * @return string
-     */
-    public static function getLibraryThemesPath(string $library): string
-    {
-        return Self::getLibraryPath($library) . 'themes';
     }
 
     /**
