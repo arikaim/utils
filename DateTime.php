@@ -207,8 +207,8 @@ class DateTime
      */
     public static function getTimeZone()
     {
-        if (empty(Self::$timeZone) == true) {
-            Self::setTimeZone();
+        if (empty(Self::$timeZone) == true) {         
+            Self::setTimeZone(\constant('DEFAULT_TIME_ZONE') ?? \date_default_timezone_get());
         }
 
         return Self::$timeZone;
@@ -231,12 +231,10 @@ class DateTime
      * @param string|null $name    
      * @return void
      */
-    public static function setTimeZone(?string $name = null): void
+    public static function setTimeZone(?string $name): void
     {
-        $name = (empty($name) == true) ? \date_default_timezone_get() : $name;
-        if (Self::isValidTimeZone($name) == false) {
-            $name = \date_default_timezone_get();
-        }
+        $name = (Self::isValidTimeZone($name) == false || empty($name) == true) ? \date_default_timezone_get() : $name;
+        
         Self::$timeZone = new DateTimeZone($name);
     }
 
