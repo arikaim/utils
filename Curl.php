@@ -41,6 +41,7 @@ class Curl
         }
         $curl = \curl_init();
         \curl_setopt($curl,CURLOPT_URL,$url);
+        \curl_setopt($curl,CURLOPT_VERBOSE,false);
         \curl_setopt($curl,CURLOPT_RETURNTRANSFER,$returnTransfer);
         \curl_setopt($curl,CURLOPT_CONNECTTIMEOUT,$timeout);
 
@@ -200,7 +201,7 @@ class Curl
     {
         $method = $method ?? 'GET';
 
-        \curl_setopt($curl,CURLOPT_VERBOSE,1);
+        \curl_setopt($curl,CURLOPT_VERBOSE,0);
         \curl_setopt($curl,CURLOPT_BINARYTRANSFER,true);
         \curl_setopt($curl,CURLOPT_FOLLOWLOCATION,true);
         \curl_setopt($curl,CURLOPT_AUTOREFERER,false);
