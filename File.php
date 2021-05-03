@@ -269,6 +269,8 @@ class File
             }
         }
 
+        \rmdir($path);
+        
         return $result;
     }
 
