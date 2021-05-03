@@ -217,12 +217,12 @@ class DateTime
     /**
      * Return true if time zone is vlaid
      *
-     * @param string $name
+     * @param string|null $name
      * @return boolean
      */
-    public static function isValidTimeZone(string $name): bool 
+    public static function isValidTimeZone(?string $name): bool 
     {
-        return \in_array($name,\timezone_identifiers_list());
+        return (empty($name) == true) ? false : \in_array($name,\timezone_identifiers_list());
     }
 
     /**
