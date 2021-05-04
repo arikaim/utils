@@ -239,9 +239,10 @@ class File
      * Delete directory and all sub directories
      *
      * @param string $path
+     * @param bool $skipMainFolder
      * @return bool
      */
-    public static function deleteDirectory(string $path)
+    public static function deleteDirectory(string $path, bool $skipMainFolder = true)
     {
         if (File::exists($path) === false) {
             return false;
@@ -269,8 +270,10 @@ class File
             }
         }
 
-        \rmdir($path);
-        
+        if ($skipMainFolder == false) {
+            \rmdir($path);
+        }
+     
         return $result;
     }
 
