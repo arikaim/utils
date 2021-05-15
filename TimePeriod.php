@@ -43,7 +43,6 @@ class TimePeriod
         return ($timestamp >= $period['start'] && $timestamp >= $period['end']);
     }
 
-
     /**
      * Check if timestamp is in month 
      * 
@@ -65,7 +64,7 @@ class TimePeriod
      * @param int|null $year
      * @return array
     */
-    public static function getYearPeriod(?int $year = null)
+    public static function getYearPeriod(?int $year = null): array
     {
         $year = $year ?? \date('Y');
 
@@ -79,7 +78,7 @@ class TimePeriod
      * @param int|null $year
      * @return array
      */
-    public static function getMonthPeriod(?int $month = null, ?int $year = null)
+    public static function getMonthPeriod(?int $month = null, ?int $year = null): array
     {
         $year = (empty($year) == true) ? \date('Y') : $year;
         $month = (empty($month) == true) ? \date('m') : $month;
@@ -98,7 +97,7 @@ class TimePeriod
      * @param int|null $year
      * @return array
      */
-    public static function getDayPeriod(?int $day = null, ?int $month = null, ?int $year = null)
+    public static function getDayPeriod(?int $day = null, ?int $month = null, ?int $year = null): array
     {
         $day = (empty($day) == true) ? \date('j') : $day;
         $year = (empty($year) == true) ? \date('Y') : $year;
@@ -107,6 +106,16 @@ class TimePeriod
         $endDate = $year . '-' . $month . '-' . $day . 'T12:59:59Z';
 
         return Self::getPeriod($startDate,$endDate);      
+    }
+
+    /**
+     * Get yesterday time period
+     *
+     * @return array
+     */
+    public static function getYesterdayPeriod(): array
+    {
+        return Self::getDayPeriod(date('m'),date('d') - 1,date('Y'));
     }
 
     /**

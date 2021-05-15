@@ -16,6 +16,9 @@ use DateInterval;
  */
 class TimeInterval
 {
+    const TYPE_ISO_8601 = 0;
+    const TYPE_CRONTAB  = 1;
+    
     /**
      * Interval obj
      *

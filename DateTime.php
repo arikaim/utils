@@ -203,12 +203,12 @@ class DateTime
     /**
      * Get time zone
      *
-     * @return DateTimeZone
+     * @return DateTimeZone|null
      */
     public static function getTimeZone()
     {
         if (empty(Self::$timeZone) == true) {         
-            Self::setTimeZone(\constant('DEFAULT_TIME_ZONE') ?? \date_default_timezone_get());
+            Self::setTimeZone(\date_default_timezone_get());
         }
 
         return Self::$timeZone;
