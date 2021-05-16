@@ -17,6 +17,13 @@ class Curl
     const TIMEOUT = 60;
 
     /**
+     * User agent
+     *
+     * @var string|null
+     */
+    public static $userAgent = null;
+
+    /**
      * Return true if php curl extension is installed
      *
      * @return boolean
@@ -31,7 +38,7 @@ class Curl
      *
      * @param string $url
      * @param integer $timeout
-     * @param boolean $returnTransfer
+     * @param boolean $returnTransfer   
      * @return object|null
      */
     private static function create(string $url, $timeout = 30, bool $returnTransfer = true)
@@ -44,7 +51,10 @@ class Curl
         \curl_setopt($curl,CURLOPT_VERBOSE,false);
         \curl_setopt($curl,CURLOPT_RETURNTRANSFER,$returnTransfer);
         \curl_setopt($curl,CURLOPT_CONNECTTIMEOUT,$timeout);
-
+        if (empty(Self::$userAgent) == false) {
+            \curl_setopt($curl,CURLOPT_USERAGENT,Self::$userAgent);
+        }
+       
         return $curl;
     }
 
