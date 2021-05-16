@@ -24,6 +24,13 @@ class Curl
     public static $userAgent = null;
 
     /**
+     * Verbose option
+     *
+     * @var boolean
+     */
+    public static $verbose = false;
+
+    /**
      * Return true if php curl extension is installed
      *
      * @return boolean
@@ -48,7 +55,7 @@ class Curl
         }
         $curl = \curl_init();
         \curl_setopt($curl,CURLOPT_URL,$url);
-        \curl_setopt($curl,CURLOPT_VERBOSE,false);
+        \curl_setopt($curl,CURLOPT_VERBOSE,Self::$verbose);
         \curl_setopt($curl,CURLOPT_RETURNTRANSFER,$returnTransfer);
         \curl_setopt($curl,CURLOPT_CONNECTTIMEOUT,$timeout);
         if (empty(Self::$userAgent) == false) {
