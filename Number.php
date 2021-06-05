@@ -73,7 +73,7 @@ class Number
         }
 
         if (\is_null($format) == true) {
-            return Self::DEFAULT_FORMAT;
+            return \constant('CURRENT_NUMBER_FORMAT') ?? Self::DEFAULT_FORMAT;
         }
 
         $tokens = \explode(',',$format);     

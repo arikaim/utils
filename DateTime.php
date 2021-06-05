@@ -156,7 +156,7 @@ class DateTime
      */
     public static function getDateFormat(): string 
     {            
-        return Self::$dateFormat ?? Self::DEFAULT_DATE_FORMAT;
+        return Self::$dateFormat ?? \constant('CURRENT_DATE_FORMAT') ?? Self::DEFAULT_DATE_FORMAT;
     }
 
     /**
@@ -299,7 +299,7 @@ class DateTime
      */
     public static function getTimeFormat(): string 
     {       
-        return Self::$timeFormat ?? Self::DEFAULT_TIME_FORMAT;    
+        return Self::$timeFormat ?? \constant('CURRENT_TIME_FORMAT') ?? Self::DEFAULT_TIME_FORMAT;    
     }
 
     /**

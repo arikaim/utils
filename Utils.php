@@ -469,12 +469,11 @@ class Utils
     /**
      * Get script execution time
      *
-     * @return integer|false
+     * @param string $constantName
+     * @return integer
      */
-    public static function getExecutionTime($startTimeConstantName = 'APP_START_TIME') 
-    {
-        $startTime = (\defined($startTimeConstantName) == true) ? \constant($startTimeConstantName) : $_SERVER['REQUEST_TIME'];
-        
-        return (\microtime(true) - $startTime);  
+    public static function getExecutionTime(string $constantName = 'APP_START_TIME'): int 
+    { 
+        return (int)(\microtime(true) - (\constant($constantName) ?? $_SERVER['REQUEST_TIME_FLOAT']));  
     }
 }

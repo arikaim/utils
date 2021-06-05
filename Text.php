@@ -316,4 +316,15 @@ class Text
     
         return \substr(\str_shuffle($keyspace),0,$length);
     }
+
+    /**
+     * Create randowm string
+     *
+     * @param integer $length
+     * @return string
+     */
+    public static function randomString(int $length = 10): string
+    {
+        return \base64_encode(\hex2bin(\substr(\uniqid(),- $length)));
+    }
 }
