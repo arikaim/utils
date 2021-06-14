@@ -35,6 +35,24 @@ class Number
     ]; 
 
     /**
+     * Default format values
+     *   
+     */
+    const ACCOUNTING_FORMAT = [      
+        'decimals'            => 3,
+        'decimals_separator'  => '.',
+        'thousands_separator' => ','
+    ]; 
+
+    /**
+     *  Formats list
+     */
+    const FORMATS_LIST = [
+        'default'    => Self::DEFAULT_FORMAT,
+        'accounting' => Self::ACCOUNTING_FORMAT
+    ];
+
+    /**
      *  Text values which may convert to boolean
     */
     const BOOLEAN_TEXT_VALUES = ['true','false','0','1','on','off','yes','no'];
@@ -66,14 +84,15 @@ class Number
      * @param string|array|null $format
      * @return array
      */
-    public static function resolveFormat($format): array
+    public static function resolveFormat($format)
     {
         if (\is_array($format) == true) {
             return Self::resolveFormatArray($format);
         }
 
-        if (\is_null($format) == true) {
-            return \constant('CURRENT_NUMBER_FORMAT') ?? Self::DEFAULT_FORMAT;
+        if (empty($format) == true) {
+            $formatName = \constant('CURRENT_NUMBER_FORMAT') ?? 'default';
+            return (isset(Self::FORMATS_LIST[$formatName]) == true) ? Self::FORMATS_LIST[$formatName] : Self::DEFAULT_FORMAT;
         }
 
         $tokens = \explode(',',$format);     
