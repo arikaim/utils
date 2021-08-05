@@ -97,11 +97,25 @@ class ZipFile
                     $relativePath = \str_replace($source,'',$path);
                     $relativePath = (empty($relativePath) == true) ? DIRECTORY_SEPARATOR : $relativePath;
                     $tokens = \explode(DIRECTORY_SEPARATOR,$relativePath);
-                    // skip dir
+                    // skip dir                  
                     if (\in_array($tokens[0],$skipDir) == true) { 
                         continue;
                     }
                     $zip->addGlob($path . '*.*',GLOB_BRACE,[
+                        'add_path'        => $relativePath,
+                        'remove_all_path' => true
+                    ]);  
+
+                    
+                    $zip->addGlob($path . '.htaccess',GLOB_BRACE,[
+                        'add_path'        => $relativePath,
+                        'remove_all_path' => true
+                    ]);    
+                    $zip->addGlob($path . '.gitkeep',GLOB_BRACE,[
+                        'add_path'        => $relativePath,
+                        'remove_all_path' => true
+                    ]);  
+                    $zip->addGlob($path . 'cli',GLOB_BRACE,[
                         'add_path'        => $relativePath,
                         'remove_all_path' => true
                     ]);                  
@@ -131,11 +145,11 @@ class ZipFile
         $result = $zip->open($file,ZipArchive::CHECKCONS);
 
         switch($result) {
-            case ZipArchive::ER_NOZIP :
+            case ZipArchive::ER_NOZIP:
                 return false;
-            case ZipArchive::ER_INCONS :
+            case ZipArchive::ER_INCONS:
                 return false;
-            case ZipArchive::ER_CRC :
+            case ZipArchive::ER_CRC:
                 return false;
         }      
 

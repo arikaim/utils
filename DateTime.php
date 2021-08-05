@@ -22,6 +22,8 @@ class DateTime
     const ISO8601_FORMAT      = DATE_ATOM;
     const RFC3339_FORMAT      = DATE_RFC3339;
     const ISO8601ZULU_FORMAT  = 'Y-m-d\TH:i:s\Z';
+    const ICALENDAR_EVENT_UTC = 'Ymd\THis\Z';
+    const ICALENDAR_EVENT     = 'Ymd\THis';
 
     /**
      * Time zone
