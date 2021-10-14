@@ -150,9 +150,8 @@ class Factory
         if (\class_exists($class) == false) {
             return null;
         }
-
-        $params = [$extension,$name];
-        $job = Self::createInstance($class,$params);
+       
+        $job = Self::createInstance($class,[$extension,$name,$params]);
        
         return ($job instanceof JobInterface) ? $job : null;
     }
