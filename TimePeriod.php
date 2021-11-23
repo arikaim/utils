@@ -68,7 +68,7 @@ class TimePeriod
     {
         $year = $year ?? \date('Y');
 
-        return Self::getPeriod($year . '-01-01T00:00:00Z',$year . '-12-31T12:59:59Z'); 
+        return Self::getPeriod($year . '-01-01T00:00:00Z',$year . '-12-31T23:59:59Z'); 
     } 
 
     /**
@@ -84,7 +84,7 @@ class TimePeriod
         $month = (empty($month) == true) ? \date('m') : $month;
         $lastDay = DateTime::getLastDay($month);
         $startDate = $year . '-' . $month . '-01T00:00:00Z';
-        $endDate = $year . '-' . $month . '-' . $lastDay . 'T12:59:59Z';
+        $endDate = $year . '-' . $month . '-' . $lastDay . 'T23:59:59Z';
         
         return Self::getPeriod($startDate,$endDate);       
     }
@@ -103,7 +103,7 @@ class TimePeriod
         $year = (empty($year) == true) ? \date('Y') : $year;
         $month = (empty($month) == true) ? \date('m') : $month;
         $startDate = $year . '-' . $month . '-' . $day . 'T00:00:00Z';
-        $endDate = $year . '-' . $month . '-' . $day . 'T12:59:59Z';
+        $endDate = $year . '-' . $month . '-' . $day . 'T23:59:59Z';
 
         return Self::getPeriod($startDate,$endDate);      
     }
