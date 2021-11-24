@@ -33,8 +33,11 @@ class TimeInterval
      * @param mixed $interval
      * @return DateInterval|null
      */
-    public static function create($interval = '')
+    public static function create($interval)
     {
+        if (empty($interval) == true) {
+            return null;
+        }
         if (Self::isDurationInverval($interval) == true) {
             return new DateInterval($interval);
         }
@@ -52,10 +55,13 @@ class TimeInterval
      * Create time interval from soconds
      *
      * @param integer $seconds
-     * @return DateInterval
+     * @return DateInterval|null
      */
     public static function createFromSeconds($seconds) 
     {
+        if (empty($seconds) == true) {
+            return null;
+        }
         $start = new DateTime();
         $end = new DateTime();
         $end->add(new DateInterval('PT'. $seconds . 'S'));
@@ -66,10 +72,10 @@ class TimeInterval
     /**
      * Return interval object
      *
-     * @param string $interval
+     * @param mixed $interval
      * @return object
      */
-    public static function getDateInterval($interval = '')
+    public static function getDateInterval($interval)
     {
         if (empty(Self::$interval) == true) {
             Self::$interval = Self::create($interval);
@@ -81,7 +87,7 @@ class TimeInterval
     /**
      * Get years
      *
-     * @param string|null $interval
+     * @param mixed|null $interval
      * @return integer
      */
     public static function getYears($interval = null)
@@ -147,61 +153,6 @@ class TimeInterval
         $minutes = (Self::getMinutes() > 0) ? Self::getMinutes() . 'M' : '';
 
         return 'P' . $years . $months . $days . 'T' . $hours . $minutes;        
-    }
-
-    /**
-     * Set years
-     *
-     * @param integer $years
-     * @return void
-     */
-    public static function setYears($years)
-    {
-        Self::$interval = Self::getDateInterval()->y = $years;
-    }
-
-    /**
-     * Set months
-     *
-     * @param integer $months
-     * @return void
-     */
-    public static function setMonths($months)
-    {
-        Self::$interval = Self::getDateInterval()->m = $months;
-    }
-
-    /**
-     * Set days
-     *
-     * @param integer $days
-     * @return void
-     */
-    public static function setDays($days): void
-    {
-        Self::$interval = Self::getDateInterval()->d = $days;
-    }
-
-    /**
-     * Set hours
-     *
-     * @param integer $hours
-     * @return void
-     */
-    public static function setHours($hours): void
-    {
-        Self::$interval = Self::getDateInterval()->h = $hours;
-    }
-
-    /**
-     * Set minutes
-     *
-     * @param integer $minutes
-     * @return void
-     */
-    public static function setMinutes($minutes): void
-    {
-        Self::$interval = Self::getDateInterval()->i = $minutes;
     }
 
     /**
