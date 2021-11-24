@@ -10,6 +10,7 @@
 namespace Arikaim\Core\Utils;
 
 use DateInterval;
+use DateTime;
 
 /**
  * Time intervals
@@ -29,13 +30,37 @@ class TimeInterval
     /**
      * Create interval
      *
-     * @param string $interval
-     * @return DateInterval
+     * @param mixed $interval
+     * @return DateInterval|null
      */
     public static function create($interval = '')
     {
-        return (Self::isDurationInverval($interval) == true) ? new DateInterval($interval) : DateInterval::createFromDateString($interval);       
+        if (Self::isDurationInverval($interval) == true) {
+            return new DateInterval($interval);
+        }
+        if (\strtotime($interval) !== false) {
+            return DateInterval::createFromDateString($interval);
+        }
+        if (\is_numeric($interval) == true) {
+            return Self::createFromSeconds($interval);
+        }
+
+        return null;  
     } 
+
+    /**
+     * Create time interval from soconds
+     *
+     * @param integer $seconds
+     * @return DateInterval
+     */
+    public static function createFromSeconds(int $seconds) 
+    {
+        $start = new DateTime('@0');
+        $end = new DateTime('@' . (string)$seconds);
+
+        return $start->diff($end);
+    }
 
     /**
      * Return interval object
