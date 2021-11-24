@@ -38,13 +38,13 @@ class TimeInterval
         if (Self::isDurationInverval($interval) == true) {
             return new DateInterval($interval);
         }
-        if (\strtotime($interval) !== false) {
-            return DateInterval::createFromDateString($interval);
-        }
         if (\is_numeric($interval) == true) {
             return Self::createFromSeconds($interval);
         }
-
+        if (\strtotime($interval) !== false) {
+            return DateInterval::createFromDateString($interval);
+        }
+        
         return null;  
     } 
 
@@ -54,12 +54,13 @@ class TimeInterval
      * @param integer $seconds
      * @return DateInterval
      */
-    public static function createFromSeconds(int $seconds) 
+    public static function createFromSeconds($seconds) 
     {
-        $start = new DateTime('@0');
-        $end = new DateTime('@' . (string)$seconds);
+        $start = new DateTime();
+        $end = new DateTime();
+        $end->add(new DateInterval('PT'. $seconds . 'S'));
 
-        return $start->diff($end);
+        return $end->diff($start);
     }
 
     /**
