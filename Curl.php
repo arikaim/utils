@@ -98,18 +98,45 @@ class Curl
             return false;
         }
 
+        \curl_setopt($curl,CURLOPT_CUSTOMREQUEST,$method);
+
+        if (empty($data) == false) {    
+            $data = (\is_array($data) == true) ? json_encode($data) : $data;
+            $curl = Self::setData($curl,$data,$method);        
+            $headers = (\is_array($headers) == true) ? $headers : [];
+            $headers = \array_merge($headers,[              
+                'Content-Length: ' . \strlen($data)
+            ]);              
+        }
+    
         if (\is_array($headers) == true) {
             \curl_setopt($curl,CURLOPT_HTTPHEADER,$headers);
         }
 
-        \curl_setopt($curl,CURLOPT_CUSTOMREQUEST,$method);
-
-        if (empty($data) == false) {
-            \curl_setopt($curl,CURLOPT_POSTFIELDS,$data);
-        }
-    
         return Self::exec($curl);
     }
+
+    /**
+     * Set post data
+     *
+     * @param object $curl
+     * @param mixed $data
+     * @param string $method
+     * @return object
+     */
+    public static function setData($curl, $data, string $method = 'POST')
+    {       
+        if (empty($data) == true) {
+            return $curl;
+        }
+
+        if ($method == 'POST' || $method == 'PUT') {
+            \curl_setopt($curl,CURLOPT_POST,1);
+            \curl_setopt($curl,CURLOPT_POSTFIELDS,$data);
+        }
+
+        return $curl;
+    } 
 
     /**
      * Run POST request
