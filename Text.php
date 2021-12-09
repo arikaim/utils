@@ -258,7 +258,7 @@ class Text
     public static function render(string $text, array $vars = []): string 
     {    
         $result = \preg_replace_callback('/\{\{(.*?)\}\}/',function ($matches) use ($vars) {
-            $variableName = \trim(\strtolower($matches[1]));
+            $variableName = \trim($matches[1]);
             return (\array_key_exists($variableName,$vars) == true) ? $vars[$variableName] : '';               
         },$text);
        
