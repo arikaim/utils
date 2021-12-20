@@ -158,14 +158,17 @@ class Text
      * @param mixed ...$options
      * @return array
      */
-    public static function tokenize($text, ...$options)
+    public static function tokenize($text, ...$options): array
     {
         $delimiter = $options[0] ?? ' ';
         $case = $options[1] ?? null;
         $unique = $options[2] ?? true;
         $removeChars = $options[3] ?? false;
 
-        $tokens = (\is_string($text) == true) ? \explode($delimiter,$text) : $text; 
+        if (\is_string($text) == true) {
+            $text = (empty($text) == true) ? [] : \explode($delimiter,$text); 
+        } 
+        $tokens = (\is_array($text) == true) ? $text : []; 
     
         if ($unique == true) {
             $tokens = \array_unique($tokens);
