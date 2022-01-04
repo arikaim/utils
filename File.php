@@ -253,6 +253,10 @@ class File
 
         $result = true;
         foreach ($iterator as $file) {
+            if (\substr($file->getBasename(),0,1) == '.') {
+                continue;
+            }
+              
             Self::setWritable($file->getRealPath());
           
             if ($file->isDir() == true) {
