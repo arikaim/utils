@@ -11,7 +11,7 @@ namespace Arikaim\Core\Utils;
 
 use Arikaim\Core\Utils\Utils;
 use Arikaim\Core\Utils\Text;
-use Exeception;
+use ErrorException;
 
 /**
  * File
@@ -93,15 +93,14 @@ class File
         }      
         
         try {
-            $result = (bool)\chmod($fileName,0777);  
-
-        } catch (Exeception $e) {
-            $user = \exec('whoami');
-            \chown($fileName,$user);
-            $result = (bool)\chmod($fileName,0777);  
+            $result = @chmod($fileName,0777);  
+        } catch (ErrorException $e) {
+            $user = @exec('whoami');
+            @chown($fileName,$user);
+            $result = @chmod($fileName,0777);  
         }
 
-        return $result;
+        return (bool)$result;
     }
 
     /**
