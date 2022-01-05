@@ -11,6 +11,7 @@ namespace Arikaim\Core\Utils;
 
 use Arikaim\Core\Utils\Utils;
 use Arikaim\Core\Utils\Text;
+use Exeception;
 
 /**
  * File
@@ -90,8 +91,17 @@ class File
         if (Self::exists($fileName) == false) {
             return false;
         }      
+        
+        try {
+            $result = (bool)\chmod($fileName,0777);  
 
-        return (bool)\chmod($fileName,0777);      
+        } catch (Exeception $e) {
+            $user = \exec('whoami');
+            \chown($fileName,$user);
+            $result = (bool)\chmod($fileName,0777);  
+        }
+
+        return $result;
     }
 
     /**
