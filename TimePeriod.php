@@ -115,7 +115,7 @@ class TimePeriod
      */
     public static function getYesterdayPeriod(): array
     {
-        return Self::getDayPeriod(\date('m'),\date('d') - 1,\date('Y'));
+        return Self::getDayPeriod(\date('m'),\date('j') - 1,\date('Y'));
     }
 
     /**

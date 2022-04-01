@@ -352,7 +352,8 @@ class DateTime
     public static function subInterval(string $dateInterval)
     {
         $interval = DateInterval::createFromDateString($dateInterval); 
-
+        $interval = ($interval === false) ? new DateInterval($dateInterval) : $interval;
+    
         return Self::getDateTime()->sub($interval);         
     }
 
