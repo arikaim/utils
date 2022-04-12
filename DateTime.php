@@ -338,7 +338,12 @@ class DateTime
      */
     public static function addInterval(string $dateInterval)
     {
-        $interval = DateInterval::createFromDateString($dateInterval); 
+        try {
+            $interval = DateInterval::createFromDateString($dateInterval);
+        } catch (\Exception $e) {
+            $interval = new DateInterval($dateInterval);
+        }
+      
         $interval = ($interval === false) ? new DateInterval($dateInterval) : $interval;
         
         return Self::getDateTime()->add($interval); 
