@@ -11,6 +11,7 @@ namespace Arikaim\Core\Utils;
 
 use Arikaim\Core\Interfaces\Job\JobInterface;
 use Arikaim\Core\Interfaces\Events\EventSubscriberInterface;
+use Arikaim\Core\Interfaces\Events\EventListenerInterface;
 use Arikaim\Core\Interfaces\ExtensionInterface;
 
 /**
@@ -184,7 +185,10 @@ class Factory
         $class = Self::getEventSubscriberClass($baseClass,$extension);         
         $instance = Self::createInstance($class);
         
-        return ($instance instanceof EventSubscriberInterface) ? $instance : null;         
+        return (
+            $instance instanceof EventSubscriberInterface ||
+            $instance instanceof EventListenerInterface
+        ) ? $instance : null;         
     }
 
     /**
