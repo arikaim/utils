@@ -46,7 +46,7 @@ class Factory
      * @param string|null $extension
      * @return object|null
      */
-    public static function createInstance(string $class, ?array $args = null, ?string $extension = null)
+    public static function createInstance(string $class, ?array $args = null, ?string $extension = null): ?object
     {
         if (empty($extension) == false) {
             $class = Self::getExtensionClassName($extension,$class);  
@@ -66,7 +66,7 @@ class Factory
      * @param array|null $args
      * @return Arikaim\Core\Validator\Interfaces\RuleInterface
      */
-    public static function createRule(string $name, ?array $args = null)
+    public static function createRule(string $name, ?array $args = null): ?object
     {              
         $class = \ucfirst($name);
 

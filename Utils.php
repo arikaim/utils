@@ -468,12 +468,11 @@ class Utils
 
     /**
      * Get script execution time
-     *
-     * @param string $constantName
-     * @return integer
+     *   
+     * @return float
      */
-    public static function getExecutionTime(string $constantName = 'APP_START_TIME'): int 
+    public static function getExecutionTime() 
     { 
-        return (int)(\microtime(true) - (\constant($constantName) ?? $_SERVER['REQUEST_TIME_FLOAT']));  
+        return (\microtime(true) - $_SERVER['REQUEST_TIME_FLOAT'] ?? 0);  
     }
 }
