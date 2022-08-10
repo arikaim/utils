@@ -9,8 +9,6 @@
 */
 namespace Arikaim\Core\Utils;
 
-use Arikaim\Core\Utils\Utils;
-use Arikaim\Core\Utils\Text;
 use ErrorException;
 
 /**
@@ -27,19 +25,17 @@ class File
      */
     public static function readJsonFile(string $fileName, ?array $vars = null) 
     {    
-        if (File::exists($fileName) == false) {
+        if (\file_exists($fileName) == false) {
             return false;
         }
         
-        $json = Self::read($fileName);   
-      
+        $json = \file_get_contents($fileName);   
         if (empty($vars) == false) {
-            $json = Text::render($json,$vars);
+            $json = \Arikaim\Core\Utils\Text::render($json,$vars);
         }     
+
         $data = \json_decode($json,true);
-        $data = (\is_array($data) == false) ? [] : $data;
-              
-        return $data;
+        return (\is_array($data) == false) ? [] : $data;       
     }
 
     /**
@@ -50,12 +46,12 @@ class File
      */
     public static function getClassesInFile(string $fileName) 
     {
-        if (File::exists($fileName) == false) {
+        if (\file_exists($fileName) == false) {
             return false;
         }
         $code = \file_get_contents($fileName);
 
-        return Utils::getClasses($code);
+        return \Arikaim\Core\Utils\Utils::getClasses($code);
     }
 
     /**
@@ -88,7 +84,7 @@ class File
      */
     public static function setWritable(string $fileName): bool 
     {
-        if (Self::exists($fileName) == false) {
+        if (\file_exists($fileName) == false) {
             return false;
         }      
         
@@ -111,7 +107,7 @@ class File
      */
     public static function getSize(string $fileName)
     {
-        return (File::exists($fileName) == false) ? false : \filesize($fileName);          
+        return (\file_exists($fileName) == false) ? false : \filesize($fileName);          
     }
 
     /**
@@ -124,7 +120,7 @@ class File
      */
     public static function getSizeText($size, $labels = null, $asText = true)
     {        
-        return Utils::getMemorySizeText($size,$labels,$asText);      
+        return \Arikaim\Core\Utils\Utils::getMemorySizeText($size,$labels,$asText);      
     }
 
     /**
@@ -137,7 +133,7 @@ class File
      */
     public static function makeDir(string $path, $mode = 0755, bool $recursive = true): bool
     {
-        return (Self::exists($path) == true) ? Self::setWritable($path,$mode) : (bool)\mkdir($path,$mode,$recursive);                 
+        return (\file_exists($path) == true) ? Self::setWritable($path,$mode) : (bool)\mkdir($path,$mode,$recursive);                 
     }
 
     /**
@@ -226,7 +222,7 @@ class File
      */
     public static function delete(string $fileName)
     {
-        if (Self::exists($fileName) == true) {
+        if (\file_exists($fileName) == true) {
             return (\is_dir($fileName) == true) ? Self::deleteDirectory($fileName) : \unlink($fileName);          
         }
 
@@ -253,7 +249,7 @@ class File
      */
     public static function deleteDirectory(string $path, bool $skipMainFolder = true)
     {
-        if (File::exists($path) === false) {
+        if (\file_exists($path) === false) {
             return false;
         }
     
@@ -298,7 +294,7 @@ class File
      */
     public static function read(string $fileName)
     {
-        return (Self::exists($fileName) == true) ? \file_get_contents($fileName) : null;           
+        return (\file_exists($fileName) == true) ? \file_get_contents($fileName) : null;           
     }
 
     /**

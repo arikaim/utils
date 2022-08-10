@@ -26,19 +26,6 @@ class Factory
     const INTERFACES_NAMESPACE      = CORE_NAMESPACE . '\\Interfaces';
 
     /**
-     * Set core namspace
-     *
-     * @param string $namespace
-     * @return void
-     */
-    public static function setCoreNamespace(string $namespace): void
-    {
-        if (\defined('CORE_NAMESPACE') == false) {
-            \define('CORE_NAMESPACE',$namespace);
-        }
-    }
-
-    /**
      * Create object
      *
      * @param string $class
@@ -68,9 +55,7 @@ class Factory
      */
     public static function createRule(string $name, ?array $args = null): ?object
     {              
-        $class = \ucfirst($name);
-
-        return Self::createInstance(Self::getValidatorRuleClass($class),$args);            
+        return Self::createInstance(Self::getValidatorRuleClass(\ucfirst($name)),$args);            
     }
 
     /**
@@ -418,11 +403,8 @@ class Factory
     public static function getValidatorRuleClass(string $baseClass): string
     {
         $class = CORE_NAMESPACE . '\\Validator\\Rule\\' . $baseClass;
-        if (\class_exists($class) == false) {
-            $class = CORE_NAMESPACE . '\\Validator\\Rule\\Db\\' . $baseClass;
-        }
-
-        return $class;
+        
+        return (\class_exists($class) == true) ? $class : CORE_NAMESPACE . '\\Validator\\Rule\\Db\\' . $baseClass;         
     }
 
     /**

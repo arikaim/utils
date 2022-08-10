@@ -67,7 +67,7 @@ class Utils
                 && !($tokens[$i - 3] 
                 && $i - 4 >= 0 
                 && $tokens[$i - 4][0] == T_ABSTRACT)) {               
-                \array_push($classes,$tokens[$i][1]);
+                $classes[] = $tokens[$i][1];
             }
         }
 
