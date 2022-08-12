@@ -249,7 +249,7 @@ class DateTime
      */
     public static function dateTimeFormat(?int $timestamp, ?string $format = null): ?string
     {
-        if (\is_null($timestamp) == true) {
+        if ($timestamp === null) {
             return null;
         }       
         $format = $format ?? Self::getDateFormat() . ' ' . Self::getTimeFormat();

@@ -255,7 +255,7 @@ class Mobile
      */
     public static function mobile()
     {
-        if (\is_null(Self::$isMobile) == false) {
+        if (Self::$isMobile !== null) {
             return Self::$isMobile;
         }
         $obj = new Mobile();

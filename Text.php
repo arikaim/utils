@@ -265,7 +265,7 @@ class Text
             return (\array_key_exists($variableName,$vars) == true) ? $vars[$variableName] : '';               
         },$text);
        
-        return (\is_null($result) == true) ? $text : $result;        
+        return ($result === null) ? $text : $result;        
     }
 
     /**

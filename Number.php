@@ -140,7 +140,7 @@ class Number
      */
     public static function getFormat(): array
     {              
-        return (\is_null(Self::$format) == true) ? Self::DEFAULT_FORMAT : Self::$format;                
+        return (Self::$format === null) ? Self::DEFAULT_FORMAT : Self::$format;                
     }
 
     /**
@@ -208,7 +208,7 @@ class Number
     {       
         $result = \filter_var($text,FILTER_VALIDATE_BOOLEAN,FILTER_NULL_ON_FAILURE);
 
-        return !\is_null($result);
+        return !($result === null);
     }
 
     /**
@@ -221,7 +221,7 @@ class Number
     {
         $result = \filter_var($text,FILTER_VALIDATE_BOOLEAN,FILTER_NULL_ON_FAILURE);
 
-        return (\is_null($result) == true) ? false : (bool)$result;
+        return ($result === null) ? false : (bool)$result;
     }
 
     /**

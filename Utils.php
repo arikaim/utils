@@ -382,7 +382,7 @@ class Utils
         if (\gettype($value) == 'boolean') {           
             return ($value == true) ? 'true' : 'false'; 
         }   
-        if (\is_null($value) == true) {
+        if ($value === null) {
             return 'null';
         }
 
