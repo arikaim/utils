@@ -35,15 +35,15 @@ class Factory
      */
     public static function createInstance(string $class, ?array $args = null, ?string $extension = null): ?object
     {
-        if (empty($extension) == false) {
-            $class = Self::getExtensionClassName($extension,$class);  
+        if (empty($extension) == false) {           
+            $class = Self::EXTENSIONS_NAMESPACE . '\\' . \ucfirst($extension) . '\\' . $class;
         }
-        if (\class_exists($class) == false) {
-            return null;
-        }       
-        $instance = (empty($args) == false) ? new $class(...$args) : new $class();           
-           
-        return $instance;            
+
+        if (\class_exists($class) == true) {
+            return (empty($args) == false) ? new $class(...$args) : new $class();
+        }
+
+        return null;                         
     }
 
     /**
@@ -66,11 +66,8 @@ class Factory
      * @return object|null
      */
     public static function createSchema(string $schemaClass, ?string $extension = null)
-    {
-        $schemaClass = Self::getSchemaClass($schemaClass,$extension);    
-        $instance = Self::createInstance($schemaClass);
-        
-        return $instance;
+    {      
+        return Self::createInstance(Self::getSchemaClass($schemaClass,$extension));       
     }
 
     /**
@@ -95,9 +92,7 @@ class Factory
      */
     public static function createModule(string $module, string $class, ?array $args = null)
     {
-        $moduleClass = Self::getModuleClass($module,$class);
-      
-        return Self::createInstance($moduleClass,$args);             
+        return Self::createInstance(Self::getModuleClass($module,$class),$args);             
     }
 
     /**
@@ -363,13 +358,13 @@ class Factory
      * @param string|null $extension
      * @return string
      */
-    public static function getModelClass(string $class,?string $extension = null): string 
+    public static function getModelClass(string $class, ?string $extension = null): string 
     {
         if (empty($extension) == true) {
             return CORE_NAMESPACE . '\\Models\\' . $class;
         }
     
-        return Self::getExtensionModelNamespace($extension) . '\\' . $class;
+        return Self::getExtensionNamespace($extension) . '\\Models' . '\\' . $class;
     }
     
     /**
