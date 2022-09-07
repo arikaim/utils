@@ -47,18 +47,6 @@ class Factory
     }
 
     /**
-     * Create validator rule
-     *
-     * @param string $name
-     * @param array|null $args
-     * @return Arikaim\Core\Validator\Interfaces\RuleInterface
-     */
-    public static function createRule(string $name, ?array $args = null): ?object
-    {              
-        return Self::createInstance(Self::getValidatorRuleClass(\ucfirst($name)),$args);            
-    }
-
-    /**
      * Create db schema object
      *
      * @param string $schemaClass
@@ -387,19 +375,6 @@ class Factory
     public static function getControllerClass(string $class): string
     {
         return Self::CONTROLLERS_NAMESPACE . '\\' . $class;
-    }
-
-    /**
-     * Get validator rule full class name
-     *
-     * @param string $baseClass
-     * @return string
-     */
-    public static function getValidatorRuleClass(string $baseClass): string
-    {
-        $class = CORE_NAMESPACE . '\\Validator\\Rule\\' . $baseClass;
-        
-        return (\class_exists($class) == true) ? $class : CORE_NAMESPACE . '\\Validator\\Rule\\Db\\' . $baseClass;         
     }
 
     /**

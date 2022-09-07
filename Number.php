@@ -212,6 +212,18 @@ class Number
     }
 
     /**
+     *  
+     *  Sanitize number 
+     * 
+     *  @param mixed $number
+     *  @return float
+     */
+    public static function sanitizeNumber($number, int $decimals = 2): float
+    { 
+        return (float)preg_replace("/[^0-9.]+/",'',$number);
+    }
+
+    /**
      * Convert text to bool value
      *
      * @param string $value
