@@ -16,7 +16,7 @@ use ErrorException;
 */
 class File 
 { 
-    /**
+   /**
      * Generate unique filename
      *
      * @param string $fileName
@@ -25,8 +25,8 @@ class File
     public static function createUniqueFileName(string $fileName): string
     {
         $parts = \pathinfo($fileName);
-     
-        return $parts['dirname'] ?? '' . $parts['basename'] . '-' . \Arikaim\Core\Utils\Uuid::create() . '.' . $parts['extension'];
+       
+        return ($parts['dirname'] ?? '') . DIRECTORY_SEPARATOR . $parts['filename'] . '-' . \Arikaim\Core\Utils\Uuid::create() . '.' . $parts['extension'];
     }
 
     /**
