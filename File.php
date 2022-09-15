@@ -15,7 +15,20 @@ use ErrorException;
  * File
 */
 class File 
-{
+{ 
+    /**
+     * Generate unique filename
+     *
+     * @param string $fileName
+     * @return string
+     */
+    public static function createUniqueFileName(string $fileName): string
+    {
+        $parts = \pathinfo($fileName);
+     
+        return $parts['dirname'] ?? '' . $parts['basename'] . '-' . \Arikaim\Core\Utils\Uuid::create() . '.' . $parts['extension'];
+    }
+
     /**
      * Load json file and return decoded array
      *
