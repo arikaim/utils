@@ -16,7 +16,26 @@ use ErrorException;
 */
 class File 
 { 
-   /**
+    /**
+     * Replace file name witout file extension
+     *
+     * @param string $fileName
+     * @param string $baseName
+     * @return string
+     */
+    public static function replaceFileName(string $fileName, string $newFileName): string
+    {
+        $parts = \pathinfo($fileName); 
+        $fileName = \pathinfo($newFileName,PATHINFO_FILENAME) . '.' . $parts['extension'];
+
+        if (empty($parts['dirname']) == true || $parts['dirname'] == '.') {
+            return $fileName;
+        }
+        
+        return $parts['dirname'] . DIRECTORY_SEPARATOR . $fileName;
+    }
+
+    /**
      * Generate unique filename
      *
      * @param string $fileName
