@@ -254,12 +254,13 @@ class Text
     /**
      * Replace all code {{ var }} in text with var value
      * 
-     * @param string $text
+     * @param string|null $text
      * @param array $vars
      * @return string
      */
-    public static function render(string $text, array $vars = []): string 
+    public static function render(?string $text, array $vars = []): string 
     {    
+        $text = $text ?? '';
         $result = \preg_replace_callback('/\{\{(.*?)\}\}/',function ($matches) use ($vars) {
             $variableName = \trim($matches[1]);
             return (\array_key_exists($variableName,$vars) == true) ? $vars[$variableName] : '';               
