@@ -53,7 +53,7 @@ class Factory
      * @param string $extension
      * @return object|null
      */
-    public static function createSchema(string $schemaClass, ?string $extension = null)
+    public static function createSchema(string $schemaClass, ?string $extension = null): ?object
     {      
         return Self::createInstance(Self::getSchemaClass($schemaClass,$extension));       
     }
@@ -78,7 +78,7 @@ class Factory
      * @param array|null $args
      * @return object|null
      */
-    public static function createModule(string $module, string $class, ?array $args = null)
+    public static function createModule(string $module, string $class, ?array $args = null): ?object
     {
         return Self::createInstance(Self::getModuleClass($module,$class),$args);             
     }
@@ -91,7 +91,7 @@ class Factory
      * @param array $args
      * @return object|null
      */
-    public static function createExtension(string $extension, string $class, ?array $args = null)
+    public static function createExtension(string $extension, string $class, ?array $args = null): ?object
     {
         $class = Self::getExtensionClassName($extension,$class);  
         $instance = Self::createInstance($class,$args);       
@@ -148,7 +148,7 @@ class Factory
      * @param string|null $extension
      * @return object|null
      */
-    public static function createEventSubscriber(string $baseClass, ?string $extension = null)
+    public static function createEventSubscriber(string $baseClass, ?string $extension = null): ?object
     {        
         $class = Self::getEventSubscriberClass($baseClass,$extension);         
         $instance = Self::createInstance($class);
