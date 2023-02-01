@@ -73,6 +73,7 @@ class Number
      */
     public static function format($number, $format = null)
     {
+        $number = $number ?? 0;
         $format = Self::resolveFormat($format);
 
         return \number_format($number,$format['decimals'],$format['decimals_separator'],$format['thousands_separator']);
