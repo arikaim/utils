@@ -104,14 +104,12 @@ class Factory
      *
      * @param string $class
      * @param string|null $extension
-     * @param string|null $name
      * @param array $params
      * @return JobInterface|null
      */
     public static function createJob(
         string $class, 
         ?string $extension = null, 
-        ?string $name = null,
         array $params = []
     ): ?JobInterface
     {  
@@ -120,7 +118,7 @@ class Factory
             return null;
         }
        
-        $job = Self::createInstance($class,[$extension,$name,$params]);
+        $job = Self::createInstance($class,[$extension,$params]);
        
         return ($job instanceof JobInterface) ? $job : null;
     }
