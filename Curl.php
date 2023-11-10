@@ -232,6 +232,7 @@ class Curl
         \curl_setopt($curl,CURLOPT_FILE,$file);   
 
         $result = Self::exec($curl,60);
+       
         \fclose($file);
 
         return ($result !== false);                

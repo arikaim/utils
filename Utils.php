@@ -453,6 +453,28 @@ class Utils
     }
 
     /**
+     * Convert to bytes
+     *
+     * @param string|int $size
+     * @return integer|null
+     */
+    public static function convertToBytes($size): ?int
+    {
+        $labels = ['bytes' => 0, 'KB' => 1, 'MB' => 2, 'GB' => 3, 'TB' => 4];
+        $unit = \strtoupper(\trim(\substr($size,-2)));
+        if ((int)$unit !== 0) {
+            $unit = 'bytes';
+        }
+        if (\in_array($unit,\array_keys($labels)) == false) {
+            return null;
+        }
+
+        $value = \intval( \trim(\substr($size,0,\strlen($size) - 2)) );
+
+        return ($value == 0) ? null : $value * \pow(1024, $labels[$unit]);      
+    }
+    
+    /**
      * Return base class name
      *
      * @param string|object $class
