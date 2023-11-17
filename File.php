@@ -236,6 +236,29 @@ class File
     }
 
     /**
+     * Remove file extension
+     *
+     * @param string $fileName
+     * @return void
+     */
+    public static function removeExtension(string $fileName): string
+    {
+        return \substr($fileName,0,(\strrpos($fileName,'.')));
+    }
+
+    /**
+     * Replace file extension
+     *
+     * @param string $fileName
+     * @param string $extension
+     * @return string
+     */
+    public static function replaceExtension(string $fileName, string $extension): string
+    {
+        return Self::removeExtension($fileName) . '.' . $extension;
+    }
+
+    /**
      * Return file extension
      *
      * @param string $fileName
