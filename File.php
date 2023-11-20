@@ -239,11 +239,13 @@ class File
      * Remove file extension
      *
      * @param string $fileName
-     * @return void
+     * @return string
      */
     public static function removeExtension(string $fileName): string
     {
-        return \substr($fileName,0,(\strrpos($fileName,'.')));
+        $pos = \strrpos($fileName,'.');
+
+        return ($pos > 0) ? \substr($fileName,0,$pos) : $fileName;
     }
 
     /**
