@@ -94,15 +94,19 @@ class DateTime
      * @param string|null $format
      * @return \DateTime
      */
-    public static function create(?string $date = null, ?string $format = null)
+    public static function create(?string $date = null, ?string $format = null): object
     {
-        $date = $date ?? 'now';
-        $format = $format ?? Self::getDateFormat();
-
-        $dateTime = new \DateTime($date,Self::getTimeZone());
-        $dateTime->format($format);
-
-        return $dateTime;
+        if (empty($date) == true) {
+            $dateTime = new \DateTime('now',Self::getTimeZone());
+            $dateTime->format($format ?? Self::getDateFormat());
+            return $dateTime;
+        }
+        
+        return \DateTime::createFromFormat(
+            $format ?? Self::getDateFormat(),
+            $date,
+            Self::getTimeZone()
+        );
     }
 
     /**
@@ -110,7 +114,7 @@ class DateTime
      *
      * @return \DateTime
      */
-    public static function getDateTime()
+    public static function getDateTime(): object
     {
         if (empty(Self::$dateTime) == true) {
             Self::setDateTime();
@@ -207,7 +211,7 @@ class DateTime
      *
      * @return DateTimeZone|null
      */
-    public static function getTimeZone()
+    public static function getTimeZone(): ?object
     {
         if (empty(Self::$timeZone) == true) {         
             Self::setTimeZone(\date_default_timezone_get());
@@ -253,9 +257,8 @@ class DateTime
             return null;
         }       
         $format = $format ?? Self::getDateFormat() . ' ' . Self::getTimeFormat();
-        $date = Self::setTimestamp($timestamp);
-
-        return $date->format($format);     
+    
+        return Self::setTimestamp($timestamp)->format($format);     
     }
 
     /**
@@ -267,13 +270,8 @@ class DateTime
      */
     public static function timeFormat(?int $timestamp, ?string $format = null): ?string
     {
-        if (\is_numeric($timestamp) == false) {
-            return $timestamp;
-        }
-        $date = Self::setTimestamp($timestamp);
-        $format = $format ?? Self::getTimeFormat();
-
-        return $date->format($format); 
+        return (\is_numeric($timestamp) == false) ? $timestamp : 
+            Self::setTimestamp($timestamp)->format($format ?? Self::getTimeFormat()); 
     }
 
     /**
@@ -285,13 +283,8 @@ class DateTime
      */
     public static function dateFormat(?int $timestamp, ?string $format = null): ?string
     {
-        if (\is_numeric($timestamp) == false) {
-            return $timestamp;
-        }      
-        $date = Self::setTimestamp((integer)$timestamp);
-        $format = $format ?? Self::getDateFormat();
-      
-        return $date->format($format);
+        return (\is_numeric($timestamp) == false) ? $timestamp : 
+            Self::setTimestamp((integer)$timestamp)->format($format ?? Self::getDateFormat());
     }
 
     /**
@@ -312,9 +305,7 @@ class DateTime
      */
     public static function getInterval(string $intervalText): array
     {
-        $interval = new TimeInterval($intervalText);
-
-        return $interval->toArray();
+        return (new TimeInterval($intervalText))->toArray();
     }
  
     /**
@@ -323,7 +314,7 @@ class DateTime
      * @param string|null $dateText
      * @return \DateTime
      */
-    public static function modify(?string $dateText) 
+    public static function modify(?string $dateText): object
     {
         Self::$dateTime = Self::getDateTime()->modify($dateText);
 
@@ -336,7 +327,7 @@ class DateTime
      * @param string $dateInterval
      * @return \DateTime
      */
-    public static function addInterval(string $dateInterval)
+    public static function addInterval(string $dateInterval): object
     {
         try {
             $interval = DateInterval::createFromDateString($dateInterval);
@@ -355,7 +346,7 @@ class DateTime
      * @param string $dateInterval
      * @return \DateTime
      */
-    public static function subInterval(string $dateInterval)
+    public static function subInterval(string $dateInterval): object
     {
         $interval = DateInterval::createFromDateString($dateInterval); 
         $interval = ($interval === false) ? new DateInterval($dateInterval) : $interval;
@@ -369,7 +360,7 @@ class DateTime
      * @param integer $unixTimestamp
      * @return \DateTime
      */
-    public static function setTimestamp(int $unixTimestamp) 
+    public static function setTimestamp(int $unixTimestamp): object
     {
         Self::$dateTime = Self::getDateTime()->setTimestamp($unixTimestamp);
 
@@ -466,7 +457,7 @@ class DateTime
      * @param string|null $format
      * @return \DateTime
      */
-    public static function today(?string $format = null)
+    public static function today(?string $format = null): object
     {
         return Self::create('now',$format);
     }
@@ -480,12 +471,7 @@ class DateTime
      */
     public static function convert($date, ?string $format = null)
     {
-        if (\strtotime($date) === false) {
-            return false;
-        }
-        $dateTime = Self::create($date);
-        $format = $format ?? Self::getDateFormat();
-
-        return $dateTime->format($format);
+        return (\strtotime($date) === false) ? false : 
+            Self::create($date)->format($format ?? Self::getDateFormat());
     }
 }
