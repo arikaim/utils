@@ -96,7 +96,7 @@ class DateTime
      */
     public static function create(?string $date = null, ?string $format = null): object
     {
-        if (empty($date) == true) {
+        if (empty($date) == true || $date == 'now') {
             $dateTime = new \DateTime('now',Self::getTimeZone());
             $dateTime->format($format ?? Self::getDateFormat());
             return $dateTime;
