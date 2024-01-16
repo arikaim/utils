@@ -57,17 +57,19 @@ class File
      */
     public static function readJsonFile(string $fileName, ?array $vars = null) 
     {    
-        if (\file_exists($fileName) == false) {
+        try {
+            $json = \file_get_contents($fileName);   
+        } catch (\Exception $e) {
             return false;
         }
-        
-        $json = \file_get_contents($fileName);   
+      
         if (empty($vars) == false) {
             $json = \Arikaim\Core\Utils\Text::render($json,$vars);
         }     
 
         $data = \json_decode($json,true);
-        return (\is_array($data) == false) ? [] : $data;       
+        
+        return ($data == null) ? [] : $data;       
     }
 
     /**
