@@ -54,7 +54,7 @@ class Factory
      * @return object|null
      */
     public static function createSchema(string $schemaClass, ?string $extension = null): ?object
-    {      
+    {             
         return Self::createInstance(Self::getSchemaClass($schemaClass,$extension));       
     }
 
@@ -84,7 +84,7 @@ class Factory
     }
 
     /**
-     * Create extension
+     * Create extension instance
      *
      * @param string $extension
      * @param string $class
@@ -94,6 +94,10 @@ class Factory
     public static function createExtension(string $extension, string $class, ?array $args = null): ?object
     {
         $class = Self::getExtensionClassName($extension,$class);  
+        if (\class_exists($class) == false) {
+            $class = Self::getExtensionClassName($extension,'Extension');  
+        }
+        
         $instance = Self::createInstance($class,$args);       
 
         return ($instance instanceof ExtensionInterface) ? $instance : null;                 
