@@ -144,6 +144,21 @@ class DateTime
     } 
 
     /**
+     * Create form timestamp
+     *
+     * @param integer     $timestamp
+     * @param string|null $format
+     * @return object
+     */
+    public static function createFromTimestamp(int $timestamp, ?string $format = null): object
+    {
+        $date = Self::create(null,$format);
+        $date->setTimestamp($timestamp);
+
+        return $date;
+    }
+
+    /**
      * Comvert date time to timestamp
      *
      * @param string|null $date
