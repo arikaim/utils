@@ -200,12 +200,22 @@ class Utils
     /**
      * Encode array to JSON 
      *
-     * @param array $data
-     * @return string
+     * @param array|null $data
+     * @return string|null
      */
-    public static function jsonEncode(array $data)
+    public static function jsonEncode(?array $data): ?string
     {
-        return \json_encode($data,JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+        if (\is_aray($data) == false) {
+            return null;
+        }
+
+        return \json_encode(
+            $data,
+            JSON_PRETTY_PRINT | 
+            JSON_UNESCAPED_UNICODE | 
+            JSON_UNESCAPED_SLASHES |
+            JSON_NUMERIC_CHECK 
+        );
     }
 
     /**
