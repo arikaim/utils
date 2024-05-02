@@ -205,7 +205,7 @@ class Utils
      */
     public static function jsonEncode(?array $data): ?string
     {
-        if (\is_aray($data) == false) {
+        if (\is_array($data) == false) {
             return null;
         }
 
