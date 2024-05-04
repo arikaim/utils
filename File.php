@@ -10,6 +10,8 @@
 namespace Arikaim\Core\Utils;
 
 use ErrorException;
+use RecursiveCallbackFilterIterator;
+use Closure;
 
 /**
  * File
@@ -432,4 +434,26 @@ class File
 
         return \array_diff($items,$skip);
     }
+
+    /**
+     * Scan direcotry recusrive
+     *
+     * @param string $path
+     * @param null|Closure $callback
+     * @param bool $withKeys
+     * @return array
+     */
+    public static function scanDirRecursive(string $path, ?Closure $callback = null, bool $withKeys = false): array
+    {
+        if (\is_callable($callback) == false) {
+            $callback = function($current,$key,$iterator) { 
+                return true;
+            };
+        }
+        $dir = new \RecursiveDirectoryIterator($path,\RecursiveDirectoryIterator::SKIP_DOTS);
+        $filter = new RecursiveCallbackFilterIterator($dir,$callback);
+        $iterator = new \RecursiveIteratorIterator($filter,\RecursiveIteratorIterator::CHILD_FIRST);
+    
+        return \iterator_to_array($iterator,$withKeys); 
+    }    
 }
