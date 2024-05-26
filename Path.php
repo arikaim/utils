@@ -68,6 +68,17 @@ class Path
     }
     
     /**
+     * Get extension path
+     *
+     * @param string $name
+     * @return string
+     */
+    public static function getExtensionPath(string $name): string
+    {
+        return Path::EXTENSIONS_PATH . $name . DIRECTORY_SEPARATOR;
+    }
+
+    /**
      * Get module config path
      *
      * @param string $name
