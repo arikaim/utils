@@ -412,6 +412,29 @@ class Factory
     }
 
     /**
+     * Get event namespace
+     *
+     * @param string|null $extension
+     * @return string
+     */
+    public static function getEventNamespace(?string $extension): string
+    {
+        return Self::getExtensionNamespace($extension) . '\\Events';
+    }
+
+    /**
+     * Get event full class
+     *
+     * @param string      $baseClass
+     * @param string|null $extension
+     * @return string
+     */
+    public static function getEventClass(string $baseClass, ?string $extension): string
+    {
+        return Self::getEventNamespace($extension) . '\\' . $baseClass;
+    }
+
+    /**
      * Get db schema namespace
      *
      * @param string|null $extension
