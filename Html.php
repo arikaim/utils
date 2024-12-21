@@ -106,7 +106,7 @@ class Html
      */
     public static function getAttributes(?array $attributes): string
     {        
-        if (\is_array($attributes) == false) {
+        if ($attributes == null) {
             return '';
         }
         $result = '';   
@@ -128,9 +128,8 @@ class Html
      */
     public static function attr(?string $value, ?string $name = null, ?string $default = null): string
     {   
-        $value = (empty($value) == true) ? $default : $value;
-
-        return (empty($value) == false) ? $name . "=\"" . $value . "\"" : '';
+        $value = $value ?? $default ?? '';
+        return (empty($name) == false) ? $name . "=\"" . $value . "\"" : '';
     }
 
     /**

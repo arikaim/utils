@@ -11,6 +11,7 @@ namespace Arikaim\Core\Utils;
 
 use DateTimeZone;
 use DateInterval;
+use Exception;
 
 /**
  * DateTime
@@ -363,10 +364,14 @@ class DateTime
      */
     public static function subInterval(string $dateInterval): object
     {
-        $interval = DateInterval::createFromDateString($dateInterval); 
-        $interval = ($interval === false) ? new DateInterval($dateInterval) : $interval;
-    
-        return Self::getDateTime()->sub($interval);         
+        try {
+            $interval = DateInterval::createFromDateString($dateInterval); 
+            $interval = ($interval === false) ? new DateInterval($dateInterval) : $interval;
+        } catch(Exception $e) {
+            $interval = new DateInterval($dateInterval);
+        }
+        
+        return Self::getDateTime()->sub($interval);       
     }
 
     /**
