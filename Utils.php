@@ -430,17 +430,20 @@ class Utils
      */
     public static function slug(string $text, string $separator = '-'): string
     {
+        $text = \str_replace(["'", '"',',' , ';', '<', '>','&apos'],'',$text);
+
         if (Self::isUtf($text) == true) {            
             $text = \trim(\mb_strtolower($text));
             // Replace umlauts chars
             $text = Text::replaceChars($text);
             $text = \str_replace(' ',$separator,$text);
+            
             return $text;
         }
         $text = \trim(\strtolower($text));
         // Replace umlauts chars
         $text = Text::replaceChars($text);
-
+      
         return \preg_replace(["/[^\w\s]+/", "/\s+/"],['',$separator],$text);
     } 
 

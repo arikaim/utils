@@ -150,7 +150,7 @@ class File
      * Get file size text.
      *
      * @param integer $size
-     * @param array $labels
+     * @param null|string $labels
      * @param boolean $asText
      * @return string|array
      */
